@@ -1,0 +1,81 @@
+getPath()
+	{
+	  startPlace: "string",
+	  endPlace: "string"
+	}
+
+	returns
+	{
+	  startCoord: [ lattitude, longitude ],
+	  endCoord: [ lattitude, longitude ],
+	  floorPlan: "url",
+	  buildingInfo:
+	}
+getCustomPath()
+	{
+	  startCoord: [ lat, long ],
+	  endPlace: "string"
+	}
+getSavedPaths()
+	{
+	  username:"username"
+	}
+
+loadPath()
+	{
+	  username:"username",
+	  pathid: "path" //or path points/ locations
+	}
+
+loadTour()
+	{
+	  tourname: "name"
+	}
+
+savePath()
+	{
+	  username: "username", //some way to know which user it is
+	  coordinates: [,,]
+	}
+
+	returns failed or success
+
+getBuildingInfo() //possibly
+
+initialize() // launches when the app starts up
+
+	returns
+	all the needed start up info, and a way of telling when the database was last updated
+		this allows the app to only update the info if it is out of date
+
+register() && login()
+	{
+	  username: "username",
+	  password: "password"
+	}
+
+	returns something that is useful
+
+getMapKey() //might not be necessary if already in the html page 
+
+	returns
+	{
+	  mapKey: "key" 
+	}
+
+saveSchedule()
+	{
+	  username:"username",
+	  classes: [,,]
+	}
+
+mapSchedule()
+	{
+	  username:"username"
+	}
+	returns 
+	"no saved schedule"
+	or 
+	{
+	  //path of schedule
+	}
