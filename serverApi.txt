@@ -16,20 +16,41 @@ getCustomPath()
 	  startCoord: [ lat, long ],
 	  endPlace: "string"
 	}
+	returns
+	{
+	  startCoord: [ lattitude, longitude ],
+	  endCoord: [ lattitude, longitude ],
+	  floorPlan: "url",
+	  buildingInfo:
+	}
 getSavedPaths()
 	{
 	  username:"username"
+	  password:"password",
 	}
 
 loadPath()
 	{
 	  username:"username",
+	  password:"password",
 	  pathid: "path" //or path points/ locations
+	}
+	returns
+	{
+	  startCoord: [ lattitude, longitude ],
+	  endCoord: [ lattitude, longitude ],
+	  floorPlan: "url",
+	  buildingInfo:
 	}
 
 loadTour()
 	{
 	  tourname: "name"
+	}
+	returns
+	{
+	  path: [ [lat,long], [lat,long],,, ],
+	  places: [ place:{ coord:[lat,long], name:"string", info:"string", image:"url"(optional) }, , ]
 	}
 
 savePath()
@@ -66,15 +87,18 @@ getMapKey() //might not be necessary if already in the html page
 saveSchedule()
 	{
 	  username:"username",
+	  password:"password",
 	  classes: [,,]
 	}
+	returns "failed" or "success" 
 
 mapSchedule()
 	{
 	  username:"username"
+	  password:"password",
 	}
 	returns 
-	"no saved schedule"
+	"no saved schedule" or some other failure message
 	or 
 	{
 	  //path of schedule
