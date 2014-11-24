@@ -3,6 +3,10 @@ from flask import request
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+	f = open("/var/www/BYUGetMeThereTest/AppFolder/static/index.html",'r')
+	return str(f.read())
 @app.route("/getPath", methods=['GET','POST'])
 def getPath():
 	#JSON gets startPlace: "string", endPlace: "string"
@@ -11,8 +15,9 @@ def getPath():
 	#  endCoord: [ lattitude, longitude ],
 	#  floorPlan: "url",
 	#  buildingInfo:
-	return "getPath"
 	if request.method == 'GET':
+		return "getPath"
+	if request.method == 'POST':
 		myJson = request.get_json()
 		return str(myJson['myusername'])
 	else:
