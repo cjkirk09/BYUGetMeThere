@@ -1,0 +1,99 @@
+body {
+    background-color: #e6e6e6; /* gray */
+    font-family: 'Dosis';
+    width: 100vw;
+}
+
+h3 {
+    color: #000066;
+/*    font-family: 'Dosis';*/
+    font-size: 20pt;
+    text-align: center;
+}
+
+/*menu bar */
+#menubar {
+    background-color:#e6e6e6;
+/*    font-size: ;*/
+    color: #cc6600;
+    padding: 3%;
+    width:100%;
+}
+
+#menubtn a { /*glyphicon*/
+    color: #808080;
+    text-decoration: none;
+}
+
+#logo { /*nothing yet, needs to be created*/
+    background-image: 'logo.jpg';
+}
+
+#login a {
+    float: right;
+    text-decoration: none;
+    color: #cc6600;
+}
+
+/*options page*/
+.container#optionspage { 
+    background-color: #000066;
+    color: #e6e6e6;
+    font-size: 20pt;
+    width: 90vw;
+}
+
+#optionslist {
+    list-style-type: none;
+}
+
+#optionslist a {
+    color: #e6e6e6;
+    text-decoration: none;
+}
+
+/*directions page*/
+.container#directions {
+    border: 5px solid;
+    border-color: #cc6600;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+/*I couldn't get the margins right on the border.*/
+
+#newroute {
+    background-color: #000066;
+    color: #cc6600;
+    font-size: 15pt;
+    width: 100vw;
+    height: 50px;
+    padding: 10px;
+    z-index: 1000;
+    margin-top: 10px;
+}
+/*I want this to stretch the entire page, but I couldn't figure it out*/
+
+/*schedule page*/
+#schedulebuttons {
+    text-align: center;
+}
+
+/*bootstrap override*/
+.container {
+    height: 100vh;
+    width: 100vw;
+    float: left;
+    padding: 5px;
+}
+
+.btn {
+    margin-bottom: 5px;
+    border-radius: 25px;
+}
+
+.btn-info {
+    background-color: #000066;
+    border-color: #000066;
+}

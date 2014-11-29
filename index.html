@@ -1,0 +1,104 @@
+<!-- web application -->
+
+<!DOCTYPE HTML>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width-device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' href='webapp.css'>
+    <link href='http://fonts.googleapis.com/css?family=Dosis:200' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href='css/bootstrap.min.css'>
+    <link rel='stylesheet' href='custom.css'>
+</head>
+
+<body>
+    <div class='navbar-fixed-bottom' id='menubar'>
+        <div class='row'>
+            <div class='col-xs-3' id='menubtn'><a href='#optionspage'><span class='glyphicon glyphicon-th-list'</span></a></div>
+            <div class='col-xs-6' id='logo'>LOGO</div>
+            <div class='col-xs-3' id='login'><a>Sign in</a></div> <!-- not displaying centered -->
+        </div>
+    </div>
+    
+    <!-- options page -->
+    <!--    will have to make this hide when the options isn't selected-->
+    <div class='container' id='optionspage'>
+        <div id='options'>
+            <ul class='list-unstyled' id='optionslist'>
+                <li><a href='#directions'>Get Directions</a></li>
+                <li><a href='#schedule'>Map Schedule</a></li>
+                <li><a href='#campus'>Campus Info</a></li>
+                <li><a href='#building'>Building Info</a ></li>
+                <li><a href='#about'>About Us</a></li>
+            </ul>
+        </div>
+    </div>
+    
+<!--    directions: map and route options-->
+    <div>
+        <div class='container' id='directions'>
+            <div class='row' id='newroute'>
+                <div class='col-xs-8'>Find Me</div>
+                <div class='col-xs-4'>Route</div>
+            </div>
+            LOREM<br><br>
+            IPSUM<br><br>
+            ETC<br><br>
+            ETC<br><br>
+        </div>
+    </div>
+
+    <div class='container' id='schedule'>
+        <h3>Enter Your Schedule</h3>
+        <div class='row'>
+            <div class='col-xs-1'></div>
+            <div class='col-xs-10'>
+                <p><span class="glyphicon glyphicon-minus-sign" style='color:#cc6600;padding:10px'></span>
+                    CS 142 - TMCB 1170<br>MWF - 9:00am</p>
+            </div>
+            <div class='col-xs-1'></div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-3'></div>
+            <button type='button' class='col-xs-6 btn btn-info'>Load Schedule</button>
+            <div class='col-xs-3'></div> 
+        </div>
+        <div class='row'>
+            <div class='col-xs-3'></div>
+            <button type='button' class='col-xs-6 btn btn-info'>Add New Class</button>
+            <div class='col-xs-3'></div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-3'></div>
+            <button type='button' class='col-xs-6 btn btn-info'>Save Schedule</button>
+            <div class='col-xs-3'></div>
+        </div>
+        <div>
+            <div class='col-xs-3'></div>
+            <button type='button' class='col-xs-6 btn btn-info'>Map Schedule</button>
+            <div class='col-xs-3'></div>
+        </div>
+    </div>
+    <div class='container' id='campus'>
+        <h3>Campus Info</h3>
+        LOREM<br><br>
+        IPSUM<br><br>
+        ETC<br><br>
+        ETC<br><br>
+    </div>
+    <div class='container' id='building'>
+        <h3>Building Info</h3>
+        <p>Dropdown List will be here</p>
+        LOREM<br><br>
+        IPSUM<br><br>
+        ETC<br><br>
+        ETC<br><br>
+    </div>
+    <div class='container' id='about'>
+        <h3>About Us</h3>
+        LOREM<br><br>
+        IPSUM<br><br>
+        ETC<br><br>
+        ETC<br><br>
+    </div>
+    
+</body>
