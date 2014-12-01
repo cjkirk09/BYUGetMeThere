@@ -67,19 +67,21 @@ def getBuildingInfo():
 	return "building info"
 @app.route("/initialize")
 def initialize():
-	# ??? more definition is needed
+	# same as "/" route. initial page seen by user
 	return "init"
 @app.route("/regester")
 def regester():
 	# username: "username"
 	# password: "password"
-	# returns successful or not??? 
+	# checks to see if user name already taken
+	# then logs in
+	# returns successful or not 
 	return "regester"
 @app.route("/login")
 def login():
 	# username: "username"
 	# password: "password"
-	# returns successful or not???
+	# returns successful or not
 	return "login"
 @app.route("/getMapKey")
 def getMapKey():
@@ -89,16 +91,17 @@ def getMapKey():
 def saveSchedule():
 	# username: "username"
 	# password: "password"
-	# classes: [,,] ??? what goes between ,
-	# returns successful or not???
+	# classes: [,,] json of class goes inbetween ','
+	# returns successful or not
 	return "save my schedule"
 @app.route("/mapSchedule")
 def mapSchedule():
 	# username: "username"
 	# password: "password"
+	# what day to show MWFTTh ect.
 	# returns
 	#  no saved schedule/other failure message
-	#  path of schedule ??? More info needed
+	#  path of schedule (similar to load path)
 	return "map my schedule"
 @app.route("/user/<input>")
 def user(input):
