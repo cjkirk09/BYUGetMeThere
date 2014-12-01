@@ -1,12 +1,15 @@
 from flask import Flask
 from flask import request
+from flask import send_from_directory
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-	f = open("/var/www/BYUGetMeThereTest/AppFolder/static/index.html",'r')
-	return str(f.read())
+	return send_from_directory("/var/www/BYUGetMeThereTest/AppFolder/static","index.html")
+@app.route("/static/<path:thePath>")
+def getFiles(thePath):
+	return send_from_directory('/static/',thePath)
 @app.route("/getPath", methods=['GET','POST'])
 def getPath():
 	#JSON gets startPlace: "string", endPlace: "string"
