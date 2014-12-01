@@ -81,6 +81,7 @@ h3 {
 #newroute a { /* map marker */
     color: #cc6600;
     font-size: 150%;
+    padding-top: 1%;
 }
 
 #newroute {
@@ -93,6 +94,11 @@ h3 {
     margin-top: -5px;
     position: absolute;
     left: 0px;
+}
+
+#newroute div.col-xs-4 {
+    display: inline;
+    top: 5px;
 }
 
 .row#mapbuttons {
@@ -115,6 +121,11 @@ h3 {
 }
 
 /*schedule page*/
+#minus {
+    color:#cc6600;
+    padding:10px;
+}
+
 #class {
     font-size: 14pt;
     padding-top: 5px;
@@ -163,10 +174,7 @@ h3 {
 .container {
     height: 90vh;
     width: 90vw;
-    margin-left: 0px;
-    margin-right: 0px;
     margin-bottom: 10%;
-    float: left;
 }
 
 .btn {
@@ -179,4 +187,15 @@ h3 {
     background-color: #000066;
     border-color: #000066;
     color: #e6e6e6;
+}
+
+.btn-info:hover {
+    background-color: #cc6600;
+    border-color: #cc6600;
+}
+
+.btn-info:active,
+.btn-info.active, 
+.btn-info.focus {
+    background-color: #cc6600;
 }
