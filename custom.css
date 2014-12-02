@@ -76,6 +76,8 @@ h3 {
     margin-right: 0px;
     padding-top: 10px;
     padding-bottom: 10px;
+    z-index: -1;
+    position:relative;
 }
 
 #newroute a { /* map marker */
@@ -173,6 +175,12 @@ h3 {
 /*bootstrap override*/
 .container {
     height: 90vh;
+    width: 90vw;
+    margin-bottom: 10%;
+}
+
+.mapcontainer {
+    height: 80vh;
     width: 90vw;
     margin-bottom: 10%;
 }
