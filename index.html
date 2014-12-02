@@ -8,6 +8,26 @@
     <link href='http://fonts.googleapis.com/css?family=Dosis:200, 400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href='css/bootstrap.min.css'>
     <link rel='stylesheet' href='custom.css'>
+    <script  type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript">
+       var x=new google.maps.LatLng(40.248770, -111.649273);
+
+       function initialize(){
+          var mapProp = {
+             center:x,
+             zoom:15,
+             mapTypeId: google.maps.MapTypeId.ROADMAP,
+             zoomControlOptions:{
+                style: google.maps.ZoomControlStyle.DEFAULT,
+                position: google.maps.ControlPosition.LEFT_CENTER
+             }
+          };
+  
+          var map=new google.maps.Map(document.getElementById('map'),mapProp);
+          map.ControlPosition.setPosition(LEFT_CENTER)
+       }
+       google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
 </head>
 
 <body>
@@ -36,23 +56,22 @@
     
 <!--    directions: map and route options-->
     <div class='section' id='directions'>
-        <div class='container' id='map'>
-            <div class='row' id='newroute'>
-                <div class='col-xs-8' style='text-align:left'>
-                    <a><span class='glyphicon glyphicon-map-marker'></span></a>
-                </div>
-                <div class='col-xs-4'>Route</div>
+        <div class='row' id='newroute'>
+            <div class='col-xs-8' style='text-align:left'>
+                <a><span class='glyphicon glyphicon-map-marker'></span></a>
             </div>
-            <div class='row' id='mapbuttons'>
-                <div><button type='button' class='col-xs-4 btn btn-info'>Building Info</button></div>
-                <div><button type='button' class='col-xs-4 btn btn-info'>Floor Plan</button></div>
-                <div><button type='button' class='col-xs-4 btn btn-info'>Save Route</button></div>
-            </div>
-            LOREM<br><br>
-            IPSUM<br><br>
-            ETC<br><br>
-            ETC<br><br>
+            <div class='col-xs-4'>Route</div>
         </div>
+                   
+        <div class='container' id='map'>       
+        </div>
+
+        <div class='row' id='mapbuttons'>
+            <div><button type='button' class='col-xs-4 btn btn-info'>Building Info</button></div>
+            <div><button type='button' class='col-xs-4 btn btn-info'>Floor Plan</button></div>
+            <div><button type='button' class='col-xs-4 btn btn-info'>Save Route</button></div>
+        </div>
+            
     </div>
 
     <div class='section' id='schedule'>
