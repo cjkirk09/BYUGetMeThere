@@ -10,11 +10,11 @@
     <link rel='stylesheet' href='custom.css'>
     <script  type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
     <script type="text/javascript">
-       var x=new google.maps.LatLng(40.248770, -111.649273);
-
+       var byu=new google.maps.LatLng(40.248770, -111.649273);
+       var map;
        function initialize(){
           var mapProp = {
-             center:x,
+             center:byu,
              zoom:15,
              mapTypeId: google.maps.MapTypeId.ROADMAP,
              zoomControlOptions:{
@@ -23,9 +23,64 @@
              }
           };
   
-          var map=new google.maps.Map(document.getElementById('map'),mapProp);
+          map=new google.maps.Map(document.getElementById('map'),mapProp);
        }
-       google.maps.event.addDomListener(window, 'load', initialize);
+// Note: This example requires that you consent to location sharing when
+// prompted by your browser. If you see a blank space instead of the map, this
+// is probably because you have denied permission for location sharing.
+
+  // Try HTML5 geolocation
+       function findMyLocation(){
+       //window.alert("in findMyLocation");
+/*
+	   var mapProp = {
+               center:x,
+               zoom:15,
+               mapTypeId: google.maps.MapTypeId.ROADMAP,
+               zoomControlOptions:{
+                  style: google.maps.ZoomControlStyle.DEFAULT,
+                  position: google.maps.ControlPosition.LEFT_CENTER
+               }
+            };
+       map=new google.maps.Map(document.getElementById('map'),mapProp);*/
+       if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+             var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+  
+             var infowindow = new google.maps.InfoWindow({
+                map: map,
+                position: pos,
+                content: 'Location found using HTML5.'
+             });
+  
+             map.setCenter(pos);
+           }, function() {handleNoGeolocation(true);});
+       } //closes if
+       else {
+         // Browser doesn't support Geolocation
+         handleNoGeolocation(false);
+       }
+     }//closes findMyLocation
+  
+     function handleNoGeolocation(errorFlag) {
+       if (errorFlag) {
+         var content = 'Error: The Geolocation service failed.';
+       } else {
+         var content = 'Error: Your browser doesn\'t support geolocation.';
+       }
+
+       var options = {
+         map: map,
+         position: byu,
+         content: content
+       };
+  
+       var infowindow = new google.maps.InfoWindow(options);
+       map.setCenter(options.position);
+     }
+     
+     google.maps.event.addDomListener(window, 'load', initialize);
+   
     </script>
 </head>
 
@@ -57,7 +112,9 @@
     <div class='section' id='directions'>
         <div class='row' id='newroute'>
             <div class='col-xs-8' style='text-align:left'>
-                <a><span class='glyphicon glyphicon-map-marker'></span></a>
+                <button class='btn btn-default' type='button' onclick="findMyLocation()">
+                   <span class='glyphicon glyphicon-map-marker'></span>
+                </button>
             </div>
             <div class='col-xs-4'>Route</div>
         </div>
@@ -113,7 +170,7 @@
                     <div class='input-group'>
                         <input type='text' class='form-control'>
                             <span class='input-group-btn'>
-                                <button class='btn btn-default' type='button'>
+                                <button class='btn btn-default' type='button' onclick="display()">
                                     <span class='glyphicon glyphicon-search' style="color:#cc6600"></span>
                                 </button>
                             </span>
@@ -137,5 +194,11 @@
         </div>
     </div>
     
+
+    <script>
+        function display(){
+            window.alert("in display");
+        }
+    </script>
     
 </body>
