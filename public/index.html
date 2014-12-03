@@ -112,11 +112,15 @@
     <div class='section' id='directions'>
         <div class='row' id='newroute'>
             <div class='col-xs-8' style='text-align:left'>
-                <button  type='button' onclick="findMyLocation()">
+                <button class='btn' type='button' onclick="findMyLocation()">
                    <span class='glyphicon glyphicon-map-marker'></span>
                 </button>
             </div>
-            <div class='col-xs-4'>Route</div>
+            <div class='col-xs-4'>
+                <button class='btn' type='button' onclick="display()">
+                   Route
+                </button>
+            </div>
         </div>
                    
         <div class='mapcontainer' id='map'>       

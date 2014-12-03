@@ -7,6 +7,8 @@ app = Flask(__name__)
 @app.route("/")
 def index():
 	return send_from_directory("/var/www/BYUGetMeThereTest/AppFolder/static","index.html")
+//index.html is now in a different folder. is now in the public folder
+
 @app.route("/static/<path:thePath>")
 def getFiles(thePath):
 	return send_from_directory('/static/',thePath)
@@ -72,14 +74,14 @@ def getBuildingInfo():
 def initialize():
 	# same as "/" route. initial page seen by user
 	return "init"
-@app.route("/regester")
-def regester():
+@app.route("/register")
+def register():
 	# username: "username"
 	# password: "password"
 	# checks to see if user name already taken
 	# then logs in
 	# returns successful or not 
-	return "regester"
+	return "register"
 @app.route("/login")
 def login():
 	# username: "username"
