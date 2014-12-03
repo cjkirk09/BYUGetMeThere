@@ -111,19 +111,20 @@
 <!--    directions: map and route options-->
     <div class='section' id='directions'>
         <div class='row' id='newroute'>
-            <div class='col-xs-8' style='text-align:left'>
-                <button class='btn' type='button' onclick="findMyLocation()">
+            <div class='col-xs-3' style="text-align:center">
+                <button class='btn mapmarker' type='button' onclick="findMyLocation()">
                    <span class='glyphicon glyphicon-map-marker'></span>
                 </button>
             </div>
+            <div class='col-xs-5'></div>
             <div class='col-xs-4'>
-                <button class='btn' type='button' onclick="display()">
+                <button class='btn route' type='button' onclick="display()">
                    Route
                 </button>
             </div>
         </div>
                    
-        <div class='mapcontainer' id='map'>       
+        <div class='container mapcontainer' id='map'>       
         </div>
 
         <div class='row' id='mapbuttons'>
@@ -143,7 +144,7 @@
                 <div class='col-xs-1'></div>      
             </div>
             <div class='row' id='class'>
-                <div class='col-xs-2'><span class="glyphicon glyphicon-minus-sign"></span></div>
+                <div class='col-xs-2'><span id='minus' class="glyphicon glyphicon-minus-sign"></span></div>
                 <div class='col-xs-9'>MATH 113 - JKB 3108<br>MWF - 11:00am</div>
                 <div class='col-xs-1'></div>      
             </div>
