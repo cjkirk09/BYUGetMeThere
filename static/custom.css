@@ -68,7 +68,11 @@ h3 {
 
 /*directions page*/
 #map {
-    border: 5px solid;
+    border: 5px;
+    border-top-style: none;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
     border-color: #cc6600;
     padding-bottom: 10px;
 }
