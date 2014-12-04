@@ -88,6 +88,33 @@
 </head>
 
 <body ng-app='ByuGetMeThereApp'>
+    <div ng-controller='menuController' >
+        <div class='navbar-fixed-top' id='menubar'>
+            <div class='row'>
+                <div class='col-xs-4' id='menubtn'>
+                    <a ng-click='toggleMenu()' href='#optionspage'>
+                        <span class='glyphicon glyphicon-align-justify'></span>
+                    </a>
+                </div>
+                <div class='col-xs-4' id='logo'>LOGO</div>
+                <div class='col-xs-4' id='login'><a>Sign in</a></div> 
+            </div>
+        </div>
+    
+        <!-- options page -->
+        <!--    will have to make this hide when the options isn't selected-->
+        <div ng-if='state.menuOpen' class='section' id='optionspage'>
+            <div class='container' id='options'>
+                <ul class='list-unstyled' id='optionslist'>
+                    <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
+                    <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
+                    <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
+                    <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
+                    <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
+                </ul>
+            </div>
+        </div>
+    <div>
   
     
 <!--    directions: map and route options-->
@@ -179,31 +206,6 @@
             ETC<br><br>
         </div>
     </div>
-    <div ng-controller='menuController' >
-    <div class='navbar-fixed-top' id='menubar'>
-        <div class='row'>
-            <div class='col-xs-4' id='menubtn'><a ng-click='toggleMenu()' href='#optionspage'>
-                <span class='glyphicon glyphicon-align-justify'></span></a>
-            </div>
-            <div class='col-xs-4' id='logo'>LOGO</div>
-            <div class='col-xs-4' id='login'><a>Sign in</a></div> 
-        </div>
-    </div>
-    
-    <!-- options page -->
-    <!--    will have to make this hide when the options isn't selected-->
-    <div ng-if='state.menuOpen' class='section' id='optionspage'>
-        <div class='container' id='options'>
-            <ul class='list-unstyled' id='optionslist'>
-                <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
-                <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
-                <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
-                <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
-                <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
-            </ul>
-        </div>
-    </div>
-    <div>
 
     <script>
         function display(){
