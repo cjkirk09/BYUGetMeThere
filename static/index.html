@@ -100,6 +100,19 @@
                 <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
             </div>
         </div>
+        <div class='section' ng-if='state.loginOpen' id='loginPage'>
+            <div class='row' id='username'>
+                <label class='col-xs-3' style='text-align:right;font-weight:400'>Username:  </label><input class='col-xs-8' type='text' ng-model='state.userInfo.username' style='margin:1px'>
+            </div>
+            <div class='row' id='password'>
+                <label class='col-xs-3' style='text-align:right;font-weight:400'>Password:  </label><input class='col-xs-8' type='text' ng-model='state.userInfo.password' style='margin:1px'>
+            </div>
+            <div class='row'>
+                <div><button type='button' class='col-xs-4 btn btn-info' ng-click="register()">Register</button></div>
+                <div><button type='button' class='col-xs-4 btn btn-info' ng-click="login()">Login</button></div>
+                <div><p>{{state.userInfo.errorMessage}}</p></div>
+            </div>
+        </div>
     
         <!-- options page -->
         <!--    will have to make this hide when the options isn't selected-->
@@ -115,13 +128,7 @@
             </div>
             <div class='row' id='optionslogo'><img src='optionslogo.png'></div>
         </div>
-    <div ng-if='state.loginOpen' id='loginPage'>
-        <p>Username:<input type='text' ng-model='state.userInfo.username'></p><br>
-        <p>Password:<input type='text' ng-model='state.userInfo.password'></p><br>
-	<button type='button' ng-click="register()"> Register </button><br>
-	<button type='button' ng-click="login()"> Login </button><br>
- 	<p>{{state.userInfo.errorMessage}}</p><br>
-    </div>
+ 
   
     
 <!--    directions: map and route options-->
