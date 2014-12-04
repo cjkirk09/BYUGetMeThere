@@ -194,6 +194,7 @@ h3 {
 .btn {
     margin-bottom: 5px;
     border-radius: 25px;
+    font-weight: 200;
 }
 
 .mapmarker {
