@@ -83,12 +83,6 @@ h3 {
     text-decoration: none;
 }
 
-#loginpage {
-  z-index: 1000;
-  position: absolute;
-  float: right;
-}
-
 /*directions page*/
 #map {
     border: 5px;
@@ -138,7 +132,7 @@ h3 {
 #mapbuttons {
     width: 100%;
     position: absolute;
-    left: 1%;
+    left: 0px;
     top: 90%;
 }
 
