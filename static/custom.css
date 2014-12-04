@@ -83,6 +83,12 @@ h3 {
     text-decoration: none;
 }
 
+#loginpage {
+  z-index: 1000;
+  position: absolute;
+  float: right;
+}
+
 /*directions page*/
 #map {
     border: 5px;
