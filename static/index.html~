@@ -113,7 +113,7 @@
                     <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
                 </ul>
             </div>
-            <div class='row' id='optionslogo'><img src='optionslogo.png'></div>
+            <div class='container' id='optionslogo'><img src='optionslogo.png'></div>
         </div>
     <div>
   

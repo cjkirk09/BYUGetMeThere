@@ -132,7 +132,7 @@ h3 {
 #mapbuttons {
     width: 100%;
     position: absolute;
-    left: 1%;
+    left: 0px;
     top: 90%;
 }
 
