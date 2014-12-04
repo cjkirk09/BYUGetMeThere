@@ -56,7 +56,9 @@ h3 {
     background-color: #000066;
     font-size: 20pt;
     width: 90vw;
-    z-index: 1100;
+    z-index: 1000;
+    position: absolute;
+    top: 0;
 }
 
 #optionslist a {
@@ -110,7 +112,7 @@ h3 {
     width: 100%;
     position: absolute;
     left: 0px;
-    top: 190%;
+    top: 90%;
 }
 
 #mapbuttons>div>button {
@@ -141,7 +143,7 @@ h3 {
 }
 
 #schedule>div>div>button {
-    margin-left: 16.666667%;
+    margin-left: 12%;
     margin-right: 16.666667%;
     text-align: center;
 }
@@ -165,6 +167,7 @@ h3 {
     height: 100vh;
     width: 100vw;
     float: left;
+/*    z-index: 1000;*/
     padding-top: 60px;
     padding-left: 15px;
     padding-right: 15px;
@@ -187,13 +190,13 @@ h3 {
 .btn {
     margin-bottom: 5px;
     border-radius: 25px;
-    background-color: #000066;
-    border-color: #000066;
 }
 
 .mapmarker {
     padding-top: 0px;
     padding-bottom: 0px;
+    background-color: #000066;
+    border-color: #000066;
     color: #cc6600;
     font-size: 150%;
 }
@@ -201,6 +204,8 @@ h3 {
 .route {
     padding-top: 0px;
     padding-bottom: 0px;
+    background-color: #000066;
+    border-color: #000066;
     color: #cc6600;
     font-weight: 200;
     font-size: 90%;
