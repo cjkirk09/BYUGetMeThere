@@ -1,10 +1,10 @@
 <!-- web application -->
 
 <!DOCTYPE HTML>
+<title>BYU Get Me There</title>
 <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' href='/static/webapp.css'>
+    <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
+<!--    <link rel='stylesheet' type='text/css' href='/static/webapp.css'>-->
     <link href='http://fonts.googleapis.com/css?family=Dosis:200, 400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href='css/bootstrap.min.css'>
     <link rel='stylesheet' href='custom.css'>
@@ -45,6 +45,7 @@
                }
             };
        map=new google.maps.Map(document.getElementById('map'),mapProp);*/
+
        if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
              var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
@@ -52,10 +53,11 @@
              var infowindow = new google.maps.InfoWindow({
                 map: map,
                 position: pos,
-                content: 'Location found using HTML5.'
+                content: 'You are here'
              });
   
              map.setCenter(pos);
+             map.setZoom(12);
            }, function() {handleNoGeolocation(true);});
        } //closes if
        else {
@@ -89,131 +91,182 @@
 
 <body ng-app='ByuGetMeThereApp'>
 <div ng-controller='menuController' >
-        <div class='navbar-fixed-top' id='menubar'>
+<!-- top menu bar -->
+<div class='navbar-fixed-top' id='menubar'>
+    <div class='row'>
+        <div class='col-xs-4' id='menubtn'>
+            <a ng-click='toggleMenu()' href='#optionspage'>
+                <span class='glyphicon glyphicon-align-justify'></span>
+            </a>
+        </div>
+        <div class='col-xs-4' id='logo'><img src="logo.png"></div>
+        <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
+    </div> 
+</div> <!-- end of top menu bar -->
+
+<!-- login page -->
+<div class='section' ng-if='state.loginOpen' id='loginpage'>
+    <div id='logininput'>
+        <div class='row'>
+            <input type='text' ng-model='userInfo.username' placeholder="Username">
+        </div>
+        <div class='row'>
+            <input type='password' ng-model='userInfo.password' placeholder='Password'>
+        </div>
+    </div> <!-- end of login input boxes -->
+    <div class='row' id='loginbuttons'>
+        <div class='col-xs-6' id='registerbutton'>
+            <button type='button' class='btn btn-info' ng-click="register()">Register</button>
+        </div>
+        <div class='col-xs-6' id='loginbutton'>
+            <button type='button' class='btn btn-info' ng-click="login()">Login</button>
+        </div>
+    </div> <!-- end of login buttons -->
+    <div class='row' id='loginerror' ng-if='userInfo.errorMessage!=""'>
+        <p>{{userInfo.errorMessage}}</p>
+    </div>
+</div> <!-- end of login page -->
+
+<!-- options page -->   
+<div ng-if='state.menuOpen' class='section' id='optionspage'>
+    <div id='options'>
+        <ul class='list-unstyled' id='optionslist'>
+            <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
+            <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
+            <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
+            <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
+            <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
+        </ul>
+    </div>
+    <div class='row' id='optionslogo'><img src='optionslogo.png'></div>
+</div> <!-- end of options page -->
+
+<!-- directions: map and route options -->
+<div class='section' id='directions'>
+    <!-- new route menu -->
+    <div class='row' id='newroute'>
+        <div class='col-xs-3' style="text-align:center">
+            <button class='btn mapmarker' type='button' onclick="findMyLocation()">
+               <span class='glyphicon glyphicon-map-marker'></span>
+            </button>
+        </div>
+        <div class='col-xs-5'></div>
+        <div class='col-xs-4'>
+            <button class='btn route' type='button' ng-click="toggleRouteBox()">
+               Route
+            </button>
+        </div>
+    </div> <!-- end of new route menu -->
+
+    <!-- Route Box, only visible if the Route button is clicked -->
+    <div class='section' ng-if='state.routeBoxOpen' id='routebox'>
+        <div id='routeinput'>
             <div class='row'>
-                <div class='col-xs-4' id='menubtn'>
-                    <a ng-click='toggleMenu()' href='#optionspage'>
-                        <span class='glyphicon glyphicon-align-justify'></span>
-                    </a>
+                <input type='text' ng-model='routeInfo.startPoint' placeholder="Start">
+            </div>
+            <div class='row'>
+                <input type='text' ng-model='routeInfo.endPoint' placeholder='End'>
+            </div>
+        </div> <!-- end of route box input fields -->
+        <div class='row' id='routeboxbuttons'>
+            <div class='col-xs-6' id='getroute'>
+                <button type='button' class='btn btn-info' ng-click="getRoute()">Get Route</button>
+            </div>
+            <div class='col-xs-6' id='cancelroute'>
+               <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
+            </div>
+        </div> <!-- end of route box buttons -->
+        <div class='row' ng-if='routeInfo.errorMessage!=""' id='routeerror'>
+            <p>{{routeInfo.errorMessage}}</p>
+        </div>
+   </div> <!-- end of Route Box -->   
+
+    <!-- back to map -->
+    <div class='container mapcontainer' id='map'></div>
+
+    <div class='row' id='mapbuttons'>
+        <div><button type='button' class='col-xs-4 btn btn-info'>Building Info</button></div>
+        <div><button type='button' class='col-xs-4 btn btn-info'>Floor Plan</button></div>
+        <div><button type='button' class='col-xs-4 btn btn-info'>Save Route</button></div>
+    </div> <!-- end of map buttons -->
+</div> <!-- end of directions section -->
+
+<div class='section' id='schedule'>
+    <div class='container'>
+        <h3>Enter Your Schedule</h3>
+        <div class='row' id='class'>
+            <div class='col-xs-2'>
+                <button class='btn' id='rmclass' type='button'>
+                    <span id='minus' class="glyphicon glyphicon-minus-sign"></span>
+                </button>
+            </div>
+            <div class='col-xs-10'>CS 142 - TMCB 1170<br>MWF - 9:00am</div>  
+        </div>
+        <div class='row' id='class'>
+            <div class='col-xs-2'>
+                <button class='btn' id='rmclass' type='button'>
+                    <span id='minus' class="glyphicon glyphicon-minus-sign"></span>
+                </button>
+            </div>
+            <div class='col-xs-10'>MATH 113 - JKB 3108<br>MWF - 11:00am</div>
+        </div>   
+        <div class='row' id='class'>
+            <div class='col-xs-2'>
+                <button class='btn' id='addclass' type='button'>
+                    <span id='plus' class='glyphicon glyphicon-plus-sign'></span>
+                </button>
+            </div>
+        </div>
+        <div class='buttongroup'>
+            <button type='button' class='col-xs-9 btn btn-info btn-lg'>Load Schedule</button>
+            <button type='button' class='col-xs-9 btn btn-info btn-lg'>Save Schedule</button>
+            <button type='button' class='col-xs-9 btn btn-info btn-lg'>Map Schedule</button>
+        </div>
+    </div>
+</div>
+
+<div class='section' id='campus'>
+    <div class='container'>
+    <h3>Campus Info</h3>
+    LOREM<br><br>
+    IPSUM<br><br>
+    ETC<br><br>
+    ETC<br><br>
+    </div>
+</div>
+
+<div class='section' id='building'>
+    <div class='container'>
+        <h3>Building Info</h3>
+        <div class='row' id='buildinglist'>
+            <div class='col-xs-12'>
+                <div class='input-group'>
+                    <input type='text' class='form-control' id='buildingsearch' placeholder='Search'>
+                        <span class='input-group-btn'>
+                            <button class='btn btn-default' type='button' onclick="display()">
+                                <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
+                            </button>
+                        </span>
                 </div>
-                <div class='col-xs-4' id='logo'><img src="logo.png"></div>
-                <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
             </div>
         </div>
-    
-        <!-- options page -->
-        <!--    will have to make this hide when the options isn't selected-->
-        <div ng-if='state.menuOpen' class='section' id='optionspage'>
-            <div id='options'>
-                <ul class='list-unstyled' id='optionslist'>
-                    <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
-                    <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
-                    <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
-                    <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
-                    <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
-                </ul>
-            </div>
-            <div class='row' id='optionslogo'><img src='optionslogo.png'></div>
-        </div>
-    <div ng-if='state.loginOpen' id='loginPage'>
-        <p>Username:<input type='text' ng-model='state.userInfo.username'></p><br>
-        <p>Password:<input type='text' ng-model='state.userInfo.password'></p><br>
-	<button type='button' ng-click="register()"> Register </button><br>
-	<button type='button' ng-click="login()"> Login </button><br>
- 	<p>{{state.userInfo.errorMessage}}</p><br>
-    </div>
-  
-    
-<!--    directions: map and route options-->
-    <div class='section' id='directions'>
-        <div class='row' id='newroute'>
-            <div class='col-xs-3' style="text-align:center">
-                <button class='btn mapmarker' type='button' onclick="findMyLocation()">
-                   <span class='glyphicon glyphicon-map-marker'></span>
-                </button>
-            </div>
-            <div class='col-xs-5'></div>
-            <div class='col-xs-4'>
-                <button class='btn route' type='button' onclick="display()">
-                   Route
-                </button>
-            </div>
-        </div>
-                   
-        <div class='container mapcontainer' id='map'></div>
-
-        <div class='row' id='mapbuttons'>
-            <div><button type='button' class='col-xs-4 btn btn-info'>Building Info</button></div>
-            <div><button type='button' class='col-xs-4 btn btn-info'>Floor Plan</button></div>
-            <div><button type='button' class='col-xs-4 btn btn-info'>Save Route</button></div>
-        </div>
-        
-    </div>
-
-    <div class='section' id='schedule'>
-        <div class='container'>
-            <h3>Enter Your Schedule</h3>
-            <div class='row' id='class'>
-                <div class='col-xs-2'><span id='minus' class="glyphicon glyphicon-minus-sign"></span></div>
-                <div class='col-xs-9'>CS 142 - TMCB 1170<br>MWF - 9:00am</div>
-                <div class='col-xs-1'></div>      
-            </div>
-            <div class='row' id='class'>
-                <div class='col-xs-2'><span id='minus' class="glyphicon glyphicon-minus-sign"></span></div>
-                <div class='col-xs-9'>MATH 113 - JKB 3108<br>MWF - 11:00am</div>
-                <div class='col-xs-1'></div>      
-            </div>
-            <div class='buttongroup'>
-                <button type='button' class='col-xs-9 btn btn-info btn-lg'>Load Schedule</button>
-                <button type='button' class='col-xs-9 btn btn-info btn-lg'>Add New Class</button>
-                <button type='button' class='col-xs-9 btn btn-info btn-lg'>Save Schedule</button>
-                <button type='button' class='col-xs-9 btn btn-info btn-lg'>Map Schedule</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class='section' id='campus'>
-        <div class='container'>
-        <h3>Campus Info</h3>
         LOREM<br><br>
         IPSUM<br><br>
         ETC<br><br>
         ETC<br><br>
-        </div>
     </div>
+</div>
 
-    <div class='section' id='building'>
-        <div class='container'>
-            <h3>Building Info</h3>
-            <div class='row' id='buildinglist'>
-                <div class='col-xs-12'>
-                    <div class='input-group'>
-                        <input type='text' class='form-control'>
-                            <span class='input-group-btn'>
-                                <button class='btn btn-default' type='button' onclick="display()">
-                                    <span class='glyphicon glyphicon-search' style="color:#cc6600"></span>
-                                </button>
-                            </span>
-                    </div>
-                </div>
-            </div>
-            LOREM<br><br>
-            IPSUM<br><br>
-            ETC<br><br>
-            ETC<br><br>
-        </div>
+<div class='section' id='about'>
+    <div class='container'>
+        <h3>About Us</h3>
+        LOREM<br><br>
+        IPSUM<br><br>
+        ETC<br><br>
+        ETC<br><br>
     </div>
-    
-    <div class='section' id='about'>
-        <div class='container'>
-            <h3>About Us</h3>
-            LOREM<br><br>
-            IPSUM<br><br>
-            ETC<br><br>
-            ETC<br><br>
-        </div>
-    </div>
-<div>
+</div>
+</div>
     <script>
         function display(){
             window.alert("in display");

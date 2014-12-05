@@ -23,8 +23,8 @@ h3 {
     background-color:#e6e6e6;
     color: #cc6600;
     padding: 5px;
-    width:100%;
-    height: 50px;
+    width: 100%;
+    height: 55px;
 }
 
 #menubtn {
@@ -47,34 +47,13 @@ h3 {
 	 width: 45px;
 }
 
-#optionslogo {
-	text-align: right;
-	position: absolute;
-	bottom: 2%;
-	right: 2%;
-}
-
-#optionslogo img {
-	height: 75%;
-	width: 75%;
-}
-
-#login a {
-	text-align: right;
-    float: right;
-    font-size: 150%;
-    text-decoration: none;
-    color: #cc6600;
-    margin: 5px;
-}
-
 /*options page*/
 #optionspage { 
     background-color: darkblue;
     font-size: 20pt;
     width: 90vw;
     z-index: 1000;
-    position: absolute;
+    position: fixed;
     top: 0;
 }
 
@@ -83,10 +62,92 @@ h3 {
     text-decoration: none;
 }
 
-#loginpage {
-  z-index: 1000;
-  position: absolute;
-  float: right;
+#optionslogo {
+	text-align: right;
+	position: absolute;
+	bottom: 2%;
+	right: 5%;
+}
+
+#optionslogo img {
+	height: 75%;
+	width: 75%;
+}
+
+#login a {
+    cursor: pointer;
+	text-align: right;
+    float: right;
+    font-size: 150%;
+    text-decoration: none;
+    color: #cc6600;
+    margin: 5px;
+}
+
+/*login page*/
+.section#loginpage,
+.section#routebox {
+    font-size: 14pt;
+    background-color: darkblue;
+    color: #cc6600;
+    width: 100vw;
+    height: 195px;
+    padding-top: 65px;
+    z-index: 1000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    text-align: center;
+}
+
+.section#routebox {
+    position: absolute;
+}
+
+#loginpage input,
+#routebox input {
+    margin: 3px;
+    width: 90%;
+    background-color: rgba(255,255,255,.3);
+    border-color: rgba(255,255,255,.3);
+    color: #e6e6e6;
+    font-weight: 400;
+}
+
+#registerbutton,
+#getroute {
+    text-align: left;
+    padding-left: 5%;
+}
+
+#registerbutton button,
+#getroute button {
+    font-size: 100%;
+    font-weight: 400;
+    color: #cc6600;
+    padding-left: 0;
+}
+
+#loginbutton,
+#cancelroute {
+    text-align: right;
+    padding-right: 5%;
+}
+
+#loginbutton button,
+#cancelroute button {
+    font-size: 100%;
+    font-weight: 400;
+    color: #cc6600;
+    padding-right: 0;
+}
+
+#loginerror,
+#routeerror {
+    background-color: darkblue;
+    height: 50px;
+    color: #e6e6e6;
 }
 
 /*directions page*/
@@ -150,9 +211,10 @@ h3 {
 }
 
 /*schedule page*/
-#minus {
-    color:#cc6600;
-    padding:10px;
+#minus,
+#plus {
+    color: #cc6600;
+    padding: 10px;
 }
 
 #class {
@@ -161,6 +223,26 @@ h3 {
     padding-bottom: 5px;
     padding-right: 10px;
     padding-left: 10px;
+}
+
+#class>div.col-xs-2 {
+    text-align: right;
+}
+
+#rmclass,
+#addclass {
+    background-color: #e6e6e6;
+    font-size: 100%;
+}
+
+#rmclass:hover,
+#addclass:hover,
+#rmclass:active,
+#addclass:active,
+#rmclass:focus,
+#addclass:focus {
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
 }
 
 .buttongroup {
@@ -176,6 +258,19 @@ h3 {
 }
 
 /*building list*/
+#buildingsearch {
+    font-size: 14pt;
+    background-color: rgba(255,255,255,.3);
+    border-color: rgba(255,255,255,.3);
+    color: #e6e6e6;
+    font-weight: 400;
+}
+
+.btn-default {
+    background-color: darkblue;
+    border-color: darkblue;
+}
+
 .row#buildinglist {
     margin-left: 0px;
     margin-right: 0px;
@@ -194,7 +289,6 @@ h3 {
     height: 100vh;
     width: 100vw;
     float: left;
-/*    z-index: 1000;*/
     padding-top: 60px;
     padding-left: 15px;
     padding-right: 15px;
@@ -245,13 +339,20 @@ h3 {
     color: #e6e6e6;
 }
 
-.btn-info:hover {
-    background-color: #cc6600;
-    border-color: #cc6600;
+.btn-info:hover,
+.btn:hover,
+.btn-default:hover {
+    background-color: darkblue;
+    border-color: darkblue;
 }
 
 .btn-info:active,
-.btn-info.active, 
-.btn-info.focus {
-    background-color: #cc6600;
+.btn-info:focus,
+.btn:active,
+.btn:focus,
+.btn-default:active,
+.btn-default:focus {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #cc6600;
 }
