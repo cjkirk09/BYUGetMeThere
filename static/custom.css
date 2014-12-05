@@ -211,7 +211,8 @@ h3 {
 }
 
 /*schedule page*/
-#minus {
+#minus,
+#plus {
     color: #cc6600;
     padding: 10px;
 }
@@ -222,6 +223,26 @@ h3 {
     padding-bottom: 5px;
     padding-right: 10px;
     padding-left: 10px;
+}
+
+#class>div.col-xs-2 {
+    text-align: right;
+}
+
+#rmclass,
+#addclass {
+    background-color: #e6e6e6;
+    font-size: 100%;
+}
+
+#rmclass:hover,
+#addclass:hover,
+#rmclass:active,
+#addclass:active,
+#rmclass:focus,
+#addclass:focus {
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
 }
 
 .buttongroup {
