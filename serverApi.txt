@@ -18,8 +18,8 @@ getCustomPath()
 	}
 	returns
 	{
-	  startCoord: [ lattitude, longitude ],
-	  endCoord: [ lattitude, longitude ],
+	  startCoord: { lattitude: number, longitude: number },
+	  endCoord: { lattitude: number, longitude: number },
 	  floorPlan: "url",
 	  buildingInfo:
 	}
@@ -28,17 +28,18 @@ getSavedPaths()
 	  username:"username"
 	  password:"password",
 	}
+	returns
+	
 
 loadPath()
 	{
 	  username:"username",
 	  password:"password",
-	  pathid: "path" //or path points/ locations
+	  pathname: "pathname" 
 	}
 	returns
 	{
-	  startCoord: [ lattitude, longitude ],
-	  endCoord: [ lattitude, longitude ],
+	  path: [ coord:{ lattitude: number, longitude: number }, ... , coord:{ lattitude: number, longitude: number } ],
 	  floorPlan: "url",
 	  buildingInfo:
 	}
@@ -49,14 +50,15 @@ loadTour()
 	}
 	returns
 	{
-	  path: [ [lat,long], [lat,long],,, ],
-	  places: [ place:{ coord:[lat,long], name:"string", info:"string", image:"url"(optional) }, , ]
+	  path: [ coord:{ lattitude: number, longitude: number }, ... , coord:{ lattitude: number, longitude: number } ],
+	  places: [ place:{ coord:{ lattitude: number, longitude: number }, name:"string", info:"string", image:"url"(optional) }, ... ]
 	}
 
 savePath()
 	{
 	  username: "username", //some way to know which user it is
-	  coordinates: [,,]
+	  pathname: "string",
+	  points: [ coord:{ lattitude: number, longitude: number }, ... ,coord:{ lattitude: number, longitude: number }, ]
 	}
 
 	returns failed or success
@@ -101,5 +103,5 @@ mapSchedule()
 	"no saved schedule" or some other failure message
 	or 
 	{
-	  //path of schedule
+	  path: [ coord:{ lattitude: number, longitude: number }, ... , coord:{ lattitude: number, longitude: number } ]
 	}
