@@ -45,6 +45,7 @@
                }
             };
        map=new google.maps.Map(document.getElementById('map'),mapProp);*/
+
        if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
              var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
@@ -56,6 +57,7 @@
              });
   
              map.setCenter(pos);
+             map.setZoom(12);
            }, function() {handleNoGeolocation(true);});
        } //closes if
        else {
@@ -106,21 +108,23 @@
     <div class='section' ng-if='state.loginOpen' id='loginpage'>
         <div id='logininput'>
             <div class='row'>
-                <input type='text' ng-model='state.userInfo.username' placeholder="Username">
+                <input type='text' ng-model='userInfo.username' placeholder="Username">
             </div>
             <div class='row'>
-                <input type='password' ng-model='state.userInfo.password' placeholder='Password'>
+                <input type='password' ng-model='userInfo.password' placeholder='Password'>
             </div>
         </div>
         <div class='row' id='loginbuttons'>
             <div class='col-xs-6' id='registerbutton'>
                 <button type='button' class='btn btn-info' ng-click="register()">Register</button>
             </div>
+
             <div class='col-xs-6' id='loginbutton'>
                 <button type='button' class='btn btn-info' ng-click="login()">Login</button>
             </div>
-            <div><p>{{state.userInfo.errorMessage}}</p></div>
+            <div><p ng-if='userInfo.errorMessage!=""'>{{userInfo.errorMessage}}</p></div>
         </div>
+            
     </div>
     
     <!-- options page -->
@@ -148,12 +152,35 @@
             </div>
             <div class='col-xs-5'></div>
             <div class='col-xs-4'>
-                <button class='btn route' type='button' onclick="display()">
+                <button class='btn route' type='button' ng-click="toggleRouteBox()">
                    Route
                 </button>
             </div>
         </div>
-                   
+
+   <!--   Route Box, only visible if the Route button is clicked-->
+        <div ng-if='state.routeBoxOpen'>
+	    <div id='routeBox'>
+                <div class='row'>
+                    <input type='text' ng-model='routeInfo.startPoint' placeholder="Username">
+                </div>
+                <div class='row'>
+                    <input type='password' ng-model='routeInfo.endPoint' placeholder='Password'>
+                </div>
+            </div>
+
+            <div class='row' id='routeBoxbuttons'>
+                <div class='col-xs-6' id='getRouteButton'>
+                    <button type='button' class='btn btn-info' ng-click="getRoute()">Get Route</button>
+                </div>
+  
+                <div class='col-xs-6' id='cancelRouteButton'>
+                   <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
+                </div>
+                <div ng-if='routeInfo.errorMessage!=""'><p>{{routeInfo.errorMessage}}</p></div>
+            </div>
+	</div>     
+    <!-- back to map -->
         <div class='container mapcontainer' id='map'></div>
 
         <div class='row' id='mapbuttons'>
