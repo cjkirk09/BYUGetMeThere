@@ -3,12 +3,8 @@ body {
     font-family: 'Dosis';
     font-weight: 200;
     width: 100%;
-    margin-left: 0px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-    margin-top: 0px;
     padding: 0px;
-    overflow-x: hidden;
+/*    overflow: hidden;*/
 }
 
 h3 {
@@ -91,7 +87,7 @@ h3 {
     background-color: darkblue;
     color: #cc6600;
     width: 100vw;
-    height: 195px;
+    height: 200px;
     padding-top: 65px;
     z-index: 1000;
     position: fixed;
@@ -106,23 +102,29 @@ h3 {
 }
 
 #loginpage input,
-#routebox input {
+#routebox input,
+#buildingsearch {
     margin: 3px;
-    width: 90%;
+    width: 100%;
     background-color: rgba(255,255,255,.3);
     border-color: rgba(255,255,255,.3);
     color: #e6e6e6;
     font-weight: 400;
+    font-size: 14pt;
+}
+
+#buildingsearch {
+    margin: 0px;
 }
 
 #registerbutton,
-#getroute {
+#cancelroute {
     text-align: left;
-    padding-left: 5%;
+    padding-left: 15px;
 }
 
 #registerbutton button,
-#getroute button {
+#cancelroute button {
     font-size: 100%;
     font-weight: 400;
     color: #cc6600;
@@ -130,13 +132,13 @@ h3 {
 }
 
 #loginbutton,
-#cancelroute {
+#getroute {
     text-align: right;
-    padding-right: 5%;
+    padding-right: 15px;
 }
 
 #loginbutton button,
-#cancelroute button {
+#getroute button {
     font-size: 100%;
     font-weight: 400;
     color: #cc6600;
@@ -146,7 +148,7 @@ h3 {
 #loginerror,
 #routeerror {
     background-color: darkblue;
-    height: 50px;
+    height: 70px;
     color: #e6e6e6;
 }
 
@@ -258,18 +260,6 @@ h3 {
 }
 
 /*building list*/
-#buildingsearch {
-    font-size: 14pt;
-    background-color: rgba(255,255,255,.3);
-    border-color: rgba(255,255,255,.3);
-    color: #e6e6e6;
-    font-weight: 400;
-}
-
-.btn-default {
-    background-color: darkblue;
-    border-color: darkblue;
-}
 
 .row#buildinglist {
     margin-left: 0px;
@@ -295,16 +285,15 @@ h3 {
 }
 
 /*bootstrap override*/
-.container {
-    height: 90vh;
+.container,
+.mapcontainer {
+    height: 75vh;
     width: 90vw;
     margin-bottom: 10%;
 }
 
 .mapcontainer {
-    height: 70vh;
-    width: 90vw;
-    margin-bottom: 10%;
+    height: 80vh;
     margin-top: 55px;
 }
 
@@ -314,7 +303,8 @@ h3 {
     font-weight: 200;
 }
 
-.mapmarker {
+.mapmarker,
+.route{
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: darkblue;
@@ -324,28 +314,15 @@ h3 {
 }
 
 .route {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    background-color: darkblue;
-    border-color: darkblue;
-    color: #cc6600;
     font-weight: 400;
     font-size: 90%;
 }
 
-.btn-info {
-    background-color: darkblue;
-    border-color: darkblue;
-    color: #e6e6e6;
-}
-
+.btn-default,
+.btn-info,
 .btn-info:hover,
 .btn:hover,
-.btn-default:hover {
-    background-color: darkblue;
-    border-color: darkblue;
-}
-
+.btn-default:hover,
 .btn-info:active,
 .btn-info:focus,
 .btn:active,
@@ -354,5 +331,5 @@ h3 {
 .btn-default:focus {
     background-color: darkblue;
     border-color: darkblue;
-    color: #cc6600;
+    color: #e6e6e6;
 }
