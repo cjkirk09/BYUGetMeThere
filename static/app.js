@@ -50,9 +50,25 @@
 				},
 				getRoute: function()
 				{
+					var start = $scope.routeInfo.startPoint;
+					var end = $scope.routeInfo.endPoint;
 					//verify that startpoint and endpoint are not empty
-					//infoService.getPath()
-					$scope.routeInfo.errorMessage = "I couldn't get the route yet";
+					if (!start)
+					{
+						$scope.routeInfo.errorMessage = "Please enter a start point, or tap the button to use your current location.";
+					}
+					else if (!end)
+					{
+						$scope.routeInfo.errorMessage = "Please enter an end point.";
+					}
+					else
+					{
+						// the user typed SOMETHING into the start and end point - could be anything.
+						// tell google maps to get me a route:
+						infoService.getPath($scope.routeInfo.startPoint, $scope.routeInfo.endPoint);
+					}
+					
+					// $scope.routeInfo.errorMessage = "I couldn't get the route yet";
 				}
 
 			});

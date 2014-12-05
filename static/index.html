@@ -35,7 +35,7 @@
        function findMyLocation(){
        //window.alert("in findMyLocation");
 /*
-	   var mapProp = {
+       var mapProp = {
                center:x,
                zoom:15,
                mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -49,6 +49,7 @@
        if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
              var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+             console.log("I found the user's position: " + pos);
   
              var infowindow = new google.maps.InfoWindow({
                 map: map,
@@ -58,6 +59,8 @@
   
              map.setCenter(pos);
              map.setZoom(12);
+             // i think this will set the text box to the current location, but i need to upload it to a device to test it
+             $scope.routeInfo.startPoint = pos;
            }, function() {handleNoGeolocation(true);});
        } //closes if
        else {
@@ -162,7 +165,14 @@
     <div class='section' ng-if='state.routeBoxOpen' id='routebox'>
         <div id='routeinput'>
             <div class='row'>
-                <input type='text' ng-model='routeInfo.startPoint' placeholder="Start">
+                <div class='col-xs-10'>
+                    <input type='text' ng-model='routeInfo.startPoint' placeholder="Start" style="width: 100%">
+                </div>
+                <div class='col-xs-2'>
+                    <button class='btn mapmarker' type='button' onclick="findMyLocation()">
+                       <span class='glyphicon glyphicon-map-marker'></span>
+                    </button>
+                </div>
             </div>
             <div class='row'>
                 <input type='text' ng-model='routeInfo.endPoint' placeholder='End'>
