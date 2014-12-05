@@ -84,7 +84,8 @@ h3 {
 }
 
 /*login page*/
-.section#loginpage {
+.section#loginpage,
+.section#routebox {
     font-size: 14pt;
     background-color: darkblue;
     color: #cc6600;
@@ -93,11 +94,18 @@ h3 {
     padding-top: 65px;
     z-index: 1000;
     position: fixed;
+    left: 0;
     top: 0;
+    right: 0;
     text-align: center;
 }
 
-#loginpage input {
+.section#routebox {
+    position: absolute;
+}
+
+#loginpage input,
+#routebox input {
     margin: 3px;
     width: 90%;
     background-color: rgba(255,255,255,.3);
@@ -106,28 +114,39 @@ h3 {
     font-weight: 400;
 }
 
-#registerbutton {
+#registerbutton,
+#getroute {
     text-align: left;
     padding-left: 5%;
 }
 
-#registerbutton button {
+#registerbutton button,
+#getroute button {
     font-size: 100%;
     font-weight: 400;
     color: #cc6600;
     padding-left: 0;
 }
 
-#loginbutton {
+#loginbutton,
+#cancelroute {
     text-align: right;
     padding-right: 5%;
 }
 
-#loginbutton button{
+#loginbutton button,
+#cancelroute button {
     font-size: 100%;
     font-weight: 400;
     color: #cc6600;
     padding-right: 0;
+}
+
+#loginerror,
+#routeerror {
+    background-color: darkblue;
+    height: 50px;
+    color: #e6e6e6;
 }
 
 /*directions page*/
@@ -298,7 +317,9 @@ h3 {
     color: #e6e6e6;
 }
 
-.btn-info:hover {
+.btn-info:hover,
+.btn:hover,
+.btn-default:hover {
     background-color: darkblue;
     border-color: darkblue;
 }
@@ -306,7 +327,9 @@ h3 {
 .btn-info:active,
 .btn-info:focus,
 .btn:active,
-.btn:focus {
+.btn:focus,
+.btn-default:active,
+.btn-default:focus {
     background-color: darkblue;
     border-color: darkblue;
     color: #cc6600;
