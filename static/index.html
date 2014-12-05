@@ -1,10 +1,10 @@
 <!-- web application -->
 
 <!DOCTYPE HTML>
+<title>BYU Get Me There</title>
 <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' href='/static/webapp.css'>
+    <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
+<!--    <link rel='stylesheet' type='text/css' href='/static/webapp.css'>-->
     <link href='http://fonts.googleapis.com/css?family=Dosis:200, 400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href='css/bootstrap.min.css'>
     <link rel='stylesheet' href='custom.css'>
@@ -89,40 +89,54 @@
 
 <body ng-app='ByuGetMeThereApp'>
 <div ng-controller='menuController' >
-        <div class='navbar-fixed-top' id='menubar'>
-            <div class='row'>
-                <div class='col-xs-4' id='menubtn'>
-                    <a ng-click='toggleMenu()' href='#optionspage'>
-                        <span class='glyphicon glyphicon-align-justify'></span>
-                    </a>
-                </div>
-                <div class='col-xs-4' id='logo'><img src="logo.png"></div>
-                <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
+<!-- top menu bar -->
+    <div class='navbar-fixed-top' id='menubar'>
+        <div class='row'>
+            <div class='col-xs-4' id='menubtn'>
+                <a ng-click='toggleMenu()' href='#optionspage'>
+                    <span class='glyphicon glyphicon-align-justify'></span>
+                </a>
             </div>
+            <div class='col-xs-4' id='logo'><img src="logo.png"></div>
+            <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
         </div>
-    
-        <!-- options page -->
-        <!--    will have to make this hide when the options isn't selected-->
-        <div ng-if='state.menuOpen' class='section' id='optionspage'>
-            <div id='options'>
-                <ul class='list-unstyled' id='optionslist'>
-                    <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
-                    <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
-                    <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
-                    <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
-                    <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
-                </ul>
-            </div>
-            <div class='row' id='optionslogo'><img src='optionslogo.png'></div>
-        </div>
-    <div ng-if='state.loginOpen' id='loginPage'>
-        <p>Username:<input type='text' ng-model='state.userInfo.username'></p><br>
-        <p>Password:<input type='text' ng-model='state.userInfo.password'></p><br>
-	<button type='button' ng-click="register()"> Register </button><br>
-	<button type='button' ng-click="login()"> Login </button><br>
- 	<p>{{state.userInfo.errorMessage}}</p><br>
     </div>
-  
+
+<!-- login page -->
+    <div class='section' ng-if='state.loginOpen' id='loginpage'>
+        <div id='logininput'>
+            <div class='row'>
+                <input type='text' ng-model='state.userInfo.username' placeholder="Username">
+            </div>
+            <div class='row'>
+                <input type='password' ng-model='state.userInfo.password' placeholder='Password'>
+            </div>
+        </div>
+        <div class='row' id='loginbuttons'>
+            <div class='col-xs-6' id='registerbutton'>
+                <button type='button' class='btn btn-info' ng-click="register()">Register</button>
+            </div>
+            <div class='col-xs-6' id='loginbutton'>
+                <button type='button' class='btn btn-info' ng-click="login()">Login</button>
+            </div>
+            <div><p>{{state.userInfo.errorMessage}}</p></div>
+        </div>
+    </div>
+    
+    <!-- options page -->
+    <!--    will have to make this hide when the options isn't selected-->
+    <div ng-if='state.menuOpen' class='section' id='optionspage'>
+        <div id='options'>
+            <ul class='list-unstyled' id='optionslist'>
+                <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
+                <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
+                <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
+                <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
+                <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
+            </ul>
+        </div>
+        <div class='row' id='optionslogo'><img src='optionslogo.png'></div>
+    </div>
     
 <!--    directions: map and route options-->
     <div class='section' id='directions'>
@@ -188,10 +202,10 @@
             <div class='row' id='buildinglist'>
                 <div class='col-xs-12'>
                     <div class='input-group'>
-                        <input type='text' class='form-control'>
+                        <input type='text' class='form-control' id='buildingsearch' placeholder='Search'>
                             <span class='input-group-btn'>
                                 <button class='btn btn-default' type='button' onclick="display()">
-                                    <span class='glyphicon glyphicon-search' style="color:#cc6600"></span>
+                                    <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
                                 </button>
                             </span>
                     </div>
@@ -213,7 +227,7 @@
             ETC<br><br>
         </div>
     </div>
-<div>
+</div>
     <script>
         function display(){
             window.alert("in display");
