@@ -1,0 +1,3 @@
+
+GetPath()
+	myJson = "{startCoord: {latitude: 40.249468, 		longitude:-111.650311},endCoord:{latitude:40.248756, longitude:-111.648026},floorPlan: '/static/FloorPlans/WSC/wsc-1wd.pdf', buildingInfo:'HEEEYYY!!!'}"
