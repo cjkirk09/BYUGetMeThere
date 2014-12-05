@@ -75,6 +75,7 @@ h3 {
 }
 
 #login a {
+    cursor: pointer;
 	text-align: right;
     float: right;
     font-size: 150%;
