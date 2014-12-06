@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <title>BYU Get Me There</title>
 <head>
+<?php header('Access-Control-Allow-Origin: *'); ?>
     <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
 <!--    <link rel='stylesheet' type='text/css' href='/static/webapp.css'>-->
     <link href='http://fonts.googleapis.com/css?family=Dosis:200, 400' rel='stylesheet' type='text/css'>
@@ -14,6 +15,8 @@
     <script type="text/javascript">
        var byu=new google.maps.LatLng(40.248770, -111.649273);
        var map;
+       var positionmarker;
+
        function initialize(){
           var mapProp = {
              center:byu,
@@ -35,6 +38,8 @@
        function findMyLocation(){
        //window.alert("in findMyLocation");
 /*
+       if( positionmarker != null )
+           postionmarker.setMap(null);
        var mapProp = {
                center:x,
                zoom:15,
@@ -51,16 +56,17 @@
              var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
              console.log("I found the user's position: " + pos);
   
-             var infowindow = new google.maps.InfoWindow({
-                map: map,
-                position: pos,
-                content: 'You are here'
+             positionmarker = new google.maps.Marker({
+                 map:map,
+                 draggable:false,
+                 animation: google.maps.Animation.DROP,
+                 position: pos
              });
   
              map.setCenter(pos);
              map.setZoom(12);
              // i think this will set the text box to the current location, but i need to upload it to a device to test it
-             $scope.routeInfo.startPoint = pos;
+
            }, function() {handleNoGeolocation(true);});
        } //closes if
        else {
@@ -75,13 +81,13 @@
        } else {
          var content = 'Error: Your browser doesn\'t support geolocation.';
        }
-
-       var options = {
+       
+     /*  var options = {
          map: map,
          position: byu,
          content: content
        };
-  
+  */
        var infowindow = new google.maps.InfoWindow(options);
        map.setCenter(options.position);
        map.setZoom(15);

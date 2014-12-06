@@ -3,7 +3,7 @@
 	app.controller('menuController', [
 		'$scope',
 		'infoService',
-		function($scope)
+		function($scope, infoService)
 		{
 			angular.extend($scope, {
 				state: {
@@ -50,23 +50,13 @@
 				},
 				getRoute: function()
 				{
-					var start = $scope.routeInfo.startPoint;
-					var end = $scope.routeInfo.endPoint;
 					//verify that startpoint and endpoint are not empty
-					if (!start)
-					{
-						$scope.routeInfo.errorMessage = "Please enter a start point, or tap the button to use your current location.";
-					}
-					else if (!end)
-					{
-						$scope.routeInfo.errorMessage = "Please enter an end point.";
-					}
-					else
-					{
-						// the user typed SOMETHING into the start and end point - could be anything.
-						// tell google maps to get me a route:
-						infoService.getPath($scope.routeInfo.startPoint, $scope.routeInfo.endPoint);
-					}
+
+					infoService.getPath().then(function(path){
+						$scope.routeInfo.errorMessage= "building info: " + path.buildingInfo;
+					});
+					
+
 					
 					// $scope.routeInfo.errorMessage = "I couldn't get the route yet";
 				}
@@ -80,19 +70,12 @@
 		return {
 			getPath: function()
 			{
-				return $http.get('http://localhost:3000/posts')
+				return $http.get('http://104.236.182.126/getPath')
 					.then(function(response) {
 						return response.data;
 					});
-			},
-			savePost: function(post)
-			{
-				return $http.put('http://localhost:3000/posts/' + post.id, post);
-			},
-			deletePost: function(post)
-			{
-				return $http.delete('http://localhost:3000/posts/' + post.id);
 			}
+			
 		};
 	}]);
 
