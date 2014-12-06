@@ -1,32 +1,42 @@
 getPath()
 	{
-	  startPlace: "string",
-	  endPlace: "string"
+	  startPlace: "building_id",
+	  endPlace: "building_id"
 	}
 
 	returns
 	{
-	  startCoord: [ lattitude, longitude ],
-	  endCoord: [ lattitude, longitude ],
-	  floorPlan: "url",
-	  buildingInfo:
+	  startCoord: { latitude: number, longitude: number },
+	  endCoord: { latitude: number, longitude: number },
+	  floorPlans: [floor1_url, floor2_url, ...]
+	  buildingInfo: { 
+          ID: building_id
+          name: full_name
+          phone_number: phone_number
+          hours: hours
+      }
 	}
 getCustomPath()
 	{
-	  startCoord: [ lat, long ],
-	  endPlace: "string"
+	  start_latitude: number,
+      start_longitude: number,
+	  endPlace: "building_id" (e.g. TMCB)
 	}
 	returns
 	{
-	  startCoord: { lattitude: number, longitude: number },
-	  endCoord: { lattitude: number, longitude: number },
-	  floorPlan: "url",
-	  buildingInfo:
+	  startCoord: { latitude: number, longitude: number },
+	  endCoord: { latitude: number, longitude: number },
+	  floorPlans: [floor1_url, floor2_url, ...]
+	  buildingInfo: { 
+          ID: building_id
+          name: full_name
+          phone_number: phone_number
+          hours: hours
+      }
 	}
 getSavedPaths()
 	{
 	  username:"username"
-	  password:"password",
 	}
 	returns
 	
@@ -39,7 +49,7 @@ loadPath()
 	}
 	returns
 	{
-	  path: [ coord:{ lattitude: number, longitude: number }, ... , coord:{ lattitude: number, longitude: number } ],
+	  path: [ coord:{ latitude: number, longitude: number }, ... , coord:{ latitude: number, longitude: number } ],
 	  floorPlan: "url",
 	  buildingInfo:
 	}
@@ -50,15 +60,15 @@ loadTour()
 	}
 	returns
 	{
-	  path: [ coord:{ lattitude: number, longitude: number }, ... , coord:{ lattitude: number, longitude: number } ],
-	  places: [ place:{ coord:{ lattitude: number, longitude: number }, name:"string", info:"string", image:"url"(optional) }, ... ]
+	  path: [ coord:{ latitude: number, longitude: number }, ... , coord:{ latitude: number, longitude: number } ],
+	  places: [ place:{ coord:{ latitude: number, longitude: number }, name:"string", info:"string", image:"url"(optional) }, ... ]
 	}
 
 savePath()
 	{
 	  username: "username", //some way to know which user it is
 	  pathname: "string",
-	  points: [ coord:{ lattitude: number, longitude: number }, ... ,coord:{ lattitude: number, longitude: number }, ]
+	  points: [ coord:{ latitude: number, longitude: number }, ... ,coord:{ latitude: number, longitude: number }, ]
 	}
 
 	returns failed or success
@@ -103,5 +113,5 @@ mapSchedule()
 	"no saved schedule" or some other failure message
 	or 
 	{
-	  path: [ coord:{ lattitude: number, longitude: number }, ... , coord:{ lattitude: number, longitude: number } ]
+	  path: [ coord:{ latitude: number, longitude: number }, ... , coord:{ latitude: number, longitude: number } ]
 	}
