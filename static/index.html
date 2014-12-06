@@ -117,10 +117,14 @@
 <div class='section' ng-if='state.loginOpen' id='loginpage'>
     <div id='logininput'>
         <div class='row'>
-            <input type='text' ng-model='userInfo.username' placeholder="Username">
+            <div class='col-xs-12'>
+                <input class='form-control' type='text' ng-model='userInfo.username' placeholder="Username">
+            </div>
         </div>
         <div class='row'>
-            <input type='password' ng-model='userInfo.password' placeholder='Password'>
+            <div class='col-xs-12'>
+                <input class='form-control' type='password' ng-model='userInfo.password' placeholder='Password'>
+            </div>
         </div>
     </div> <!-- end of login input boxes -->
     <div class='row' id='loginbuttons'>
@@ -171,25 +175,29 @@
     <div class='section' ng-if='state.routeBoxOpen' id='routebox'>
         <div id='routeinput'>
             <div class='row'>
-                <div class='col-xs-10'>
-                    <input type='text' ng-model='routeInfo.startPoint' placeholder="Start" style="width: 100%">
-                </div>
-                <div class='col-xs-2'>
-                    <button class='btn mapmarker' type='button' onclick="findMyLocation()">
-                       <span class='glyphicon glyphicon-map-marker'></span>
-                    </button>
+                <div class='col-xs-12'>
+                    <div class='input-group'>
+                        <span class='input-group-btn'>
+                            <button class='btn btn-default' type='button' onclick="findMyLocation()">
+                               <span class='glyphicon glyphicon-map-marker' style='color:#cc6600;font-size:150%'></span>
+                            </button>
+                        </span>
+                        <input class='form-control' type='text' ng-model='routeInfo.startPoint' placeholder="Start">
+                    </div>
                 </div>
             </div>
             <div class='row'>
-                <input type='text' ng-model='routeInfo.endPoint' placeholder='End'>
+                <div class='col-xs-12'>
+                    <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'>
+                </div>
             </div>
         </div> <!-- end of route box input fields -->
         <div class='row' id='routeboxbuttons'>
-            <div class='col-xs-6' id='getroute'>
-                <button type='button' class='btn btn-info' ng-click="getRoute()">Get Route</button>
-            </div>
             <div class='col-xs-6' id='cancelroute'>
                <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
+            </div>
+            <div class='col-xs-6' id='getroute'>
+                <button type='button' class='btn btn-info' ng-click="getRoute()">Get Route</button>
             </div>
         </div> <!-- end of route box buttons -->
         <div class='row' ng-if='routeInfo.errorMessage!=""' id='routeerror'>
@@ -258,18 +266,19 @@
             <div class='col-xs-12'>
                 <div class='input-group'>
                     <input type='text' class='form-control' id='buildingsearch' placeholder='Search'>
-                        <span class='input-group-btn'>
-                            <button class='btn btn-default' type='button' onclick="display()">
-                                <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
-                            </button>
-                        </span>
-                </div>
+                    <span class='input-group-btn'>
+                        <button class='btn btn-default' type='button' onclick="display()">
+                            <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
+                        </button>
+                    </span>
+                </div> 
+            </div>
+        </div> <!-- end of input -->
+        <div class='row' style='margin-top:90px'>
+            <div class='col-xs-12' id='buildinginfo'>
+                THIS IS WHERE THE BUILDING INFO WILL GO
             </div>
         </div>
-        LOREM<br><br>
-        IPSUM<br><br>
-        ETC<br><br>
-        ETC<br><br>
     </div>
 </div>
 
