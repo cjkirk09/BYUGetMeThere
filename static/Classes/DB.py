@@ -35,13 +35,13 @@ class DB:
         
         #Build path object to pass back
         path = Path()
-        path.startCoord = startCoord
-        path.endCoord = endCoord
+        path.startCoord = startCoord.__dict__
+        path.endCoord = endCoord.__dict__
         path.floorPlans = floorPlans
-        path.buildingInfo = building
+        path.buildingInfo = building.__dict__
         
-        return str(path)
-            
+        return path.__dict__
+                  
     @staticmethod    
     def getClosestCoords(start_coords, end_coords):
         least = float("inf")
