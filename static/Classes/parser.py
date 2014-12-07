@@ -38,12 +38,12 @@ class Parser(object):
 
 	def loginJSON(self,requestAsJson):
 		try:
-			if(DB.verifyLogin(requestAsJson['username'],requestAsJson['password'])):
+			if(DB.verifyUser(requestAsJson['username'],requestAsJson['password'])):
 				toReturn = "True"
 			else:
 				toReturn = "False"
 		except Exception, e:
-			toReturn = Parser.error(str(e))
+			toReturn = json.dumps(Parser.error(str(e)))
 
 		return toReturn
 
