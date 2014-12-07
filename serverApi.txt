@@ -34,80 +34,75 @@ getCustomPath()
           hours: hours
       }
 	}
-getSavedPaths()
+getSavedSchedules()
 	{
 	  username:"username"
 	}
-	returns
+	return
+    {
+      paths: [path1, path2...]
+    }
 	
 
-loadPath()
+loadSchedule()
+	{
+	  username: "string",
+	  schedule_name: "string" 
+	}
+	returns
+	{
+	  path: [ course:{ ... }, ... , course:{ ... } ],
+	  floorPlan: "url", ??
+	  buildingInfo: ??
+	}
+    
+saveSchedule()
 	{
 	  username:"username",
-	  password:"password",
-	  pathname: "pathname" 
+	  classes: [,,]
 	}
-	returns
-	{
-	  path: [ coord:{ latitude: number, longitude: number }, ... , coord:{ latitude: number, longitude: number } ],
-	  floorPlan: "url",
-	  buildingInfo:
-	}
+	returns "failed" or "success"
 
-loadTour()
-	{
-	  tourname: "name"
-	}
-	returns
-	{
-	  path: [ coord:{ latitude: number, longitude: number }, ... , coord:{ latitude: number, longitude: number } ],
-	  places: [ place:{ coord:{ latitude: number, longitude: number }, name:"string", info:"string", image:"url"(optional) }, ... ]
-	}
+#loadTour will happen by calling loadPath with "tour_guide" as username
 
-savePath()
-	{
-	  username: "username", //some way to know which user it is
-	  pathname: "string",
-	  points: [ coord:{ latitude: number, longitude: number }, ... ,coord:{ latitude: number, longitude: number }, ]
-	}
+getBuildingInfo()
+    {
+      building_id: "building_id"
+    }
+    
+    returns {
+      building_id: "building_id"
+      name: "name"
+      phone_number: "phone_number"
+      hours: "hours"
+    }
 
-	returns failed or success
+verifyUser()
+    {
+      username: "username"
+      password: "password"
+    }
+    
+    returns boolean
 
-getBuildingInfo() //possibly
-
-initialize() // launches when the app starts up
-
-	returns
-	all the needed start up info, and a way of telling when the database was last updated
-		this allows the app to only update the info if it is out of date
-
-register() && login()
+createUser()
 	{
 	  username: "username",
 	  password: "password"
 	}
 
-	returns something that is useful
+	returns ??
 
-getMapKey() //might not be necessary if already in the html page 
+getMapKey() //might not be necessary if already in the html page  ??
 
 	returns
 	{
 	  mapKey: "key" 
-	}
-
-saveSchedule()
-	{
-	  username:"username",
-	  password:"password",
-	  classes: [,,]
-	}
-	returns "failed" or "success" 
+	} 
 
 mapSchedule()
 	{
-	  username:"username"
-	  password:"password",
+      courses: [course1, course2, ...]
 	}
 	returns 
 	"no saved schedule" or some other failure message
