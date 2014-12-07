@@ -12,7 +12,7 @@ class DB:
     def getPath(start_place, end_place):
         #Get all coordinates in the database for our start_place
         start_coordinates = Coordinate.getAllForBuilding(start_place)
-        if len(start_coordinates) == 0:
+        if len(stadrt_coordinates) == 0:
             raise Exception(start_place + " is not a building in our database")
             
         #Get all coordinate in the database for our end place
@@ -86,31 +86,46 @@ class DB:
         
         #Build path object to pass back
         path = Path()
-        path.startCoord = startCoord
-        path.endCoord = endCoord
+        path.startCoord = startCoord.__dict__
+        path.endCoord = endCoord.__dict__
         path.floorPlans = floorPlans
-        path.buildingInfo = building
+        path.buildingInfo = building.__dict__
 
-        return str(path)
+        return path.__dict__
     
     @staticmethod
-    def getSavedPaths(username, password):
-        pass
+    def getSavedSchedules(username):
+        schedules = Schedule.getAllForUser(username)
+        
+        saved_schedules = []
+        for schedule in schedules
+            #have to return the course objects as well
+            saved_schedules.append(schedule.__dict__)
+        
+        return saved_schedules
         
     @staticmethod
-    def loadPath(username, pathname):
-        pass
+    def loadSchedule(username, schedule_name):
+        schedule = Schedule.loadFromCombinedKey(username, schedule_name)
+        #have to return the course objects as well
+        return schedule.__dict__
         
     @staticmethod
-    def loadTour(tourname):
-        pass
-        
-    @staticmethod
-    def savePath(username, pathname, points):
-        pass
+    def savePath(username, schedule_name, courses):
+        for course in courses
+            schedule = Schedule()
+            schedule.username = username
+            schedule.schedule_name = schedule_name
+            #have to find out what they're passing me here in order to parse it...
+            
+    
+    def getBuildingInfo(building_id):
+        building = Building()
+        building.loadFromID(building_id)
+        return building.__dict__
     
     @staticmethod
-    def verifyLogin(username, password):
+    def verifyUser(username, password):
         user = User()
         user.loadFromID(username)
         
@@ -118,6 +133,8 @@ class DB:
             return True
         else:
             return False
+            
+    def createUser
     
     
         

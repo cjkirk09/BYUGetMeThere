@@ -2,7 +2,7 @@ import MySQLdb
 
 class Query:
     def __init__(self):
-        self.db = MySQLdb.connect(host="104.236.182.126", user="root", passwd="google41", db="BYU")
+        self.db = MySQLdb.connect(host="localhost", user="root", passwd="ericsmith1", db="BYU")
         self.cur = self.db.cursor()
 
     @staticmethod
