@@ -13,13 +13,15 @@ if __name__ == "__main__":
     print DB.getCustomPath(200.02, 300.41, "TMCB")
     
     #verifyUser/createUser
-    assert DB.verifyUser('romrell4','test_password') == False
+    SQL = "delete from BYU.USERS where username = 'test_user'"
+    Query.execute(SQL)
+    assert DB.verifyUser('test_user','test_password') == False
     print "Passed with non-existant user"
-    assert DB.createUser('romrell4','test_password')
+    assert DB.createUser('test_user','test_password')
     print "Passed adding a user"
     assert DB.verifyUser('test_user','test_password')
     print "Passed with existant user"
-    assert DB.createUser('romrell4', 'another_password')
+    assert DB.createUser('test_user', 'another_password') == False
     print "Passed with duplicate user"
     SQL = "delete from BYU.USERS where username = 'test_user'"
     Query.execute(SQL)
