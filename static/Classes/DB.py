@@ -5,6 +5,7 @@ from Building import Building
 from Coordinate import Coordinate
 from Floor import Floor
 from Path import Path
+from Schedule import Schedule
 from User import User
 
 class DB:

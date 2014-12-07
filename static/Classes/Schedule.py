@@ -14,8 +14,8 @@ class Schedule:
             return
         return self.loadFromResult(result)
         
-    def loadFromCombinedKey(self, username, schedule_name)
-        result = Query.getOneResult("select * from BYU.SCHEDULES where USERNAME = '" + username + "' and SCHEDULE_NAME = '" + schedule_name + "'"
+    def loadFromCombinedKey(self, username, schedule_name):
+        result = Query.getOneResult("select * from BYU.SCHEDULES where USERNAME = '" + username + "' and SCHEDULE_NAME = '" + schedule_name + "'")
         if result is None:
             return
         return self.loadFromResult(result)
