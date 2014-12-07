@@ -4,11 +4,7 @@ from flask import request
 from flask import send_from_directory
 
 import json
-
-import sys
-sys.path.insert(0, '/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/')
-
-from parser import Parser
+from connectToDb import DB
 
 app = Flask(__name__)
 
@@ -20,14 +16,30 @@ def getFiles(thePath):
 	return send_from_directory('/static/',thePath)
 @app.route("/getPath", methods=['GET','POST'])
 def getPath():
-	myParser = Parser()
-	return myParser.getPathJSON(request.get_json())
-
+	#JSON gets startPlace: "string", endPlace: "string"
+	#returns 
+	#  startCoord: [ lattitude, longitude ],
+	#  endCoord: [ lattitude, longitude ],
+	#  floorPlan: "url",
+	#  buildingInfo:
+	#if request.method == 'GET':
+	#	return "getPath"
+	#if request.method == 'POST':
+	#myJson = request.get_json()
+	test = {'startCoord': {'latitude': 40.249468, 'longitude':-111.650311},'endCoord':{'latitude':40.248756, 'longitude':-111.648026},'floorPlan': '/static/FloorPlans/WSC/wsc-1wd.pdf', 'buildingInfo':'HEEEYYY!!!'}
+	myJson = json.dumps(test,sort_keys=True,indent = 4)
+	return flask.jsonify(test)
+	#else:
+	#	return 'error'
 @app.route("/getCustomPath")
 def getCustomPath():
-	myParser = Parser()
-	return myParser.getCustomPathJSON(request.get_json())
-
+	#JSON startCood: [lat,long], endplace: "string"
+	#returns 
+	#  startCoord: [ lattitude, longitude ],
+	#  endCoord: [ lattitude, longitude ],
+	#  floorPlan: "url",
+	#  buildingInfo:
+	return "CustomPath"
 @app.route("/getSavedPaths")
 def getSavedPaths():
 	#  username:"username",
@@ -79,8 +91,7 @@ def login():
 	# username: "username"
 	# password: "password"
 	# returns successful or not
-	myParser = Parser()
-	return myParser.loginJSON(request.get_json())
+	return "login"
 @app.route("/getMapKey")
 def getMapKey():
 	#returns mapKey: "key"
