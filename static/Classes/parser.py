@@ -20,8 +20,8 @@ class Parser(object):
 		
 		try:
 			toReturn = DB.getPath(startPlace,endPlace)
-		except:
-			toReturn = error("error")
+		except Exception, e:
+			toReturn = Parser.error(str(e))
 
 		return json.dumps(toReturn) 
 		#db = fakeDB()
@@ -31,8 +31,8 @@ class Parser(object):
 			startLat = requestAsJson['start_latitude']
 			startLon = requestAsJson['start_longitude']
 			toReturn = DB.getCustomPath(startLat,startLon,requestAsJson['endPlace'])
-		except:
-			toReturn = error("error")
+		except Exception, e:
+			toReturn = Parser.error(str(e))
 
 		return json.dumps(toReturn)
 
@@ -42,8 +42,8 @@ class Parser(object):
 				toReturn = "True"
 			else:
 				toReturn = "False"
-		except:
-			toReturn = error("error")
+		except Exception, e:
+			toReturn = Parser.error(str(e))
 
 		return toReturn
 
