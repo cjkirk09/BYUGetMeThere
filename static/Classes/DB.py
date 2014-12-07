@@ -99,7 +99,9 @@ class DB:
         
         saved_schedules = []
         for schedule in schedules
-            #have to return the course objects as well
+            course = Course()
+            course.loadFromID(schedule.course_id)
+            schedule.course = course.__dict__
             saved_schedules.append(schedule.__dict__)
         
         return saved_schedules
@@ -107,7 +109,9 @@ class DB:
     @staticmethod
     def loadSchedule(username, schedule_name):
         schedule = Schedule.loadFromCombinedKey(username, schedule_name)
-        #have to return the course objects as well
+        course = Course()
+        course.loadFromID(schedule.course_id)
+        schedule.course = course.__dict__
         return schedule.__dict__
         
     @staticmethod
@@ -116,9 +120,13 @@ class DB:
             schedule = Schedule()
             schedule.username = username
             schedule.schedule_name = schedule_name
+            schedule.course = course
+            
+            course.save()
+            schedule.save()
             #have to find out what they're passing me here in order to parse it...
             
-    
+    @staticmethod
     def getBuildingInfo(building_id):
         building = Building()
         building.loadFromID(building_id)
@@ -133,12 +141,17 @@ class DB:
             return True
         else:
             return False
-            
+    
+    @staticmethod        
     def createUser(username, password):
         user = User()
+        user.loadFromID(username)
+        if user.in_DB:
+            return False
         user.username = username
         user.password = password
         user.save()
+        return True
     
     
         
