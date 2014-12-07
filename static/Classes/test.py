@@ -17,7 +17,7 @@ if __name__ == "__main__":
     print "Passed with non-existant user"
     assert DB.createUser('romrell4','test_password')
     print "Passed adding a user"
-    assert DB.verifyLogin('test_user','test_password')
+    assert DB.verifyUser('test_user','test_password')
     print "Passed with existant user"
     assert DB.createUser('romrell4', 'another_password')
     print "Passed with duplicate user"

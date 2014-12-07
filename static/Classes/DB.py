@@ -12,7 +12,7 @@ class DB:
     def getPath(start_place, end_place):
         #Get all coordinates in the database for our start_place
         start_coordinates = Coordinate.getAllForBuilding(start_place)
-        if len(stadrt_coordinates) == 0:
+        if len(start_coordinates) == 0:
             raise Exception(start_place + " is not a building in our database")
             
         #Get all coordinate in the database for our end place
@@ -98,7 +98,7 @@ class DB:
         schedules = Schedule.getAllForUser(username)
         
         saved_schedules = []
-        for schedule in schedules
+        for schedule in schedules:
             course = Course()
             course.loadFromID(schedule.course_id)
             schedule.course = course.__dict__
@@ -116,7 +116,7 @@ class DB:
         
     @staticmethod
     def savePath(username, schedule_name, courses):
-        for course in courses
+        for course in courses:
             schedule = Schedule()
             schedule.username = username
             schedule.schedule_name = schedule_name
