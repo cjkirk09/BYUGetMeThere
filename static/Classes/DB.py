@@ -134,7 +134,11 @@ class DB:
         else:
             return False
             
-    def createUser
+    def createUser(username, password):
+        user = User()
+        user.username = username
+        user.password = password
+        user.save()
     
     
         
