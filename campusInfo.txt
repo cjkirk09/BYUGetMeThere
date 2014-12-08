@@ -1,10 +1,12 @@
+BYU Home Page: http://home.byu.edu/home/
 Contact BYU: http://home.byu.edu/home/contact/
 Lost and Found: https://lostandfound.byu.edu/content/lost-and-found-contact-information
-Information Desk: https://wscinfodesk.byu.edu/
+WSC Information Desk: https://wscinfodesk.byu.edu/
 ID Center: https://idcenter.byu.edu/
-Counseling Center: https://caps.byu.edu/paperwork
-CougarEat hours: http://dining.byu.edu/cougareat/hours.html
-ByuArts: http://arts.byu.edu/
+BYU Counseling Center: https://caps.byu.edu/paperwork
+University Advisement: https://universityadvisement.byu.edu/
+Career Services: https://ucs.byu.edu/
+CougarEat: http://dining.byu.edu/cougareat/hours.html
 
 Colleges and Departments:
     Business (Marriott School of Management)
@@ -43,7 +45,7 @@ Colleges and Departments:
     Nursing
         http://nursing.byu.edu/academics/UnderGrad/advisement.aspx
         
-    CPMS
+    Physical and Mathematical Sciences
         http://cpms.byu.edu/current-students/advisement-center/
         
     Religious Education
