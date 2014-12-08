@@ -23,6 +23,7 @@
 					errorMessage: "ERROR MESSAGE WILL GO HERE"
 				},
                 buildingInfo: {
+                    echo_search: "",
                     current: "",
                     name: "BUILDING NAME",
                     phone: "801-555-1234",
@@ -84,9 +85,10 @@
 				},
                 getBuildingInfo: function() 
                 {
-                    var search = $scope.buildingInfo.current;
+                    var searchedBuilding = $scope.buildingInfo.current;
+                    buildingInfo.echo_search = searchedBuilding;
                     // get building info from server 
-                    infoService.getBuilding(search).then(function(building){
+                    infoService.getBuilding(searchedBuilding).then(function(building){
                         buildingInfo.name = building.name;
                         buildingInfo.phone = building.phone_number;
                         buildingInfo.hours = building.hours;   
@@ -109,6 +111,16 @@
 			}
 			
 		};
+        return {
+            getBuilding: function(searchedBuilding)
+            {
+                return $http.get('http://104.236.182.126/getBuildingInfo', searchedBuilding)
+                    .then(function(response) {
+                        return response.data;    
+                    });
+                    
+            }
+        };
 	}]);
 
 })(angular.module('ByuGetMeThereApp', []));

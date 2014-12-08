@@ -66,8 +66,8 @@ h3 {
 }
 
 #optionslogo img {
-	height: 75%;
-	width: 75%;
+	height: auto;
+	width: 33vh;
 }
 
 #login a {
@@ -357,4 +357,9 @@ h3 {
 #campus ul {
     overflow-y: scroll;
     height: 300%;
+}
+
+#aboutpic {
+    width: 15vh;
+    height: auto;
 }
