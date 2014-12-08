@@ -3,7 +3,6 @@
 <!DOCTYPE HTML>
 <title>BYU Get Me There</title>
 <head>
-<?php header('Access-Control-Allow-Origin: *'); ?>
     <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
 <!--    <link rel='stylesheet' type='text/css' href='/static/webapp.css'>-->
     <link href='http://fonts.googleapis.com/css?family=Dosis:200, 400' rel='stylesheet' type='text/css'>
@@ -16,8 +15,11 @@
        var byu=new google.maps.LatLng(40.248770, -111.649273);
        var map;
        var positionmarker;
+       var directionsDisplay;
+       var directionsService = new google.maps.DirectionsService();
 
        function initialize(){
+          directionsDisplay = new google.maps.DirectionsRenderer();
           var mapProp = {
              center:byu,
              zoom:15,
@@ -29,27 +31,13 @@
           };
   
           map=new google.maps.Map(document.getElementById('map'),mapProp);
+          directionsDisplay.setMap(map);
        }
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see a blank space instead of the map, this
-// is probably because you have denied permission for location sharing.
 
   // Try HTML5 geolocation
        function findMyLocation(){
        //window.alert("in findMyLocation");
-/*
-       if( positionmarker != null )
-           postionmarker.setMap(null);
-       var mapProp = {
-               center:x,
-               zoom:15,
-               mapTypeId: google.maps.MapTypeId.ROADMAP,
-               zoomControlOptions:{
-                  style: google.maps.ZoomControlStyle.DEFAULT,
-                  position: google.maps.ControlPosition.LEFT_CENTER
-               }
-            };
-       map=new google.maps.Map(document.getElementById('map'),mapProp);*/
+
 
        if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
@@ -92,6 +80,36 @@
        map.setCenter(options.position);
        map.setZoom(15);
      }
+
+     function getRoute(scope){
+        scope.getRoute();
+	scope.$apply();
+	if( scope.routeInfo.errorMessage == "" ){
+            scope.toggleRouteBox();
+            scope.$apply();
+            var path = scope.routeInfo.path;
+            var start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
+            var end = new google.maps.LatLng(path[path.length-1].latitude, path[path.length-1].longitude);
+            var waypts = [];
+            if( path.length >2 ){
+                for( var i=1; i < path.length-1; i++ ){
+                    waypts.push( { location: new google.maps.LatLng(path[i].latitude, path[i].longitude), stopover:true});
+                }
+            }
+            var request = {
+                origin: start,
+                destination: end,
+                waypoints: waypts,
+                optimizeWaypoints: false,
+                travelMode: google.maps.TravelMode.WALKING
+            };
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+        }
+     }
      
      google.maps.event.addDomListener(window, 'load', initialize);
    
@@ -99,7 +117,7 @@
 </head>
 
 <body ng-app='ByuGetMeThereApp'>
-<div ng-controller='menuController' >
+<div ng-controller='menuController' id="controller">
 <!-- top menu bar -->
 <div class='navbar-fixed-top' id='menubar'>
     <div class='row'>
@@ -117,14 +135,10 @@
 <div class='section' ng-if='state.loginOpen' id='loginpage'>
     <div id='logininput'>
         <div class='row'>
-            <div class='col-xs-12'>
-                <input class='form-control' type='text' ng-model='userInfo.username' placeholder="Username">
-            </div>
+            <input type='text' ng-model='userInfo.username' placeholder="Username">
         </div>
         <div class='row'>
-            <div class='col-xs-12'>
-                <input class='form-control' type='password' ng-model='userInfo.password' placeholder='Password'>
-            </div>
+            <input type='password' ng-model='userInfo.password' placeholder='Password'>
         </div>
     </div> <!-- end of login input boxes -->
     <div class='row' id='loginbuttons'>
@@ -175,29 +189,25 @@
     <div class='section' ng-if='state.routeBoxOpen' id='routebox'>
         <div id='routeinput'>
             <div class='row'>
-                <div class='col-xs-12'>
-                    <div class='input-group'>
-                        <span class='input-group-btn'>
-                            <button class='btn btn-default' type='button' onclick="findMyLocation()">
-                               <span class='glyphicon glyphicon-map-marker' style='color:#cc6600;font-size:150%'></span>
-                            </button>
-                        </span>
-                        <input class='form-control' type='text' ng-model='routeInfo.startPoint' placeholder="Start">
-                    </div>
+                <div class='col-xs-10'>
+                    <input type='text' ng-model='routeInfo.startPoint' placeholder="Start" style="width: 100%">
+                </div>
+                <div class='col-xs-2'>
+                    <button class='btn mapmarker' type='button' onclick="findMyLocation()">
+                       <span class='glyphicon glyphicon-map-marker'></span>
+                    </button>
                 </div>
             </div>
             <div class='row'>
-                <div class='col-xs-12'>
-                    <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'>
-                </div>
+                <input type='text' ng-model='routeInfo.endPoint' placeholder='End'>
             </div>
         </div> <!-- end of route box input fields -->
         <div class='row' id='routeboxbuttons'>
+            <div class='col-xs-6' id='getroute'>
+                <button type='button' class='btn btn-info' onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
+            </div>
             <div class='col-xs-6' id='cancelroute'>
                <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
-            </div>
-            <div class='col-xs-6' id='getroute'>
-                <button type='button' class='btn btn-info' ng-click="getRoute()">Get Route</button>
             </div>
         </div> <!-- end of route box buttons -->
         <div class='row' ng-if='routeInfo.errorMessage!=""' id='routeerror'>
@@ -266,19 +276,18 @@
             <div class='col-xs-12'>
                 <div class='input-group'>
                     <input type='text' class='form-control' id='buildingsearch' placeholder='Search'>
-                    <span class='input-group-btn'>
-                        <button class='btn btn-default' type='button' onclick="display()">
-                            <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
-                        </button>
-                    </span>
-                </div> 
-            </div>
-        </div> <!-- end of input -->
-        <div class='row' style='margin-top:90px'>
-            <div class='col-xs-12' id='buildinginfo'>
-                THIS IS WHERE THE BUILDING INFO WILL GO
+                        <span class='input-group-btn'>
+                            <button class='btn btn-default' type='button' onclick="display()">
+                                <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
+                            </button>
+                        </span>
+                </div>
             </div>
         </div>
+        LOREM<br><br>
+        IPSUM<br><br>
+        ETC<br><br>
+        ETC<br><br>
     </div>
 </div>
 
