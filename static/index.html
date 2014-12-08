@@ -137,10 +137,12 @@
 <div class='section' ng-if='state.loginOpen' id='loginpage'>
     <div id='logininput'>
         <div class='row'>
-            <input type='text' ng-model='userInfo.username' placeholder="Username">
+            <div class='col-xs-12'><input class='form-control' type='text' 
+                                          ng-model='userInfo.username' placeholder="Username"></div>
         </div>
         <div class='row'>
-            <input type='password' ng-model='userInfo.password' placeholder='Password'>
+            <div class='col-xs-12'><input class='form-control' type='password' 
+                                          ng-model='userInfo.password' placeholder='Password'></div>
         </div>
     </div> <!-- end of login input boxes -->
     <div class='row' id='loginbuttons'>
@@ -191,25 +193,42 @@
     <div class='section' ng-if='state.routeBoxOpen' id='routebox'>
         <div id='routeinput'>
             <div class='row'>
+                <div class='col-xs-12'>
+                    <div class='input-group'>
+                        <span class='input-group-btn'>
+                            <button class='btn btn-default' type='button' onclick="findMyLocation()">
+                               <span class='glyphicon glyphicon-map-marker' style='color:#cc6600;font-size:150%'></span>
+                            </button>
+                        </span>
+                        <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
+                               placeholder="Start">
+                    </div>
+                </div>
+            </div>
+<!--
                 <div class='col-xs-10'>
-                    <input type='text' ng-model='routeInfo.startPoint' placeholder="Start" style="width: 100%">
+                    <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
+                           placeholder="Start">
                 </div>
                 <div class='col-xs-2'>
                     <button class='btn mapmarker' type='button' onclick="findMyLocation()">
                        <span class='glyphicon glyphicon-map-marker'></span>
                     </button>
                 </div>
-            </div>
+-->
             <div class='row'>
-                <input type='text' ng-model='routeInfo.endPoint' placeholder='End'>
+                <div class='col-xs-12'>
+                    <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'>
+                </div>
             </div>
         </div> <!-- end of route box input fields -->
         <div class='row' id='routeboxbuttons'>
-            <div class='col-xs-6' id='getroute'>
-                <button type='button' class='btn btn-info' onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
-            </div>
             <div class='col-xs-6' id='cancelroute'>
                <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
+            </div>
+            <div class='col-xs-6' id='getroute'>
+                <button type='button' class='btn btn-info'
+                        onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
             </div>
         </div> <!-- end of route box buttons -->
         <div class='row' ng-if='routeInfo.errorMessage!=""' id='routeerror'>
@@ -438,29 +457,36 @@
         <div class='row' id='buildinglist'>
             <div class='col-xs-12'>
                 <div class='input-group'>
-                    <input type='text' class='form-control' id='buildingsearch' placeholder='Search'>
+                    <input type='text' class='form-control' ng-model='buildingInfo.current' 
+                           id='buildingsearch' placeholder='Search'>
                         <span class='input-group-btn'>
-                            <button class='btn btn-default' type='button' onclick="display()">
+                            <button class='btn btn-default' type='button' onclick="displayBuilding()">
                                 <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
                             </button>
                         </span>
                 </div>
             </div>
+        </div> <!-- end of search -->
+        <div class='row' style='padding-top: 70px'>
+            <div class='col-xs-12' style='text-align:center;font-size:200%'>
+                Current: {{buildingInfo.current}} <br>
+                Building: {{buildingInfo.name}} <br>
+                Phone-number: {{buildingInfo.phone}} <br>
+                Hours: {{buildingInfo.hours}} <br>
+            </div>
         </div>
-        LOREM<br><br>
-        IPSUM<br><br>
-        ETC<br><br>
-        ETC<br><br>
     </div>
 </div>
 
 <div class='section' id='about'>
     <div class='container'>
         <h3>About Us</h3>
-        LOREM<br><br>
-        IPSUM<br><br>
-        ETC<br><br>
-        ETC<br><br>
+        <div class='row' style='font-size:150%'>
+            <p> In the fall of 2014, five BYU students took an Internet Programming class. 
+                They struggled through multiple labs, awaiting the day that they could create 
+                their own Web Application for the world. Finally that day came. 
+            </p>
+        </div>
     </div>
 </div>
 </div>

@@ -22,6 +22,12 @@
 					path: [], 
 					errorMessage: "ERROR MESSAGE WILL GO HERE"
 				},
+                buildingInfo: {
+                    current: "",
+                    name: "BUILDING NAME",
+                    phone: "801-555-1234",
+                    hours: "12:00am-12:00pm"
+                },
 				toggleMenu: function()
 				{
 					$scope.state.menuOpen = !$scope.state.menuOpen;	
@@ -56,7 +62,7 @@
 						$scope.routeInfo.errorMessage = "Please enter a starting point";
 					}
 					else if ( $scope.routeInfo.endPoint =="" ){
-						$scope.routeInfo.errorMessage = "Please enter a ending point";	
+						$scope.routeInfo.errorMessage = "Please enter an ending point";	
 					}
 					else{
 						//convert the entered info to the building abbreviations
@@ -75,7 +81,17 @@
 					//$scope.routeInfo.path[3] = {latitude:40.249092, longitude:-111.653519};
 					//$scope.routeInfo.errorMessage = "";		
 					// $scope.routeInfo.errorMessage = "I couldn't get the route yet";
-				}
+				},
+                getBuildingInfo: function() 
+                {
+                    var search = $scope.buildingInfo.current;
+                    // get building info from server 
+                    infoService.getBuilding(search).then(function(building){
+                        buildingInfo.name = building.name;
+                        buildingInfo.phone = building.phone_number;
+                        buildingInfo.hours = building.hours;   
+                    });
+                }
 
 			});
 		}
