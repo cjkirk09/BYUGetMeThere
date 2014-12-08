@@ -1,41 +1,33 @@
+from flask import *
 from flask import Flask
 from flask import request
 from flask import send_from_directory
+
+import json
+
+import sys
+sys.path.insert(0, '/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/')
+
+from parser import Parser
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-	return send_from_directory("/var/www/BYUGetMeThereTest/AppFolder/static","index.html")
-//index.html is now in a different folder. is now in the public folder
-
+	return send_from_directory("/var/www/BYUGetMeThereTest/BYUGetMeThere/static","index.html")
 @app.route("/static/<path:thePath>")
 def getFiles(thePath):
 	return send_from_directory('/static/',thePath)
 @app.route("/getPath", methods=['GET','POST'])
 def getPath():
-	#JSON gets startPlace: "string", endPlace: "string"
-	#returns 
-	#  startCoord: [ lattitude, longitude ],
-	#  endCoord: [ lattitude, longitude ],
-	#  floorPlan: "url",
-	#  buildingInfo:
-	if request.method == 'GET':
-		return "getPath"
-	if request.method == 'POST':
-		myJson = request.get_json()
-		return str(myJson['myusername'])
-	else:
-		return 'error'
+	myParser = Parser()
+	return myParser.getPathJSON(request.get_json())
+
 @app.route("/getCustomPath")
 def getCustomPath():
-	#JSON startCood: [lat,long], endplace: "string"
-	#returns 
-	#  startCoord: [ lattitude, longitude ],
-	#  endCoord: [ lattitude, longitude ],
-	#  floorPlan: "url",
-	#  buildingInfo:
-	return "CustomPath"
+	myParser = Parser()
+	return myParser.getCustomPathJSON(request.get_json())
+
 @app.route("/getSavedPaths")
 def getSavedPaths():
 	#  username:"username",
@@ -74,20 +66,21 @@ def getBuildingInfo():
 def initialize():
 	# same as "/" route. initial page seen by user
 	return "init"
-@app.route("/register")
-def register():
+@app.route("/regester")
+def regester():
 	# username: "username"
 	# password: "password"
 	# checks to see if user name already taken
 	# then logs in
 	# returns successful or not 
-	return "register"
+	return "regester"
 @app.route("/login")
 def login():
 	# username: "username"
 	# password: "password"
 	# returns successful or not
-	return "login"
+	myParser = Parser()
+	return myParser.loginJSON(request.get_json())
 @app.route("/getMapKey")
 def getMapKey():
 	#returns mapKey: "key"
@@ -110,7 +103,9 @@ def mapSchedule():
 	return "map my schedule"
 @app.route("/user/<input>")
 def user(input):
-	return "This is your user name: " + str(input)
-
+	#return "This is your user name: " + str(input)
+	mydb = DB()
+	return mydb.getBuildings()	
+	
 if __name__ == "__main__":
 	app.run()
