@@ -9,6 +9,8 @@
     <link href='http://fonts.googleapis.com/css?family=Dosis:200, 400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href='css/bootstrap.min.css'>
     <link rel='stylesheet' href='custom.css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
     <script src="app.js"></script>
@@ -146,7 +148,7 @@
         <ul class='list-unstyled' id='optionslist'>
             <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
             <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
-            <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
+            <li><a ng-click='toggleMenu()' href='#campus'>Campus Links</a></li>
             <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
             <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
         </ul>
@@ -251,9 +253,171 @@
 
 <div class='section' id='campus'>
     <div class='container'>
-        <h3>Campus Info</h3>
-        <div class='row' id='campus-links' style='text-align:center'>
-            <a class='col-xs-12' href='http://home.byu.edu/home/contact/'>Contact BYU<span class='glyphicon glyphicon-arrow-right' style='color:#cc6600;padding:2px'></span></a>
+        <h3>Campus Links</h3>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                BYU Home Page
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='http://home.byu.edu/home/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                Contact BYU
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='http://home.byu.edu/home/contact/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                Lost and Found
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://lostandfound.byu.edu/content/lost-and-found-contact-information'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                WSC Information Desk
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://wscinfodesk.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                ID Center
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://idcenter.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                BYU Counseling Center
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://caps.byu.edu/paperwork'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                University Advisement
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://universityadvisement.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                Career Services
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://ucs.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                CougarEat
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='http://dining.byu.edu/cougareat/hours.html'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row' style='padding-top:10px'>
+            <div class='col-md-4'></div>
+            <div class='col-xs-12 col-md-4'>
+                <div class='dropdown' style='text-align:center'>
+                    <button class='btn btn-default dropdown-toggle' type='button' 
+                            id='campus-dropdown' data-toggle='dropdown' aria-expanded='true' style='width:100%'>
+                        Campus Advisement Centers
+                        <span class='caret'></span>
+                    </button>
+                    <ul class='dropdown-menu' role='menu' aria-labelledby='campus-dropdown' style='width:100%'>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://marriottschool.byu.edu/advisement/advisement/contact'>
+                            Business (Marriott School of Management)</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://ce.byu.edu/home/contact.php'>
+                            Continuing Education</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://education.byu.edu/ess'>
+                            David O. McKay School of Education</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://www.et.byu.edu/advisement/contact-us'>
+                            Ira A. Fulton School of Engineering and Technology</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='https://fhssadv.byu.edu/Pages/ContactInfo.aspx'>
+                           Family, Home and Social Sciences</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://cfac.byu.edu/advise/'>
+                           Fine Arts and Communication</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://graduatestudies.byu.edu/'>
+                           Graduate Studies</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://hplustest.weebly.com/contact-us.html'>
+                            Humanities</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://kennedy.byu.edu/advisement/index.php'>
+                            David M. Kennedy Center for International Studies</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://www.law2.byu.edu/site/current-students/advisement'>
+                            J. Reuben Clark Law School</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://lifesciences.byu.edu/studentservices/'>
+                            Life Sciences</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://nursing.byu.edu/academics/UnderGrad/advisement.aspx'>
+                            Nursing</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://cpms.byu.edu/current-students/advisement-center/'>
+                            Physical and Mathematical Sciences</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://religion.byu.edu/'>
+                            Religious Education</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://ge.byu.edu/'>
+                            Undergraduate Education</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class='col-md-4'></div>
         </div>
     </div>
 </div>
