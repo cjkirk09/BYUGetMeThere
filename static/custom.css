@@ -318,6 +318,14 @@ h3 {
     font-size: 90%;
 }
 
+#campus-links a,
+#campus-links a:hover,
+#campus-links a:active,
+#campus-links a:focus {
+    text-decoration: none;
+    color: black;
+}
+
 .btn-default,
 .btn-info,
 .btn-info:hover,
