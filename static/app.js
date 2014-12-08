@@ -86,12 +86,13 @@
                 getBuildingInfo: function() 
                 {
                     var searchedBuilding = $scope.buildingInfo.current;
-                    buildingInfo.echo_search = searchedBuilding;
+                    $scope.buildingInfo.echo_search = searchedBuilding;
                     // get building info from server 
                     infoService.getBuilding(searchedBuilding).then(function(building){
-                        buildingInfo.name = building.name;
-                        buildingInfo.phone = building.phone_number;
-                        buildingInfo.hours = building.hours;   
+                        window.alert('test');
+                        $scope.buildingInfo.name = building.name;
+                        $scope.buildingInfo.phone = building.phone_number;
+                        $scope.buildingInfo.hours = building.hours;   
                     });
                 }
 
@@ -108,19 +109,17 @@
 					.then(function(response) {
 						return response.data;
 					});
-			}
-			
-		};
-        return {
+			},
             getBuilding: function(searchedBuilding)
             {
-                return $http.get('http://104.236.182.126/getBuildingInfo', searchedBuilding)
+                return $http.get('http://104.236.182.126/getBuildingInfo/'+searchedBuilding)
                     .then(function(response) {
                         return response.data;    
                     });
                     
             }
-        };
+			
+		};
 	}]);
 
 })(angular.module('ByuGetMeThereApp', []));
