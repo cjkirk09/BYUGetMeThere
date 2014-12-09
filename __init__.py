@@ -88,11 +88,8 @@ def getMapKey():
 	return "map key"
 @app.route("/saveSchedule")
 def saveSchedule():
-	# username: "username"
-	# password: "password"
-	# classes: [,,] json of class goes inbetween ','
-	# returns successful or not
-	return "save my schedule"
+	myParser = Parser()
+	return myParser.saveSchedule(request.get_json())
 @app.route("/mapSchedule")
 def mapSchedule():
 	# username: "username"
@@ -107,6 +104,10 @@ def user(input):
 	#return "This is your user name: " + str(input)
 	mydb = DB()
 	return mydb.getBuildings()	
+@app.route("/getAllBuildings")
+def getAllBuildings():
+	myParser = Parser()
+	return myParser.getAllBuildings()
 	
 if __name__ == "__main__":
 	app.run()

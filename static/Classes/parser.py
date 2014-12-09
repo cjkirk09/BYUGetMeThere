@@ -102,6 +102,23 @@ class Parser(object):
 
 		return toReturn
 	
+	def saveSchedule(self,requestAsJson):
+		try:
+			if(toReturn = DB.verifyUser(requestAsJson['username'],requestAsJson['scheduale_name'],requestAsJson['classes']):
+				toReturn = "True"
+			else:
+				toReturn = "False"
+		except Exception, e:
+			toReturn = Parser.error(str(e))
 
+		return toReturn
+
+	def getAllBuildings():
+		try:
+			toReturn = DB.getAllBuildings()
+		except Exception, e:
+			toReturn = Parser.error(str(e))
+
+		return json.dumps(toReturn)
 
 
