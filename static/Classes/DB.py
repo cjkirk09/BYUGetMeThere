@@ -139,6 +139,7 @@ class DB:
     
     @staticmethod    
     def getAllBuildings():
+        buildings = []
         for building in Building.getAllBuildings():
             buildings.append(building.__dict__)
         return buildings
