@@ -13,12 +13,14 @@ class Building:
         if result is None:
             return
         self.loadFromResult(result)
+        return self
         
     def loadFromAll(self, id, name, phone_number, hours):
         self.id = id
         self.name = name
         self.phone_number = phone_number
         self.hours = hours
+        return self
         
     def loadFromResult(self, result):
         self.id = result[0]
@@ -26,6 +28,7 @@ class Building:
         self.phone_number = result[2]
         self.hours = result[3]
         self.in_DB = True
+        return self
     
     @staticmethod    
     def getAllBuildings():
