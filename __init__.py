@@ -12,6 +12,10 @@ from parser import Parser
 
 app = Flask(__name__)
 
+@app.route("/favicon.ico")
+def favIcon():
+	return send_from_directory("/var/www/BYUGetMeThereTest/BYUGetMeThere/static","favicon.ico")
+
 @app.route("/")
 def index():
 	return send_from_directory("/var/www/BYUGetMeThereTest/BYUGetMeThere/static","index.html")
