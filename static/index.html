@@ -453,7 +453,7 @@
     <div class='container'>
         <h3>Building Info</h3>
         <div class='row' id='buildinglist'>
-            <div class='col-xs-12'>
+            <div class='col-xs-9'>
                 <!-- <div class='input-group'>
                     <input type='text' class='form-control' ng-model='buildingInfo.current' 
                            id='buildingsearch' placeholder='Search'>
@@ -467,6 +467,11 @@
                 <select ng-model='buildingInfo.selected'>
                     <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
                 </select>
+            </div>
+            <div class='col-xs-3'>
+                 <button class='btn btn-default' type='button' ng-click="getBuildingInfo()">
+                     <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
+                </button>
             </div>
         </div> <!-- end of search -->
         <div class='row' style='padding-top: 70px'>

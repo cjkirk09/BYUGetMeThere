@@ -375,4 +375,6 @@ select {
     background-color: #e6e6e6;
     border-color: #e6e6e6;
     margin: 3px;
+    color: black;
+    font-size: 13pt;
 }
