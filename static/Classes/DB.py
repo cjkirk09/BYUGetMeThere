@@ -119,14 +119,15 @@ class DB:
         
     @staticmethod
     def saveSchedule(username, schedule_name, classes):
-        for course in classes:
+        for my_class in classes:
+            course = Course()
+            course.loadFromAll(my_class.name, my_class.time, my_class.days, my_class.building_id, my_class.room)
             course.save()
 
             schedule = Schedule()
             schedule.username = username
             schedule.schedule_name = schedule_name
             schedule.course_id = course.id
-            #schedule.course = course
             
             schedule.save()
         return True
