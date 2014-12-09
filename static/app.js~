@@ -26,7 +26,7 @@
 
                 buildingInfo: {
                     echo_search: "",
-                    current: "",
+                    selected: "",
                     name: "BUILDING NAME",
                     phone: "801-555-1234",
                     hours: "12:00am-12:00pm"
@@ -36,6 +36,11 @@
 					  allInfo: [],
 					  buildingList: []
 				},
+                
+                floorplans: {
+                     list: [],
+                     currentFloor: 0
+                 },
  
 				toggleMenu: function()
 				{
@@ -67,11 +72,22 @@
                     }
                     else {
                         $scope.userInfo.errorMessage = "";
-                        // needs to make call to server
+                        var userString = { username: $scope.userInfo.username, password: $scope.userInfo.password };
+                        infoService.createUser(userString).then(function(success) {
+                            $scope.userInfo.errorMessage = success;
+                            if (success == "true") {
+                                $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
+                                $scope.userInfo.currentUser = true;
+                                $scope.userInfo.password = "";
+                            }
+                        });
+                        $scope.toggleLogin();
                     }
 				},
 				login: function()
 				{
+                    // username: toor
+                    // password: mypassword
 					// make sure input is valid
                     if ($scope.userInfo.username === "") {
                         $scope.userInfo.errorMessage = "Please enter a valid username";
@@ -85,13 +101,13 @@
 //                        $scope.userInfo.errorMessage = userString;
                         infoService.verifyUser(userString).then(function(success) {
                             $scope.userInfo.errorMessage = success;
-//                            if (success) {
-//                                $scope.userInfo.currentUser = true;
-//                                // reset username and password (no reason to hang onto them)
-//                                $scope.userInfo.username = "";
-//                                $scope.userInfo.password = "";
-//                            }
+                            if (success == "true") {
+                                $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
+                                $scope.userInfo.currentUser = true;
+                                $scope.userInfo.password = "";
+                            }
                         });	
+                        $scope.toggleLogin();
                     }
 				},
 				validRoute: function(){
@@ -128,9 +144,11 @@
 						$scope.routeInfo.errorMessage = "Please enter an ending point";	
 					}
 					else{
+                        // set selected building so the building info button will work right
+                        $scope.buildingInfo.selected = $scope.routeInfo.endPoint;
 
 						//convert the entered info to the building abbreviations and check that they are valid
-						if(validRoute()){
+						if($scope.validRoute()){
 							if($scope.routeInfo.lastStartPoint !=$scope.routeInfo.startPoint || 
 								$scope.routeInfo.endPoint != $scope.routeInfo.lastEndPoint){
 							var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };
@@ -145,6 +163,8 @@
 									$scope.routeInfo.path = [];
 									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
 									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
+                                    $scope.floorplans.floorplanList = pathInfo.floorplans;
+                                    $scope.getBuildingInfo();
 							   }
 							});
 							$scope.routeInfo.lastStartPoint = $scope.routeInfo.startPoint;
@@ -166,7 +186,7 @@
 				},
                 getBuildingInfo: function() 
                 {
-                    var searchedBuilding = $scope.buildingInfo.current;
+                    var searchedBuilding = $scope.buildingInfo.selected;
                     $scope.buildingInfo.echo_search = searchedBuilding;
                     // get building info from server 
                     infoService.getBuilding(searchedBuilding).then(function(building){
@@ -174,6 +194,14 @@
                         $scope.buildingInfo.phone = building.phone_number;
                         $scope.buildingInfo.hours = building.hours;   
                     });
+                },
+                nextFloor: function () //advance floor plan pic to the next floor
+                {
+                    $scope.floorplans.currentFloor = ($scope.floorplans.currentFloor+1) % $scope.floorplans.list.length;
+                },
+                previousFloor: function() // floor plan pic to the previous floor
+                {
+                    $scope.floorplans.currentFloor = (($scope.floorplans.currentFloor-1) + $scope.floorplans.list.length) % $scope.floorplans.list.length;
                 }
             
 					
@@ -213,7 +241,14 @@
             {
                 return $http.post('http://104.236.182.126/login',userString)
                     .then(function(response) {
-                        return response.data
+                        return response.data;
+                    });
+            },
+            createUser: function(userString)
+            {
+                return $http.post('http://104.236.182.126/createUser',userString)
+                    .then(function(response) {
+                        return response.data;
                     });
             },
 
