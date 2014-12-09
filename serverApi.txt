@@ -18,8 +18,8 @@ getPath()
 	}
 getCustomPath()
 	{
-	  start_latitude: number,
-      start_longitude: number,
+	  start_latitude: decimal,
+      start_longitude: decimal,
 	  endPlace: "building_id" (e.g. TMCB)
 	}
 	returns
@@ -40,7 +40,7 @@ getSavedSchedules()
 	}
 	return
     {
-      schedules: [schedule1:{id: int, username: "string", schedule_name: "string" courses: [course1, course2...], schedule2... ]
+      schedules: [schedule1:{id: int, username: "string", schedule_name: "string"}, schedule2...]
     }
 	
 
@@ -55,18 +55,27 @@ loadSchedule()
         id: int
         username: "string", 
         schedule_name: "string", 
-        courses: [ course:{name:"nameOfCourse",time:"hh:mm am/pm",days:"MTWThF",building_id:"acronym", room:"roomNum" }, ... , course:{ ... } ]
+        courses: [ 
+          course:{
+            name:"nameOfCourse",
+            schedule_name: "nameOfSchedule",
+            time:"hh:mm am/pm",
+            days:"MTWThF",
+            building_id:"acronym", 
+            room:"roomNum" 
+          },
+          ... , course:{ ... } ]
       }
 	}
 
 getAllBuildings()
 {
-	return [{ 
+	return [building1: { 
           ID: building_id
           name: full_name
           phone_number: phone_number
           hours: hours
-      }]
+      } ...]
 }
     
 saveSchedule()
