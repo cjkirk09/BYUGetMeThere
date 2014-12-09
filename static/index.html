@@ -245,12 +245,15 @@
 </div> <!-- end of directions section -->
 
 <div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>
+    <h3>Floor Plan {{floorplans.list[floorplans.currentFloor]}}</h3>
     <div class=' container floorplan-container'>
-        <h3>Floor Plan</h3>
-        <img id='floorplan-pic' src='floorplans.floorplanList[0]'>
-        <div class='row'>
-            <div class='col-xs-4'><button type='button' class='btn btn-info'>Next Floor</button></div>
+        <div class='row' style='position:absolute;top:190%;left:7.5%;width:90vw'>
+            <div class='col-xs-6' style='text-align:left'><button style='width:100px' type='button' class='btn btn-info' ng-click='previousFloor()'>Previous</button></div>
+            <div class='col-xs-6' style='text-align:right'><button style='width:100px' type='button' class='btn btn-info' ng-click='nextFloor()'>Next</button></div>
         </div>
+        <iframe id='floorplan-pic' src='{{floorplans.list[floorplans.currentFloor]}}'></iframe>
+
+        
     </div>
 </div>
 
@@ -506,6 +509,7 @@
                 their own Web Application for the world. Finally that day came. This is the result.
             </p>
         </div>
+        <div class='row' style='text-align:center'><b>Contact us at:</b> webadmin@ByuGetMeThere.com</div><br>
         <div class='row' style='text-align:center'>
             <div class='col-md-1'></div>
             <div class='col-md-2'>

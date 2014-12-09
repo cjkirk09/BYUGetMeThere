@@ -38,8 +38,9 @@
 				},
                 
                 floorplans: {
-                    floorplanList: []
-                },
+                     list: [],
+                     currentFloor: 0
+                 },
  
 				toggleMenu: function()
 				{
@@ -192,6 +193,14 @@
                         $scope.buildingInfo.phone = building.phone_number;
                         $scope.buildingInfo.hours = building.hours;   
                     });
+                },
+                nextFloor: function () //advance floor plan pic to the next floor
+                {
+                    $scope.floorplans.currentFloor = ($scope.floorplans.currentFloor+1) % $scope.floorplans.list.length;
+                },
+                previousFloor: function() // floor plan pic to the previous floor
+                {
+                    $scope.floorplans.currentFloor = (($scope.floorplans.currentFloor-1) + $scope.floorplans.list.length) % $scope.floorplans.list.length;
                 }
             
 					
