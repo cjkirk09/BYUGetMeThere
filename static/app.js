@@ -1,10 +1,8 @@
-(function(app)
-{
+(function (app) {
 	app.controller('menuController', [
 		'$scope',
 		'infoService',
-		function($scope, infoService)
-		{
+		function ($scope, infoService) {
 			angular.extend($scope, {
 				state: {
 					menuOpen: false,
@@ -13,24 +11,25 @@
 				},
 				userInfo: {
 					username: "",
-					password: "", 
-					errorMessage: "invalid username/password"
+					password: "",
+					errorMessage: "invalid username/password",
+                    currentUser: ""
 				},
 				routeInfo: {
 					startPoint: "",
 					endPoint: "",
 					lastStartPoint: "",
 					lastEndPoint: "",
-					path: [], 
+					path: [],
 					errorMessage: "ERROR MESSAGE WILL GO HERE"
 				},
-                		buildingInfo: {
-                	  		echo_search: "",
-               			        current: "",
-                	    		name: "BUILDING NAME",
-                	    		phone: "801-555-1234",
-                	    		hours: "12:00am-12:00pm"
-                		},
+                buildingInfo: {
+                    echo_search: "",
+                    current: "",
+                    name: "BUILDING NAME",
+                    phone: "801-555-1234",
+                    hours: "12:00am-12:00pm"
+                },
 				toggleMenu: function()
 				{
 					$scope.state.menuOpen = !$scope.state.menuOpen;	
@@ -52,11 +51,41 @@
 				},
 				register: function()
 				{
-					$scope.userInfo.errorMessage = "clicked Register";
+					// make sure input is valid
+                    if ($scope.userInfo.username === "") {
+                        $scope.userInfo.errorMessage = "Please enter a valid username";
+                    }
+                    else if ($scope.userInfo.password === "") {
+                        $scope.userInfo.errorMessage = "Please enter a valid password";
+                    }
+                    else {
+                        $scope.userInfo.errorMessage = "";
+                        // needs to make call to server
+                    }
 				},
 				login: function()
 				{
-					$scope.userInfo.errorMessage = "clicked Login";					
+					// make sure input is valid
+                    if ($scope.userInfo.username === "") {
+                        $scope.userInfo.errorMessage = "Please enter a valid username";
+                    }
+                    else if ($scope.userInfo.password === "") {
+                        $scope.userInfo.errorMessage = "Please enter a valid password";
+                    }
+                    else {
+                        $scope.userInfo.errorMessage = "";
+                        var userString = { username: $scope.userInfo.username, password: $scope.userInfo.password };
+//                        $scope.userInfo.errorMessage = userString;
+                        infoService.verifyUser(userString).then(function(success) {
+                            $scope.userInfo.errorMessage = success;
+//                            if (success) {
+//                                $scope.userInfo.currentUser = $scope.userInfo.username;
+//                                // reset username and password (no reason to hang onto them)
+//                                $scope.userInfo.username = "";
+//                                $scope.userInfo.password = "";
+//                            }
+                        });	
+                    }
 				},
 				validRoute: function(){
 					if( $scope.routeInfo.startPoint == ""){
@@ -94,8 +123,10 @@
 							   else{
 									$scope.routeInfo.errorMessage= "";
 									path = [];
-									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
-									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
+									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude,
+                                                                longitude:pathInfo.startCoord.longitude};
+									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
+                                                                longitude: pathInfo.endCoord.longitude};
 							   }
 							});
 							$scope.routeInfo.lastStartPoint = $scope.routeInfo.startPoint;
@@ -149,6 +180,13 @@
                         return response.data;    
                     });
                     
+            },
+            verifyUser: function(userString)
+            {
+                return $http.post('http://104.236.182.126/verifyUser',userString)
+                    .then(function(response) {
+                        return response.data
+                    });
             }
 			
 		};
