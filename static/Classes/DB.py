@@ -136,9 +136,12 @@ class DB:
         building = Building()
         building.loadFromID(building_id)
         return building.__dict__
-        
+    
+    @staticmethod    
     def getAllBuildings():
-        return None
+        for building in Building.getAllBuildings():
+            buildings.append(building.__dict__)
+        return buildings
     
     @staticmethod
     def verifyUser(username, password):
