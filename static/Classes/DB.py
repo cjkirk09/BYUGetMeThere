@@ -121,7 +121,7 @@ class DB:
     def saveSchedule(username, schedule_name, courses):
         for json_course in courses:
             course = Course()
-            course.loadFromAll(json_course.name, json_course.time, json_course.days, json_course.building_id, json_course.room)
+            course.loadFromAll(json_course['name'], json_course['time'], json_course['days'], json_course['building_id'], json_course['room'])
             course.save()
 
             schedule = Schedule()
