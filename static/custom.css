@@ -369,3 +369,10 @@ h3 {
     width: 15vh;
     height: auto;
 }
+
+select {
+    width: 100%;
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+    margin: 3px;
+}

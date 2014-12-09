@@ -25,7 +25,7 @@
 				},
                 buildingInfo: {
                     echo_search: "",
-                    current: "",
+                    selected: "",
                     name: "BUILDING NAME",
                     phone: "801-555-1234",
                     hours: "12:00am-12:00pm"
@@ -65,6 +65,8 @@
 				},
 				login: function()
 				{
+                    // username: toor
+                    // password: mypassword
 					// make sure input is valid
                     if ($scope.userInfo.username === "") {
                         $scope.userInfo.errorMessage = "Please enter a valid username";
@@ -78,12 +80,11 @@
 //                        $scope.userInfo.errorMessage = userString;
                         infoService.verifyUser(userString).then(function(success) {
                             $scope.userInfo.errorMessage = success;
-//                            if (success) {
-//                                $scope.userInfo.currentUser = true;
-//                                // reset username and password (no reason to hang onto them)
-//                                $scope.userInfo.username = "";
-//                                $scope.userInfo.password = "";
-//                            }
+                            if (success == "true") {
+                                $scope.userInfo.currentUser = true;
+                                // reset password (no reason to hang onto it)
+                                $scope.userInfo.password = "";
+                            }
                         });	
                     }
 				},
@@ -148,7 +149,7 @@
 				},
                 getBuildingInfo: function() 
                 {
-                    var searchedBuilding = $scope.buildingInfo.current;
+                    var searchedBuilding = $scope.buildingInfo.selected;
                     $scope.buildingInfo.echo_search = searchedBuilding;
                     // get building info from server 
                     infoService.getBuilding(searchedBuilding).then(function(building){
