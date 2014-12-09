@@ -51,15 +51,26 @@ loadSchedule()
 	}
 	returns
 	{
-	  path: [ course:{ ... }, ... , course:{ ... } ],
+	  path: [ course:{id:int,name:"nameOfCourse",time:"hh:mm am/pm",days:"MTWThF",building_id:"acronym", room:"roomNum" }, ... , course:{ ... } ],
 	  floorPlan: "url", ??
 	  buildingInfo: ??
 	}
+
+getAllBuildings()
+{
+	return [{ 
+          ID: building_id
+          name: full_name
+          phone_number: phone_number
+          hours: hours
+      }]
+}
     
 saveSchedule()
 	{
 	  username:"username",
-	  classes: [,,]
+	  classes: [course:{id:int,name:"nameOfCourse",time:"hh:mm am/pm",days:"MTWThF",building_id:"acronym", room:"roomNum" }, ... , course:{ ... } ],
+]
 	}
 	returns "failed" or "success"
 
