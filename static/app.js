@@ -19,6 +19,8 @@
 				routeInfo: {
 					startPoint: "",
 					endPoint: "",
+					lastStartPoint: "",
+					lastEndPoint: "",
 					path: [], 
 					errorMessage: "ERROR MESSAGE WILL GO HERE"
 				},
@@ -80,6 +82,8 @@
 					else{
 						//convert the entered info to the building abbreviations and check that they are valid
 						if($scope.routeInfo.startPoint == "ASB" && $scope.routeInfo.endPoint == "JSB"){
+							if($scope.routeInfo.lastStartPoint !=$scope.routeInfo.startPoint || 
+								$scope.routeInfo.endPoint != $scope.routeInfo.lastEndPoint){
 							var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };
 	
 							infoService.getPath(stringPath).then(function(pathInfo){
@@ -93,6 +97,12 @@
 									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
 							   }
 							});
+							$scope.routeInfo.lastStartPoint = $scope.routeInfo.startPoint;
+							$scope.routeInfo.lastEndPoint = $scope.routeInfo.endPoint;
+							}
+						}
+						else{
+							$scope.routeInfo.errorMessage = "Please enter valid points";	
 						}
 					}
 					return $scope.routeInfo.errorMessage;
