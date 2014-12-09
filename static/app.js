@@ -81,7 +81,7 @@
                                 $scope.userInfo.password = "";
                             }
                         });
-                        toggleLogin();
+                        $scope.toggleLogin();
                     }
 				},
 				login: function()
@@ -107,7 +107,7 @@
                                 $scope.userInfo.password = "";
                             }
                         });	
-                        toggleLogin();
+                        $scope.toggleLogin();
                     }
 				},
 				validRoute: function(){
@@ -163,7 +163,7 @@
 									$scope.routeInfo.path = [];
 									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
 									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
-                                    $scope.floorplans.floorplanList = pathInfo.floorplans;
+                                    $scope.floorplans.list = pathInfo.floorplans;
                                     $scope.getBuildingInfo();
 							   }
 							});
