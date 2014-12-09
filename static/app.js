@@ -36,6 +36,10 @@
 					  allInfo: [],
 					  buildingList: []
 				},
+                
+                floorplans: {
+                    floorplanList: []
+                },
  
 				toggleMenu: function()
 				{
@@ -139,6 +143,8 @@
 						$scope.routeInfo.errorMessage = "Please enter an ending point";	
 					}
 					else{
+                        // set selected building so the building info button will work right
+                        $scope.buildingInfo.selected = $scope.routeInfo.endPoint;
 
 						//convert the entered info to the building abbreviations and check that they are valid
 						if($scope.validRoute()){
@@ -156,6 +162,7 @@
 									$scope.routeInfo.path = [];
 									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
 									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
+                                    $scope.floorplans.floorplanList = pathInfo.floorplans;
 							   }
 							});
 							$scope.routeInfo.lastStartPoint = $scope.routeInfo.startPoint;

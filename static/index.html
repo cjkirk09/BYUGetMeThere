@@ -238,11 +238,21 @@
     <div class='container mapcontainer' id='map'></div>
 
     <div class='row' id='mapbuttons'>
-        <div><button type='button' class='col-xs-4 btn btn-info'>Building Info</button></div>
-        <div><button type='button' class='col-xs-4 btn btn-info'>Floor Plan</button></div>
+        <div><button type='button' class='col-xs-4 btn btn-info' onclick="goTo('building')">Building Info</button></div>
+        <div><button type='button' class='col-xs-4 btn btn-info' ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('floorplan')">Floor Plan</button></div>
         <div><button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-4 btn btn-info'>Save Route</button></div>
     </div> <!-- end of map buttons -->
 </div> <!-- end of directions section -->
+
+<div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>
+    <div class=' container floorplan-container'>
+        <h3>Floor Plan</h3>
+        <img id='floorplan-pic' src='floorplans.floorplanList[0]'>
+        <div class='row'>
+            <div class='col-xs-4'><button type='button' class='btn btn-info'>Next Floor</button></div>
+        </div>
+    </div>
+</div>
 
 <div class='section' id='schedule'>
     <div class='container'>
@@ -527,6 +537,20 @@
         function display(){
             window.alert("in display");
         }
+
+        function goTo(id){
+            window.scroll(0,findPos(document.getElementById(id)));
+        }
+        
+        function findPos(obj) {
+            var curtop = 0;
+            if (obj.offsetParent) {
+            do {
+                curtop += obj.offsetTop;
+            } while (obj = obj.offsetParent);
+            return [curtop];
+        }
+}
     </script>
     
 </body>
