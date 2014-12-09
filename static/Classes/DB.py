@@ -118,8 +118,8 @@ class DB:
         return schedule.__dict__
         
     @staticmethod
-    def saveSchedule(username, schedule_name, courses):
-        for course in courses:
+    def saveSchedule(username, schedule_name, classes):
+        for course in classes:
             course.save()
 
             schedule = Schedule()
