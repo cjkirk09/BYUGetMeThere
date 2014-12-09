@@ -15,6 +15,7 @@ class Course:
         if result is None:
             return
         self.loadFromResult(result)
+        return self
         
     def loadFromAll(self, name, time, days, building_id, room):
         self.name = name
@@ -22,6 +23,7 @@ class Course:
         self.days = days
         self.building_id = building_id
         self.room = room
+        return self
         
     def loadFromResult(self, result):
         self.id = result[0]
@@ -31,6 +33,7 @@ class Course:
         self.building_id = result[4]
         self.room = result[5]
         self.in_DB = True
+        return self
     
     @staticmethod    
     def getAllCourses():

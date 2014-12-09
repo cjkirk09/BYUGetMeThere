@@ -12,17 +12,20 @@ class User:
         if result is None:
             return
         self.loadFromResult(result)
+        return self
         
     def loadFromAll(self, username, password, passkey):            
         self.username = username
         self.password = password
         self.passkey = passkey
+        return self
         
     def loadFromResult(self, result):
         self.username = result[0]
         self.password = result[1]
         self.passkey = result[2]
         self.in_DB = True
+        return self
     
     @staticmethod    
     def getAllUsers():
