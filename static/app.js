@@ -60,7 +60,16 @@
                     }
                     else {
                         $scope.userInfo.errorMessage = "";
-                        // needs to make call to server
+                        var userString = { username: $scope.userInfo.username, password: $scope.userInfo.password };
+                        infoService.createUser(userString).then(function(success) {
+                            $scope.userInfo.errorMessage = success;
+                            if (success == "true") {
+                                $scope.userInfo.errorMessage = "Welcome" + $scope.userInfo.username;
+                                $scope.userInfo.currentUser = true;
+                                $scope.userInfo.password = "";
+                            }
+                        });
+                        toggleLogin();
                     }
 				},
 				login: function()
@@ -81,11 +90,12 @@
                         infoService.verifyUser(userString).then(function(success) {
                             $scope.userInfo.errorMessage = success;
                             if (success == "true") {
+                                $scope.userInfo.errorMessage = "Welcome" + $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
-                                // reset password (no reason to hang onto it)
                                 $scope.userInfo.password = "";
                             }
                         });	
+                        toggleLogin();
                     }
 				},
 				validRoute: function(){
@@ -185,7 +195,14 @@
             {
                 return $http.post('http://104.236.182.126/login',userString)
                     .then(function(response) {
-                        return response.data
+                        return response.data;
+                    });
+            },
+            createUser: function(userString)
+            {
+                return $http.post('http://104.236.182.126/createUser',userString)
+                    .then(function(response) {
+                        return response.data;
                     });
             }
 			
