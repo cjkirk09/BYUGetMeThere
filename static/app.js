@@ -163,7 +163,7 @@
 									$scope.routeInfo.path = [];
 									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
 									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
-                                    $scope.floorplans.list = pathInfo.floorplans;
+                                    $scope.floorplans.list = pathInfo.floorPlans;
                                     $scope.getBuildingInfo();
 							   }
 							});
