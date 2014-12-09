@@ -118,10 +118,10 @@ class DB:
         return schedule.__dict__
         
     @staticmethod
-    def saveSchedule(username, schedule_name, classes):
-        for my_class in classes:
+    def saveSchedule(username, schedule_name, courses):
+        for json_course in courses:
             course = Course()
-            course.loadFromAll(my_class.name, my_class.time, my_class.days, my_class.building_id, my_class.room)
+            course.loadFromAll(json_course.name, json_course.time, json_course.days, json_course.building_id, json_course.room)
             course.save()
 
             schedule = Schedule()
