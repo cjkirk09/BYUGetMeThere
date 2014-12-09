@@ -21,6 +21,7 @@ def getFiles(thePath):
 @app.route("/getPath", methods=['GET','POST'])
 def getPath():
 	myParser = Parser()
+	#return request
 	return myParser.getPathJSON(request.get_json())
 
 @app.route("/getCustomPath")
@@ -58,10 +59,10 @@ def savePath():
 	#  coordinates: [,,]
 	# returns t/f on if successful or not
 	return "savePath"
-@app.route("/getBuildingInfo")
-def getBuildingInfo():
-	# ??? up in the air if this is even needed
-	return "building info"
+@app.route("/getBuildingInfo/<input>")
+def getBuildingInfo(input):
+	myParser = Parser()
+	return myParser.getBuildingInfo(input)
 @app.route("/initialize")
 def initialize():
 	# same as "/" route. initial page seen by user

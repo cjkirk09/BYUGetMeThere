@@ -68,11 +68,14 @@
 					else{
 						//convert the entered info to the building abbreviations
 						var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };
+
 						infoService.getPath(stringPath).then(function(pathInfo){
-							$scope.routeInfo.errorMessage= " " + pathInfo.error;
+							$scope.routeInfo.errorMessage= " " + pathInfo.startCoord.latitude;
 							path = [];
 							path[0] = pathInfo.startCoord;
 							path[1] = pathInfo.endCoord;
+							console.log(path[0]);
+							console.log(path[0].latitude);
 						});
 					}
 					
@@ -105,7 +108,7 @@
 		return {
 			getPath: function(stringPath)
 			{
-				return $http.get('http://104.236.182.126/getPath', stringPath)
+				return $http.post('http://104.236.182.126/getPath',stringPath)
 					.then(function(response) {
 						return response.data;
 					});

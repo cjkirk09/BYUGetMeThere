@@ -15,14 +15,26 @@ class Parser(object):
 		#json.dumps(myJson, sort_keys=True, indent=4) #converts dict to JSON
 
 		#myJson = requestAsJson #json.loads(request) #converts JSON to dict
-		startPlace = str(requestAsJson['startPlace'])
-		endPlace = str(requestAsJson['endPlace'])
-		
+		try:	
+			#requestAsJson = json.loads(requestAsJson1)	
+			startPlace = str(requestAsJson['startPlace'])
+			endPlace = str(requestAsJson['endPlace'])
+		except Exception, e:	
+			toReturn = Parser.error(str(requestAsJson))
+			return json.dumps(toReturn)
+
+		f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'w')
+		#f.write(str(e))
+		f.write(str(requestAsJson))			
+				
+
 		try:
 			toReturn = DB.getPath(startPlace,endPlace)
 		except Exception, e:
 			toReturn = Parser.error(str(e))
+			f.write("DBERROR" + str(e))
 
+		f.close()
 		return json.dumps(toReturn) 
 		#db = fakeDB()
 		
@@ -47,6 +59,49 @@ class Parser(object):
 
 		return toReturn
 
+	def getSavedSchedules(self,requestAsJson):
+		try:
+			toReturn = DB.getSavedSchedules(requestAsJson['username'])
+		except Exception, e:
+			toReturn = Parser.error(str(e))
+
+		return json.dumps(toReturn)
+
+	def loadSchedule(self,requestAsJson):
+		try:
+			toReturn = DB.loadSchedule(requestAsJson['username'],requestAsJson['schedule_name'])
+		except Exception, e:
+			toReturn = Parser.error(str(e))
+
+		return json.dumps(toReturn)
+
+	def getBuildingInfo(self,buildingID):
+		try:
+			toReturn = DB.getBuildingInfo(buildingID)
+		except Exception, e:
+			toReturn = Parser.error(str(e))
+
+		return json.dumps(toReturn)
+
+	def verifyUser(self,requestAsJson):
+		try:
+			toReturn = DB.verifyUser(requestAsJson['username'],requestAsJson['password'])
+		except Exception, e:
+			toReturn = Parser.error(str(e))
+
+		return json.dumps(toReturn)
+
+	def createUser(self,requestAsJson):
+		try:
+			if(DB.verifyUser(requestAsJson['username'],requestAsJson['password'])):
+				toReturn = "True"
+			else:
+				toReturn = "False"
+		except Exception, e:
+			toReturn = json.dumps(Parser.error(str(e)))
+
+		return toReturn
+	
 
 
 
