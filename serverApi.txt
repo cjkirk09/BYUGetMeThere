@@ -6,8 +6,8 @@ getPath()
 
 	returns
 	{
-	  startCoord: { latitude: number, longitude: number },
-	  endCoord: { latitude: number, longitude: number },
+	  startCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
+	  endCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
 	  floorPlans: [floor1_url, floor2_url, ...]
 	  buildingInfo: { 
           ID: building_id
@@ -24,8 +24,8 @@ getCustomPath()
 	}
 	returns
 	{
-	  startCoord: { latitude: number, longitude: number },
-	  endCoord: { latitude: number, longitude: number },
+	  startCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
+	  endCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
 	  floorPlans: [floor1_url, floor2_url, ...]
 	  buildingInfo: { 
           ID: building_id

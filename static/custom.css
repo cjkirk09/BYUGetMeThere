@@ -66,8 +66,8 @@ h3 {
 }
 
 #optionslogo img {
-	height: 75%;
-	width: 75%;
+	height: auto;
+	width: 33vh;
 }
 
 #login a {
@@ -86,7 +86,7 @@ h3 {
     font-size: 14pt;
     background-color: darkblue;
     color: #cc6600;
-    width: 100vw;
+/*    width: 100vw;*/
     height: 200px;
     padding-top: 65px;
     z-index: 1000;
@@ -318,6 +318,26 @@ h3 {
     font-size: 90%;
 }
 
+#campus a,
+#campus a:hover,
+#campus a:active,
+#campus a:focus {
+    text-decoration: none;
+    color: black;
+    text-overflow: ellipsis
+}
+
+#campus .row {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+#campus .glyphicon {
+    color :#cc6600;
+    font-size: 120%; 
+    padding-top: 3px
+}
+
 .btn-default,
 .btn-info,
 .btn-info:hover,
@@ -332,4 +352,14 @@ h3 {
     background-color: darkblue;
     border-color: darkblue;
     color: #e6e6e6;
+}
+
+#campus ul {
+    overflow-y: scroll;
+    height: 300%;
+}
+
+#aboutpic {
+    width: 15vh;
+    height: auto;
 }

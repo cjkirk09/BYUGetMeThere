@@ -3,12 +3,13 @@
 <!DOCTYPE HTML>
 <title>BYU Get Me There</title>
 <head>
-<?php header('Access-Control-Allow-Origin: *'); ?>
     <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
 <!--    <link rel='stylesheet' type='text/css' href='/static/webapp.css'>-->
     <link href='http://fonts.googleapis.com/css?family=Dosis:200, 400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href='css/bootstrap.min.css'>
     <link rel='stylesheet' href='custom.css'>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
     <script src="app.js"></script>
@@ -16,8 +17,11 @@
        var byu=new google.maps.LatLng(40.248770, -111.649273);
        var map;
        var positionmarker;
+       var directionsDisplay;
+       var directionsService = new google.maps.DirectionsService();
 
        function initialize(){
+          directionsDisplay = new google.maps.DirectionsRenderer();
           var mapProp = {
              center:byu,
              zoom:15,
@@ -29,27 +33,13 @@
           };
   
           map=new google.maps.Map(document.getElementById('map'),mapProp);
+          directionsDisplay.setMap(map);
        }
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see a blank space instead of the map, this
-// is probably because you have denied permission for location sharing.
 
   // Try HTML5 geolocation
        function findMyLocation(){
        //window.alert("in findMyLocation");
-/*
-       if( positionmarker != null )
-           postionmarker.setMap(null);
-       var mapProp = {
-               center:x,
-               zoom:15,
-               mapTypeId: google.maps.MapTypeId.ROADMAP,
-               zoomControlOptions:{
-                  style: google.maps.ZoomControlStyle.DEFAULT,
-                  position: google.maps.ControlPosition.LEFT_CENTER
-               }
-            };
-       map=new google.maps.Map(document.getElementById('map'),mapProp);*/
+
 
        if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
@@ -92,6 +82,36 @@
        map.setCenter(options.position);
        map.setZoom(15);
      }
+
+     function getRoute(scope){
+        //scope.getRoute();
+	//scope.$apply();
+	if( scope.routeInfo.errorMessage == "" ){
+            scope.toggleRouteBox();
+            scope.$apply();
+            var path = scope.routeInfo.path;
+            var start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
+            var end = new google.maps.LatLng(path[path.length-1].latitude, path[path.length-1].longitude);
+            var waypts = [];
+            if( path.length >2 ){
+                for( var i=1; i < path.length-1; i++ ){
+                    waypts.push( { location: new google.maps.LatLng(path[i].latitude, path[i].longitude), stopover:true});
+                }
+            }
+            var request = {
+                origin: start,
+                destination: end,
+                waypoints: waypts,
+                optimizeWaypoints: false,
+                travelMode: google.maps.TravelMode.WALKING
+            };
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                }
+            });
+        }
+     }
      
      google.maps.event.addDomListener(window, 'load', initialize);
    
@@ -99,7 +119,7 @@
 </head>
 
 <body ng-app='ByuGetMeThereApp'>
-<div ng-controller='menuController' >
+<div ng-controller='menuController' id="controller">
 <!-- top menu bar -->
 <div class='navbar-fixed-top' id='menubar'>
     <div class='row'>
@@ -108,7 +128,7 @@
                 <span class='glyphicon glyphicon-align-justify'></span>
             </a>
         </div>
-        <div class='col-xs-4' id='logo'><img src="logo.png"></div>
+        <div class='col-xs-4' id='logo'><img src="images/logo.png"></div>
         <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
     </div> 
 </div> <!-- end of top menu bar -->
@@ -117,14 +137,12 @@
 <div class='section' ng-if='state.loginOpen' id='loginpage'>
     <div id='logininput'>
         <div class='row'>
-            <div class='col-xs-12'>
-                <input class='form-control' type='text' ng-model='userInfo.username' placeholder="Username">
-            </div>
+            <div class='col-xs-12'><input class='form-control' type='text' 
+                                          ng-model='userInfo.username' placeholder="Username"></div>
         </div>
         <div class='row'>
-            <div class='col-xs-12'>
-                <input class='form-control' type='password' ng-model='userInfo.password' placeholder='Password'>
-            </div>
+            <div class='col-xs-12'><input class='form-control' type='password' 
+                                          ng-model='userInfo.password' placeholder='Password'></div>
         </div>
     </div> <!-- end of login input boxes -->
     <div class='row' id='loginbuttons'>
@@ -146,12 +164,12 @@
         <ul class='list-unstyled' id='optionslist'>
             <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
             <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
-            <li><a ng-click='toggleMenu()' href='#campus'>Campus Info</a></li>
+            <li><a ng-click='toggleMenu()' href='#campus'>Campus Links</a></li>
             <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
             <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
         </ul>
     </div>
-    <div class='row' id='optionslogo'><img src='optionslogo.png'></div>
+    <div class='row' id='optionslogo'><img src='images/optionslogo.png'></div>
 </div> <!-- end of options page -->
 
 <!-- directions: map and route options -->
@@ -182,10 +200,22 @@
                                <span class='glyphicon glyphicon-map-marker' style='color:#cc6600;font-size:150%'></span>
                             </button>
                         </span>
-                        <input class='form-control' type='text' ng-model='routeInfo.startPoint' placeholder="Start">
+                        <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
+                               placeholder="Start">
                     </div>
                 </div>
             </div>
+<!--
+                <div class='col-xs-10'>
+                    <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
+                           placeholder="Start">
+                </div>
+                <div class='col-xs-2'>
+                    <button class='btn mapmarker' type='button' onclick="findMyLocation()">
+                       <span class='glyphicon glyphicon-map-marker'></span>
+                    </button>
+                </div>
+-->
             <div class='row'>
                 <div class='col-xs-12'>
                     <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'>
@@ -197,11 +227,12 @@
                <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
             </div>
             <div class='col-xs-6' id='getroute'>
-                <button type='button' class='btn btn-info' ng-click="getRoute()">Get Route</button>
+                <button type='button' class='btn btn-info'
+                        onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
             </div>
         </div> <!-- end of route box buttons -->
-        <div class='row' ng-if='routeInfo.errorMessage!=""' id='routeerror'>
-            <p>{{routeInfo.errorMessage}}</p>
+        <div class='row' id='routeerror'>
+            <p>{{getRoute()}}</p>
         </div>
    </div> <!-- end of Route Box -->   
 
@@ -251,11 +282,172 @@
 
 <div class='section' id='campus'>
     <div class='container'>
-    <h3>Campus Info</h3>
-    LOREM<br><br>
-    IPSUM<br><br>
-    ETC<br><br>
-    ETC<br><br>
+        <h3>Campus Links</h3>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                BYU Home Page
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='http://home.byu.edu/home/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                Contact BYU
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='http://home.byu.edu/home/contact/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                Lost and Found
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://lostandfound.byu.edu/content/lost-and-found-contact-information'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                WSC Information Desk
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://wscinfodesk.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                ID Center
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://idcenter.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                BYU Counseling Center
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://caps.byu.edu/paperwork'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                University Advisement
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://universityadvisement.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                Career Services
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='https://ucs.byu.edu/'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+                CougarEat
+            </div>
+            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+                <a href='http://dining.byu.edu/cougareat/hours.html'>
+                    <span class='glyphicon glyphicon-arrow-right'></span>
+                </a>
+            </div>
+        </div>
+        <div class='row' style='padding-top:10px'>
+            <div class='col-md-4'></div>
+            <div class='col-xs-12 col-md-4'>
+                <div class='dropdown' style='text-align:center'>
+                    <button class='btn btn-default dropdown-toggle' type='button' 
+                            id='campus-dropdown' data-toggle='dropdown' aria-expanded='true' style='width:100%'>
+                        Campus Advisement Centers
+                        <span class='caret'></span>
+                    </button>
+                    <ul class='dropdown-menu' role='menu' aria-labelledby='campus-dropdown' style='width:100%'>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://marriottschool.byu.edu/advisement/advisement/contact'>
+                            Business (Marriott School of Management)</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://ce.byu.edu/home/contact.php'>
+                            Continuing Education</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://education.byu.edu/ess'>
+                            David O. McKay School of Education</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://www.et.byu.edu/advisement/contact-us'>
+                            Ira A. Fulton School of Engineering and Technology</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='https://fhssadv.byu.edu/Pages/ContactInfo.aspx'>
+                           Family, Home and Social Sciences</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://cfac.byu.edu/advise/'>
+                           Fine Arts and Communication</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://graduatestudies.byu.edu/'>
+                           Graduate Studies</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://hplustest.weebly.com/contact-us.html'>
+                            Humanities</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://kennedy.byu.edu/advisement/index.php'>
+                            David M. Kennedy Center for International Studies</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://www.law2.byu.edu/site/current-students/advisement'>
+                            J. Reuben Clark Law School</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://lifesciences.byu.edu/studentservices/'>
+                            Life Sciences</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://nursing.byu.edu/academics/UnderGrad/advisement.aspx'>
+                            Nursing</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://cpms.byu.edu/current-students/advisement-center/'>
+                            Physical and Mathematical Sciences</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://religion.byu.edu/'>
+                            Religious Education</a>
+                        </li>
+                        <li role='presentation'>
+                            <a role='menuitem' tabindex='-1' href='http://ge.byu.edu/'>
+                            Undergraduate Education</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class='col-md-4'></div>
+        </div>
     </div>
 </div>
 
@@ -265,18 +457,24 @@
         <div class='row' id='buildinglist'>
             <div class='col-xs-12'>
                 <div class='input-group'>
-                    <input type='text' class='form-control' id='buildingsearch' placeholder='Search'>
-                    <span class='input-group-btn'>
-                        <button class='btn btn-default' type='button' onclick="display()">
-                            <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
-                        </button>
-                    </span>
-                </div> 
+                    <input type='text' class='form-control' ng-model='buildingInfo.current' 
+                           id='buildingsearch' placeholder='Search'>
+                        <span class='input-group-btn'>
+                            <button class='btn btn-default' type='button'
+                                    ng-click="getBuildingInfo()">
+                                <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
+                            </button>
+                        </span>
+                </div>
             </div>
-        </div> <!-- end of input -->
-        <div class='row' style='margin-top:90px'>
-            <div class='col-xs-12' id='buildinginfo'>
-                THIS IS WHERE THE BUILDING INFO WILL GO
+        </div> <!-- end of search -->
+        <div class='row' style='padding-top: 70px'>
+            <div class='col-xs-12' style='font-size:150%'>
+                You searched for {{buildingInfo.echo_search}} <br>
+                Current: {{buildingInfo.current}} <br>
+                Building: {{buildingInfo.name}} <br>
+                Phone-number: {{buildingInfo.phone}} <br>
+                Hours: {{buildingInfo.hours}} <br>
             </div>
         </div>
     </div>
@@ -285,10 +483,36 @@
 <div class='section' id='about'>
     <div class='container'>
         <h3>About Us</h3>
-        LOREM<br><br>
-        IPSUM<br><br>
-        ETC<br><br>
-        ETC<br><br>
+        <div class='row' style='font-size:150%'>
+            <p> In the fall of 2014, five BYU students took an Internet Programming class. 
+                They struggled through multiple labs, awaiting the day that they could create 
+                their own Web Application for the world. Finally that day came. This is the result.
+            </p>
+        </div>
+        <div class='row' style='text-align:center'>
+            <div class='col-md-1'></div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='images/cody.jpg'>
+                <p><b>Cody Hefner</b><br>Schedule Genius</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='images/cory.jpg'>
+                <p><b>Cory Kirkland</b><br>Map Mastermind</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='images/blaine.jpg'>
+                <p><b>Blaine McGary</b><br>Server Scientist</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='images/brynne.jpg'>
+                <p><b>Brynne Hansen</b><br>Designer Extraordinaire</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='images/eric.jpg'>
+                <p><b>Eric Romrell</b><br>Database Designer</p>
+            </div>
+            <div class='col-md-1'></div>
+        </div>
     </div>
 </div>
 </div>
