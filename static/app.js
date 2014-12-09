@@ -71,7 +71,7 @@
                         infoService.createUser(userString).then(function(success) {
                             $scope.userInfo.errorMessage = success;
                             if (success == "true") {
-                                $scope.userInfo.errorMessage = "Welcome" + $scope.userInfo.username;
+                                $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
                             }
@@ -97,7 +97,7 @@
                         infoService.verifyUser(userString).then(function(success) {
                             $scope.userInfo.errorMessage = success;
                             if (success == "true") {
-                                $scope.userInfo.errorMessage = "Welcome" + $scope.userInfo.username;
+                                $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
                             }
