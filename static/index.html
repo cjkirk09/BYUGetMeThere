@@ -54,8 +54,13 @@
              });
   
              map.setCenter(pos);
-             map.setZoom(12);
-             // i think this will set the text box to the current location, but i need to upload it to a device to test it
+             // cody changed this - 
+             // when the map is at 12 it shows all of provo, but
+             // when the map is at 17 it's close enough to see individual BYU buildings.
+             // map.setZoom(12);
+             if (map.getZoom() < 17) {
+                 map.setZoom(17);
+             }
 
            }, function() {handleNoGeolocation(true);});
        } //closes if

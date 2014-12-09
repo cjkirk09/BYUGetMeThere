@@ -81,7 +81,8 @@
                                 $scope.userInfo.password = "";
                             }
                         });
-                        toggleLogin();
+                        // let the user close the login screen
+                        // toggleLogin();
                     }
 				},
 				login: function()
@@ -107,7 +108,8 @@
                                 $scope.userInfo.password = "";
                             }
                         });	
-                        toggleLogin();
+                        // let the user close the login screen
+                        // toggleLogin();
                     }
 				},
 				validRoute: function(){
