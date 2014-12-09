@@ -80,6 +80,7 @@
 						$scope.routeInfo.errorMessage = "Please enter an ending point";	
 					}
 					else{
+
 						//convert the entered info to the building abbreviations and check that they are valid
 						if($scope.routeInfo.startPoint == "ASB" && $scope.routeInfo.endPoint == "JSB"){
 							if($scope.routeInfo.lastStartPoint !=$scope.routeInfo.startPoint || 
@@ -104,6 +105,7 @@
 						else{
 							$scope.routeInfo.errorMessage = "Please enter valid points";	
 						}
+
 					}
 					return $scope.routeInfo.errorMessage;
 					//$scope.routeInfo.path[0] = {latitude:40.248852, longitude:-111.647374};
@@ -135,7 +137,7 @@
 		return {
 			getPath: function(stringPath)
 			{
-				return $http.get('http://104.236.182.126/getPath', stringPath)
+				return $http.post('http://104.236.182.126/getPath',stringPath)
 					.then(function(response) {
 						return response.data;
 					});

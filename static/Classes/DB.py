@@ -3,6 +3,7 @@ import json
 from Query import Query
 from Building import Building
 from Coordinate import Coordinate
+from Course import Course
 from Floor import Floor
 from Path import Path
 from Schedule import Schedule
@@ -51,7 +52,7 @@ class DB:
                 x1 = float(start_coord.latitude)
                 x2 = float(start_coord.longitude)
                 y1 = float(end_coord.latitude)
-                y2 = float(start_coord.longitude)
+                y2 = float(end_coord.longitude)
                 
                 distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
                 
@@ -109,29 +110,38 @@ class DB:
         
     @staticmethod
     def loadSchedule(username, schedule_name):
-        schedule = Schedule.loadFromCombinedKey(username, schedule_name)
+        schedule = Schedule()
+        schedule.loadFromCombinedKey(username, schedule_name)
         course = Course()
         course.loadFromID(schedule.course_id)
         schedule.course = course.__dict__
         return schedule.__dict__
         
     @staticmethod
-    def savePath(username, schedule_name, courses):
+    def saveSchedule(username, schedule_name, courses):
         for course in courses:
+            course.save()
+
             schedule = Schedule()
             schedule.username = username
             schedule.schedule_name = schedule_name
-            schedule.course = course
+            schedule.course_id = course.id
+            #schedule.course = course
             
-            course.save()
             schedule.save()
-            #have to find out what they're passing me here in order to parse it...
+        return True
             
     @staticmethod
     def getBuildingInfo(building_id):
         building = Building()
         building.loadFromID(building_id)
         return building.__dict__
+    
+    @staticmethod    
+    def getAllBuildings():
+        for building in Building.getAllBuildings():
+            buildings.append(building.__dict__)
+        return buildings
     
     @staticmethod
     def verifyUser(username, password):
