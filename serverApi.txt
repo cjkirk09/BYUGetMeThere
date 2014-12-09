@@ -77,8 +77,6 @@ saveSchedule()
 	}
 	returns "failed" or "success"
 
-#loadTour will happen by calling loadPath with "tour_guide" as username
-
 getBuildingInfo()
     {
       building_id: "building_id"
@@ -106,13 +104,6 @@ createUser()
 	}
 
 	returns ??
-
-getMapKey() //might not be necessary if already in the html page  ??
-
-	returns
-	{
-	  mapKey: "key" 
-	} 
 
 mapSchedule() ??
 	{
