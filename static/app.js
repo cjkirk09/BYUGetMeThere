@@ -164,6 +164,7 @@
 									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
 									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
                                     $scope.floorplans.floorplanList = pathInfo.floorplans;
+                                    $scope.getBuildingInfo();
 							   }
 							});
 							$scope.routeInfo.lastStartPoint = $scope.routeInfo.startPoint;
