@@ -22,13 +22,13 @@
 					path: [], 
 					errorMessage: "ERROR MESSAGE WILL GO HERE"
 				},
-                buildingInfo: {
-                    echo_search: "",
-                    current: "",
-                    name: "BUILDING NAME",
-                    phone: "801-555-1234",
-                    hours: "12:00am-12:00pm"
-                },
+                		buildingInfo: {
+                	  		echo_search: "",
+               			        current: "",
+                	    		name: "BUILDING NAME",
+                	    		phone: "801-555-1234",
+                	    		hours: "12:00am-12:00pm"
+                		},
 				toggleMenu: function()
 				{
 					$scope.state.menuOpen = !$scope.state.menuOpen;	
@@ -56,6 +56,18 @@
 				{
 					$scope.userInfo.errorMessage = "clicked Login";					
 				},
+				validRoute: function(){
+					if( $scope.routeInfo.startPoint == ""){
+						$scope.routeInfo.errorMessage = "Please enter a starting point";
+					}
+					else if ( $scope.routeInfo.endPoint =="" ){
+						$scope.routeInfo.errorMessage = "Please enter an ending point";	
+					}
+					else{
+						$scope.routeInfo.errorMessage ="";
+					}
+					return $scope.routeInfo.errorMessage;
+				}, 
 				getRoute: function()
 				{
 					//verify that startpoint and endpoint are not empty
@@ -66,19 +78,26 @@
 						$scope.routeInfo.errorMessage = "Please enter an ending point";	
 					}
 					else{
-						//convert the entered info to the building abbreviations
-						var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };
 
-						infoService.getPath(stringPath).then(function(pathInfo){
-							$scope.routeInfo.errorMessage= " " + pathInfo.startCoord.latitude;
-							path = [];
-							path[0] = pathInfo.startCoord;
-							path[1] = pathInfo.endCoord;
-							console.log(path[0]);
-							console.log(path[0].latitude);
-						});
+						//convert the entered info to the building abbreviations and check that they are valid
+						if($scope.routeInfo.startPoint == "ASB" && $scope.routeInfo.endPoint == "JSB"){
+							var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };
+	
+							infoService.getPath(stringPath).then(function(pathInfo){
+								if( pathInfo.error){
+									$scope.routeInfo.errorMessage= pathInfo.error;							
+								}
+							   else{
+									$scope.routeInfo.errorMessage= "";
+									path = [];
+									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
+									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
+							   }
+							});
+						}
+
 					}
-					
+					return $scope.routeInfo.errorMessage;
 					//$scope.routeInfo.path[0] = {latitude:40.248852, longitude:-111.647374};
 					//$scope.routeInfo.path[1] = {latitude:40.245879, longitude:-111.651644};
 					//$scope.routeInfo.path[2] = {latitude:40.249329, longitude:-111.650665};
