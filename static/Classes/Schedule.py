@@ -55,11 +55,11 @@ class Schedule:
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYU.SCHEDULES set USERNAME = '" + self.username + "', SCHEDULE_NAME = '" + self.schedule_name + "', COURSE_ID = '" + self.course_id + "' where ID = " + str(self.id)
+            SQL = "update BYU.SCHEDULES set USERNAME = '" + self.username + "', SCHEDULE_NAME = '" + self.schedule_name + "', COURSE_ID = " + str(self.course_id) + " where ID = " + str(self.id)
             Query.execute(SQL)
         else:
             #insert
-            SQL = "insert into BYU.SCHEDULES (USERNAME, SCHEDULE_NAME, COURSE_ID) values('" + self.username + "', '" + self.schedule_name + "', '" + self.course_id + "')"
+            SQL = "insert into BYU.SCHEDULES (USERNAME, SCHEDULE_NAME, COURSE_ID) values('" + self.username + "', '" + self.schedule_name + "', " + str(self.course_id) + ")"
             Query.execute(SQL)
             
             #get the new ID and save it to the object
