@@ -69,6 +69,7 @@ getAllBuildings()
 saveSchedule()
 	{
 	  username:"username",
+	  scheduale_name: "name",
 	  classes: [course:{id:int,name:"nameOfCourse",time:"hh:mm am/pm",days:"MTWThF",building_id:"acronym", room:"roomNum" }, ... , course:{ ... } ],
 ]
 	}
