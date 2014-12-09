@@ -13,7 +13,7 @@
 					username: "",
 					password: "",
 					errorMessage: "invalid username/password",
-                    currentUser: ""
+                    currentUser: false
 				},
 				routeInfo: {
 					startPoint: "",
@@ -79,7 +79,7 @@
                         infoService.verifyUser(userString).then(function(success) {
                             $scope.userInfo.errorMessage = success;
 //                            if (success) {
-//                                $scope.userInfo.currentUser = $scope.userInfo.username;
+//                                $scope.userInfo.currentUser = true;
 //                                // reset username and password (no reason to hang onto them)
 //                                $scope.userInfo.username = "";
 //                                $scope.userInfo.password = "";
@@ -152,7 +152,6 @@
                     $scope.buildingInfo.echo_search = searchedBuilding;
                     // get building info from server 
                     infoService.getBuilding(searchedBuilding).then(function(building){
-                        window.alert('test');
                         $scope.buildingInfo.name = building.name;
                         $scope.buildingInfo.phone = building.phone_number;
                         $scope.buildingInfo.hours = building.hours;   
@@ -183,7 +182,7 @@
             },
             verifyUser: function(userString)
             {
-                return $http.post('http://104.236.182.126/verifyUser',userString)
+                return $http.post('http://104.236.182.126/login',userString)
                     .then(function(response) {
                         return response.data
                     });

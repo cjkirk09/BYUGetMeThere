@@ -354,6 +354,12 @@ h3 {
     color: #e6e6e6;
 }
 
+.btn:disabled {
+    background-color: cadetblue;
+    border-color: cadetblue;
+    color: #e6e6e6;
+}
+
 #campus ul {
     overflow-y: scroll;
     height: 300%;
