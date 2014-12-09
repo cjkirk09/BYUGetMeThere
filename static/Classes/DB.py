@@ -101,9 +101,6 @@ class DB:
         
         saved_schedules = []
         for schedule in schedules:
-            course = Course()
-            course.loadFromID(schedule.course_id)
-            schedule.course = course.__dict__
             saved_schedules.append(schedule.__dict__)
         
         return saved_schedules
@@ -111,25 +108,22 @@ class DB:
     @staticmethod
     def loadSchedule(username, schedule_name):
         schedule = Schedule()
-        schedule.loadFromCombinedKey(username, schedule_name)
-        course = Course()
-        course.loadFromID(schedule.course_id)
-        schedule.course = course.__dict__
+        schedule.loadFromAll(username, schedule_name)
+        
+        schedule.courses = []
+        for course in Course.getAllCoursesForSchedule(schedule.id):
+            schedule.courses.append(course.__dict__)
         return schedule.__dict__
         
     @staticmethod
     def saveSchedule(username, schedule_name, courses):
+        schedule = Schedule()
+        schedule.loadFromAll(username, schedule_name)
+        schedule.save()
         for json_course in courses:
             course = Course()
-            course.loadFromAll(json_course['name'], json_course['time'], json_course['days'], json_course['building_id'], json_course['room'])
+            course.loadFromAll(json_course['name'], schedule.id, json_course['time'], json_course['days'], json_course['building_id'], json_course['room'])
             course.save()
-
-            schedule = Schedule()
-            schedule.username = username
-            schedule.schedule_name = schedule_name
-            schedule.course_id = course.id
-            
-            schedule.save()
         return True
             
     @staticmethod

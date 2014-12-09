@@ -5,7 +5,6 @@ class Schedule:
         self.id = 0
         self.username = ""
         self.schedule_name = ""
-        self.course_id = ""
         self.in_DB = False
         
     def loadFromID(self, id):
@@ -14,23 +13,19 @@ class Schedule:
             return
         return self.loadFromResult(result)
         
-    def loadFromCombinedKey(self, username, schedule_name):
-        result = Query.getOneResult("select * from BYU.SCHEDULES where USERNAME = '" + username + "' and SCHEDULE_NAME = '" + schedule_name + "'")
-        if result is None:
-            return
-        return self.loadFromResult(result)
-        
-    def loadFromAll(self, username, schedule_name, course_id):
+    def loadFromAll(self, username, schedule_name):
+        SQL = "select * from BYU.SCHEDULES where USERNAME = '" + username + "' and SCHEDULE_NAME = '" + schedule_name + "'"
+        result = Query.getOneResult(SQL)
+        if result is not None:
+            self.loadFromResult(result)
         self.username = username
         self.schedule_name = schedule_name
-        self.course_id = course_id
         return self
         
     def loadFromResult(self, result):
         self.id = result[0]
         self.username = result[1]
         self.schedule_name = result[2]
-        self.course_id = result[3]
         self.in_DB = True
         return self
     
@@ -42,7 +37,7 @@ class Schedule:
             schedule = Schedule()
             schedules.append(schedule.loadFromResult(result))
         return schedules
-    
+        
     @staticmethod    
     def getAllForUser(username):
         schedules = []
@@ -50,16 +45,16 @@ class Schedule:
         for result in results:
             schedule = Schedule()
             schedules.append(schedule.loadFromResult(result))
-        return schedules
+        return schedules    
         
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYU.SCHEDULES set USERNAME = '" + self.username + "', SCHEDULE_NAME = '" + self.schedule_name + "', COURSE_ID = " + str(self.course_id) + " where ID = " + str(self.id)
+            SQL = "update BYU.SCHEDULES set USERNAME = '" + self.username + "', SCHEDULE_NAME = '" + self.schedule_name + "'"
             Query.execute(SQL)
         else:
             #insert
-            SQL = "insert into BYU.SCHEDULES (USERNAME, SCHEDULE_NAME, COURSE_ID) values('" + self.username + "', '" + self.schedule_name + "', " + str(self.course_id) + ")"
+            SQL = "insert into BYU.SCHEDULES (USERNAME, SCHEDULE_NAME) values('" + self.username + "', '" + self.schedule_name + "')"
             Query.execute(SQL)
             
             #get the new ID and save it to the object
@@ -69,4 +64,4 @@ class Schedule:
             self.in_DB = True
     
     def __str__(self):
-        return "ID: " + str(self.id) + "\nUSERNAME: " + self.building_id + "\nSCHEDULE_NAME: " + self.schedule_name + "\nCOURSE_ID: " + self.course_id + "\n" 
+        return "ID: " + str(self.id) + "\nUSERNAME: " + self.username + "\nSCHEDULE_NAME: " + self.schedule_name + "\n" 

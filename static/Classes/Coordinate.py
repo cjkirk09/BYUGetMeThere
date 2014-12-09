@@ -2,14 +2,14 @@ from Query import Query
 
 class Coordinate:
     def __init__(self):
-        self.id = ""
+        self.id = 0
         self.building_id = ""
         self.latitude = ""
         self.longitude = ""
         self.in_DB = False
         
     def loadFromID(self, id):
-        result = Query.getOneResult("select * from BYU.COORDINATES where ID = '" + id + "'")
+        result = Query.getOneResult("select * from BYU.COORDINATES where ID = " + str(id))
         if result is None:
             return
         return self.loadFromResult(result)
