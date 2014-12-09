@@ -197,7 +197,7 @@
         <div id='routeinput'>
             <div class='row'>
                 <div class='col-xs-12'>
-                    <div class='input-group'>
+                   <!-- <div class='input-group'>
                         <span class='input-group-btn'>
                             <button class='btn btn-default' type='button' onclick="findMyLocation()">
                                <span class='glyphicon glyphicon-map-marker' style='color:#cc6600;font-size:150%'></span>
@@ -205,12 +205,18 @@
                         </span>
                         <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
                                placeholder="Start">
-                    </div>
+                    </div> -->
+                    <select ng-model='routeInfo.startPoint'>
+                        <option ng-repeat='building in $scope.buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
+                    </select>
                 </div>
             </div>
             <div class='row'>
                 <div class='col-xs-12'>
-                    <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'>
+                    <!-- <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'> -->
+                    <select ng-model='routeInfo.endPoint'>
+                        <option ng-repeat='building in $scope.buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
+                    </select>
                 </div>
             </div>
         </div> <!-- end of route box input fields -->
@@ -448,7 +454,7 @@
         <h3>Building Info</h3>
         <div class='row' id='buildinglist'>
             <div class='col-xs-12'>
-                <div class='input-group'>
+                <!-- <div class='input-group'>
                     <input type='text' class='form-control' ng-model='buildingInfo.current' 
                            id='buildingsearch' placeholder='Search'>
                         <span class='input-group-btn'>
@@ -457,7 +463,10 @@
                                 <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
                             </button>
                         </span>
-                </div>
+                </div> -->
+                <select ng-model='buildingInfo.selected'>
+                    <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
+                </select>
             </div>
         </div> <!-- end of search -->
         <div class='row' style='padding-top: 70px'>
@@ -497,7 +506,7 @@
             </div>
             <div class='col-md-2'>
                 <img id='aboutpic' src='/static/images/brynne.jpg'>
-                <p><b>Brynne Hansen</b><br>CSS Controler</p>
+                <p><b>Brynne Hansen</b><br>CSS Controller</p>
             </div>
             <div class='col-md-2'>
                 <img id='aboutpic' src='/static/images/eric.jpg'>
