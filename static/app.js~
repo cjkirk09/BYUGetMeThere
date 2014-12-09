@@ -130,7 +130,7 @@
 					else{
 
 						//convert the entered info to the building abbreviations and check that they are valid
-						if($scope.validRoute()){
+						if(validRoute()){
 							if($scope.routeInfo.lastStartPoint !=$scope.routeInfo.startPoint || 
 								$scope.routeInfo.endPoint != $scope.routeInfo.lastEndPoint){
 							var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };

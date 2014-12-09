@@ -69,19 +69,15 @@ def initialize():
 	return "init"
 @app.route("/regester")
 def regester():
-	# username: "username"
-	# password: "password"
-	# checks to see if user name already taken
-	# then logs in
-	# returns successful or not 
-	return "regester"
-@app.route("/login")
+	myParser = Parser()
+	return myParser.createUser(request.get_json())
+@app.route("/login",methods=['GET','POST'])
 def login():
 	# username: "username"
 	# password: "password"
 	# returns successful or not
 	myParser = Parser()
-	return myParser.loginJSON(request.get_json())
+	return myParser.verifyUser(request.get_json())
 @app.route("/getMapKey")
 def getMapKey():
 	#returns mapKey: "key"

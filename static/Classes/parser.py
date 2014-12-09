@@ -93,7 +93,7 @@ class Parser(object):
 
 	def createUser(self,requestAsJson):
 		try:
-			if(DB.verifyUser(requestAsJson['username'],requestAsJson['password'])):
+			if(DB.createUser(requestAsJson['username'],requestAsJson['password'])):
 				toReturn = "True"
 			else:
 				toReturn = "False"
@@ -104,11 +104,15 @@ class Parser(object):
 	
 	def saveSchedule(self,requestAsJson):
 		try:
-			if(DB.verifyUser(requestAsJson['username'],requestAsJson['scheduale_name'],requestAsJson['classes'])):
+			if(DB.saveSchedule(requestAsJson['username'],requestAsJson['schedule_name'],requestAsJson['courses'])):
 				toReturn = "True"
 			else:
 				toReturn = "False"
 		except Exception, e:
+			f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'w')
+			f.write(str(e))
+			#f.write(str(requestAsJson))
+			f.close()	
 			toReturn = Parser.error(str(e))
 
 		return toReturn
