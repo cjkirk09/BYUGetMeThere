@@ -49,7 +49,7 @@
 	            	days: "",
 	            	building_id: "",
 	            	room: ""
-	            }
+	            },
 
                  schedule: {
                  	list: []	// list of scheduleItems
