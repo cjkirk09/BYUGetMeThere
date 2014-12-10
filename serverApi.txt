@@ -104,7 +104,17 @@ saveSchedule()
 	{
 	  username:"username",
 	  schedule_name: "name",
-	  courses: [{name:"nameOfCourse",time:"hh:mm am/pm",days:"MTWThF",building_id:"acronym", room:"roomNum" }, ... , course:{ ... } ]
+	  courses: [
+		  course:{
+		  	name:"nameOfCourse",
+		  	time:"hh:mm am/pm", 
+		  	days:"MTWThF",
+		  	building_id:"acronym", 
+		  	room:"roomNum" 
+		  }, 
+		  ... , 
+		  course:{ ... } 
+	  ]
 	}
 	returns "failed" or "success"
 
