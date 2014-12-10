@@ -3,7 +3,8 @@
 <!DOCTYPE HTML>
 <title>BYU Get Me There</title>
 <head>
-    <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset='utf-8' name='viewport' content='user-scalable=yes, height=device-height, 
+    initial-scale=1, minimum-scale=0.5, maximum-scale=2.5, width=device-width, target-densitydpi=device-dpi'>
     <!-- css files -->
     <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Dosis:200, 400' >
     <link rel="stylesheet" href='/static/css/bootstrap.min.css'>
@@ -265,10 +266,10 @@
     </div> <!-- end of map buttons -->
 </div> <!-- end of directions section -->
 
-<div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>
+<!-- <div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'> -->
+<div class='section' id='floorplan'>
     <h3>Floor Plan: {{buildingInfo.selected}} </h3>
-    <div class=' container floorplan-container'>   
-        <div class='row' style='position:absolute;top:120%;left:10%;width:85vw'>
+    <div class='row' style='position:absolute;top:120%;left:7.5%;width:85vw'>
             <div class='col-xs-6' style='text-align:left'>
                 <button style='width:100px' type='button' class='btn btn-info' ng-click='previousFloor()'>Previous</button>
             </div>
@@ -276,7 +277,8 @@
                 <button style='width:100px' type='button' class='btn btn-info' ng-click='nextFloor()'>Next</button>
             </div>
         </div>
-        <iframe id='floorplan-pic' src='{{floorplans.list[floorplans.currentFloor]}}'></iframe>
+    <div class=' container floorplan-container'>   
+        <img src='static/FloorPlans-png/ASB/asb-1d.png'>
     </div>
 </div>
 

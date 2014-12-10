@@ -12,7 +12,7 @@
 				userInfo: {
 					username: "",
 					password: "",
-					errorMessage: "Invalid username/password.",
+					errorMessage: "",
                     currentUser: false
 				},
 				routeInfo: {
@@ -79,11 +79,14 @@
                         $scope.userInfo.errorMessage = "";
                         var userString = { username: $scope.userInfo.username, password: $scope.userInfo.password };
                         infoService.createUser(userString).then(function(success) {
-                            $scope.userInfo.errorMessage = success;
-                            if (success == "true") {
+                            //$scope.userInfo.errorMessage = success;
+                            if (success == "True") {
                                 $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
+                            }
+                            else {
+                                $scope.userInfo.errorMessage = "Sorry, that username is taken";
                             }
                         });
                         // let the user close the login screen so they can see success/failure
@@ -264,7 +267,7 @@
             },
             createUser: function(userString)
             {
-                return $http.post('http://104.236.182.126/createUser',userString)
+                return $http.post('http://104.236.182.126/register',userString)
                     .then(function(response) {
                         return response.data;
                     });
