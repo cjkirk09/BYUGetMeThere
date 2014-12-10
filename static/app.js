@@ -316,7 +316,7 @@
 					.then(function(response) {
 						return response.data;
 					});
-			}
+			},
 
 			getSavedSchedules: function(userString)
 			{
