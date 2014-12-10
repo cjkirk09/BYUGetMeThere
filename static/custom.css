@@ -70,14 +70,17 @@ h3 {
 	width: 33vh;
 }
 
-#login a {
+#login {
     cursor: pointer;
 	text-align: right;
     float: right;
     font-size: 150%;
     text-decoration: none;
     color: #cc6600;
-    margin: 5px;
+    padding-top: 5px;
+    padding-right: 25px;
+    height: 45px;
+/*    margin: 1px;*/
 }
 
 /*login page*/

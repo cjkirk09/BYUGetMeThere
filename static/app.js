@@ -112,6 +112,10 @@
                         // $scope.toggleLogin();
                     }
 				},
+                logout: function()
+                {
+                    $scope.userInfo.currentUser = false;
+                },
 				validRoute: function(){
 					var startGood = false;
 					var endGood = false;

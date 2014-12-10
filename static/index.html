@@ -145,7 +145,8 @@
         </div>
         <div class='col-xs-4' id='logo'><img src="/static/images/logo.png"></div>
         <!-- login option -->
-        <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
+        <div ng-click='toggleLogin()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
+        <div ng-click='logout()' ng-if='userInfo.currentUser' class='col-xs-4' id='login'>Logout</div>
     </div> 
 </div> <!-- end of top menu bar -->
 
@@ -220,16 +221,18 @@
                         <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
                                placeholder="Start">
                     </div> -->
-                    <select ng-model='routeInfo.startPoint'>
-                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
+                    <select placeholder='Start' ng-model='routeInfo.startPoint'>
+                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
+                            {{building.id}} - {{building.name}}</option>
                     </select>
                 </div>
             </div>
             <div class='row'>
                 <div class='col-xs-12'>
                     <!-- <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'> -->
-                    <select ng-model='routeInfo.endPoint'>
-                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
+                    <select placeholder = 'End' ng-model='routeInfo.endPoint'>
+                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
+                            {{building.id}} - {{building.name}}</option>
                     </select>
                 </div>
             </div>
@@ -263,7 +266,7 @@
 </div> <!-- end of directions section -->
 
 <div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>
-    <h3>Floor Plan {{floorplans.list[floorplans.currentFloor]}}</h3>
+    <h3>Floor Plan</h3>
     <div class=' container floorplan-container'>
         <div class='row' style='position:absolute;top:190%;left:10%;width:85vw'>
             <div class='col-xs-6' style='text-align:left'><button style='width:100px' type='button' class='btn btn-info' ng-click='previousFloor()'>Previous</button></div>
@@ -495,9 +498,9 @@
                             </button>
                         </span>
                 </div> -->
-                <select ng-model='buildingInfo.selected'>
+                <select placeholder='Select Building' ng-model='buildingInfo.selected'>
                     <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
-                        ({{building.id}}) {{building.name}}</option>
+                        {{building.id}} - {{building.name}}</option>
                 </select>
             </div>
             <div class='col-xs-2 col-md-1'>
