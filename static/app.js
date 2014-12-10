@@ -282,14 +282,14 @@
 		return {
 			getPath: function(stringPath)
 			{
-				return $http.post('http://BYUGetMeThere.com/getPath',stringPath)
+				return $http.post('http://104.236.182.126/getPath',stringPath)
 					.then(function(response) {
 						return response.data;
 					});
 			},
             getBuilding: function(searchedBuilding)
             {
-                return $http.get('http://BYUGetMeThere.com/getBuildingInfo/'+searchedBuilding)
+                return $http.get('http://104.236.182.126/getBuildingInfo/'+searchedBuilding)
                     .then(function(response) {
                         return response.data;    
                     });
@@ -297,14 +297,14 @@
 
             verifyUser: function(userString)
             {
-                return $http.post('http://BYUGetMeThere.com/login',userString)
+                return $http.post('http://104.236.182.126/login',userString)
                     .then(function(response) {
                         return response.data;
                     });
             },
             createUser: function(userString)
             {
-                return $http.post('http://BYUGetMeThere.com/regester',userString)
+                return $http.post('http://104.236.182.126/regester',userString)
                     .then(function(response) {
                         return response.data;
                     });
@@ -312,7 +312,7 @@
 
 			getAllBuildings: function()
 			{
-				return $http.get('http://BYUGetMeThere.com/getAllBuildings')
+				return $http.get('http://104.236.182.126/getAllBuildings')
 					.then(function(response) {
 						return response.data;
 					});
@@ -320,7 +320,7 @@
 
 			getSavedSchedules: function(userString)
 			{
-				return $http.get('http://BYUGetMeThere.com/getSavedSchedules',userString)
+				return $http.get('http://104.236.182.126/getSavedSchedules',userString)
 					.then(function(response) {
 						return response.data;
 					});
