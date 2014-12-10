@@ -101,9 +101,9 @@ class DB:
         
         saved_schedules = []
         for schedule in schedules:
-            saved_schedules.courses = []
-            for course in Cousrse.getAllCoursesForSchedule(schedule.id):
-                saved_schedule.courses.append(course.__dict__)
+            schedule.courses = []
+            for course in Course.getAllCoursesForSchedule(schedule.id):
+                schedule.courses.append(course.__dict__)
             saved_schedules.append(schedule.__dict__)
         
         return saved_schedules
@@ -147,7 +147,7 @@ class DB:
         user = User()
         user.loadFromID(username)
         
-        if user.password == hashPassword(password):
+        if user.password == DB.hashPassword(password):
             return True
         else:
             return False
@@ -159,13 +159,13 @@ class DB:
         if user.in_DB:
             return False
         user.username = username
-        user.password = hashPassword(password)
+        user.password = DB.hashPassword(password)
         user.save()
         return True
         
     @staticmethod
     def hashPassword(password):
-        return pasword
+        return password
     
     
         
