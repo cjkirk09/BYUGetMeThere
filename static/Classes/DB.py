@@ -155,18 +155,17 @@ class DB:
     
     @staticmethod        
     def createUser(username, password):
+        print "I'm Here!"
         user = User()
         user.loadFromID(username)
+        print user
         if user.in_DB:
             return False
         user.username = username
         user.password = str(hash(password))
         user.save()
+        print "Saved User"
         return True
-        
-    @staticmethod
-    def hashPassword(password):
-        return password
     
     
         
