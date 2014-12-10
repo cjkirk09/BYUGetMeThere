@@ -6,14 +6,15 @@
     <meta charset='utf-8' name='viewport' content='width=device-width, height=device-height, initial-scale=1'>
     <!-- css files -->
     <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Dosis:200, 400' >
-    <link rel="stylesheet" href='/static/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='/static/custom.css'>
+    <link rel="stylesheet" href='css/bootstrap.min.css'>
+    <link rel='stylesheet' href='custom-css/custom.css'>
+    <link rel='stylesheet' href='custom-css/login-rb.css'>
     <!-- javascript files -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
-    <script src="/static/app.js"></script>
+    <script src="app.js"></script>
     <script type="text/javascript"> // google maps
        var byu = new google.maps.LatLng(40.248770, -111.649273);
        var map;
@@ -144,36 +145,41 @@
                 <span class='glyphicon glyphicon-align-justify'></span>
             </a>
         </div>
-        <div class='col-xs-4' id='logo'><img src="/static/images/logo.png"></div>
+        <div class='col-xs-4' id='logo'><img src="images/logo.png"></div>
         <!-- login option -->
-        <div ng-click='toggleLogin()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
+        <div ng-click='toggleLogin()' onclick='toggleRouteBox()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
         <div ng-click='logout()' ng-if='userInfo.currentUser' class='col-xs-4' id='login'>Logout</div>
     </div> 
 </div> <!-- end of top menu bar -->
 
 <!-- login page -->
-<div class='section' ng-if='state.loginOpen' id='loginpage'>
+<div class='popup' ng-if='state.loginOpen' id='loginpage'>
+    <div class='row' ng-if='userInfo.errorMessage!=""'>
+        <div class='col-xs-12'><p>{{userInfo.errorMessage}}</p></div>
+    </div>
+    <div class='row' ng-if='userInfo.errorMessage==""'>
+        <div class='col-xs-12'><p>Welcome to BYU Get Me There!</p></div>
+    </div>
     <div id='logininput'>
         <div class='row'>
-            <div class='col-xs-12'><input class='form-control' type='text' 
-                                          ng-model='userInfo.username' placeholder="Username"></div>
+            <div class='col-xs-12'>
+                <input class='form-control' type='text' ng-model='userInfo.username' placeholder="Username">
+            </div>
         </div>
         <div class='row'>
-            <div class='col-xs-12'><input class='form-control' type='password' 
-                                          ng-model='userInfo.password' placeholder='Password'></div>
+            <div class='col-xs-12'>
+                <input class='form-control' type='password' ng-model='userInfo.password' placeholder='Password'>
+            </div>
         </div>
     </div> <!-- end of login input boxes -->
     <div class='row' id='loginbuttons'>
-        <div class='col-xs-6' id='registerbutton'>
-            <button type='button' class='btn btn-info' ng-click="register()">Register</button>
-        </div>
-        <div class='col-xs-6' id='loginbutton'>
-            <button type='button' class='btn btn-info' ng-click="login()">Login</button>
+        <div class='col-xs-12'>
+            <div class='buttongroup login-group'>
+                <button type='button' class='btn btn-login' ng-click="register()">Register</button>
+                <button type='button' class='btn btn-login' ng-click="login()">Login</button>
+            </div>    
         </div>
     </div> <!-- end of login buttons -->
-    <div class='row' id='loginerror' ng-if='userInfo.errorMessage!=""'>
-        <p>{{userInfo.errorMessage}}</p>
-    </div>
 </div> <!-- end of login page -->
 
 <!-- options page -->   
@@ -187,7 +193,7 @@
             <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
         </ul>
     </div>
-    <div class='row' id='optionslogo'><img src='/static/images/optionslogo.png'></div>
+    <div class='row' id='optionslogo'><img src='images/optionslogo.png'></div>
 
 </div> <!-- end of options page -->
 
@@ -195,34 +201,33 @@
 <div class='section' id='directions'>
     <!-- new route menu -->
     <div class='row' id='newroute'>
-        <div class='col-xs-4' style="text-align:center">
-            <button class='btn mapmarker' type='button' onclick="findMyLocation()">
-               <span class='glyphicon glyphicon-map-marker'></span>
+        <div class='col-xs-4' style='text-align:left'>
+            <button class='btn btn-mapmarker' type='button' onclick="findMyLocation()">
+                <span class='glyphicon glyphicon-map-marker'></span>
             </button>
         </div>
-        <div class='col-xs-4' style='text-align:center;margin-top:3px;'>
-            <button class='btn route' type='button' ng-click="toggleRouteBox()" onclick="toggleRouteBox()">Route</button>
-        </div>
-        <div class='col-xs-4' style='text-align:center;margin-top:3px;'> 
-            <button type='button' class='btn clear' onclick="clearRoute()">Clear</button> 
+        <div class='col-xs-8' style='text-align:right'>
+            <div class='buttongroup newroute-group'>
+                <button class='btn btn-newroute route' type='button' ng-click="toggleRouteBox()"
+                        onclick="toggleRouteBox()">Route</button>
+                <button type='button' class='btn btn-newroute clear' onclick="clearRoute()">Clear</button> 
+            </div>
         </div>
     </div> <!-- end of new route menu -->
 
     <!-- Route Box, only visible if the Route button is clicked -->
-    <div class='section' style='visibility:hidden' id='routebox'>
+    <div class='popup' style='visibility:hidden' id='routebox'>
+        <div class='row error' ng-if='routeInfo.errorMessage!=""'>
+            <div class='col-xs-12'><p>{{getRoute()}}</p></div>
+        </div>
+        <div class='row' ng-if='routeInfo.errorMessage==""'>
+            <div class='col-xs-12'><p>Please enter a starting and an ending point.</p></div>
+        </div>
         <div id='routeinput'>
             <div class='row'>
                 <div class='col-xs-12'>
-                   <!-- <div class='input-group'>
-                        <span class='input-group-btn'>
-                            <button class='btn btn-default' type='button' onclick="findMyLocation()">
-                               <span class='glyphicon glyphicon-map-marker' style='color:#cc6600;font-size:150%'></span>
-                            </button>
-                        </span>
-                        <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
-                               placeholder="Start">
-                    </div> -->
-                    <select placeholder='Start' id='Start' ng-model='routeInfo.startPoint'>
+                    <select id='Start' ng-model='routeInfo.startPoint'>
+                        <option value='currentLocation'>Current Location</option>
                         <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
                             {{building.id}} - {{building.name}}</option>
                     </select>
@@ -232,6 +237,7 @@
                 <div class='col-xs-12'>
                     <!-- <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'> -->
                     <select placeholder = 'End' ng-model='routeInfo.endPoint'>
+<!--                        <option selected>End</option>-->
                         <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
                             {{building.id}} - {{building.name}}</option>
                     </select>
@@ -239,33 +245,35 @@
             </div>
         </div> <!-- end of route box input fields -->
         <div class='row' id='routeboxbuttons'>
-            <div class='col-xs-4' id='cancelroute'>
-               <button type='button' class='btn btn-info' ng-click="toggleRouteBox()" onclick="toggleRouteBox()">Cancel</button>
-            </div>
-            <div class='col-xs-4' id='getroute' style='text-align:center'>
-                <button type='button' class='btn btn-info' 
+            <div class='col-xs-12' style='text-align:center'>
+                <div class='buttongroup'>
+                    <button type='button' class='btn btn-route' ng-click="toggleRouteBox()"
+                            onclick="toggleRouteBox()">Cancel</button>
+                    <button type='button' class='btn btn-route'
                         onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
-            </div>  
-            <div class='col-xs-4' id='clearroute'>
-               <button type='button' class='btn btn-info' onclick="clearRoute()">Clear</button>
-            </div>  
+                    <button type='button' class='btn btn-route' onclick="clearRoute()">Clear</button>
+                </div>
+            </div>
         </div> <!-- end of route box buttons -->
-        <div class='row' ng-if='routeInfo.errorMessage!=""' id='routeerror'>
-            <p>{{getRoute()}}</p>
-        </div>
    </div> <!-- end of Route Box -->   
 
     <!-- back to map -->
     <div class='container mapcontainer' id='map'></div>
-
+    <!-- map buttons -->
     <div class='row' id='mapbuttons'>
-        <div><button type='button' class='col-xs-4 btn btn-info' onclick="goTo('building')">Building Info</button></div>
-        <div><button type='button' class='col-xs-4 btn btn-info' ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('floorplan')">Floor Plan</button></div>
-        <div><button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-4 btn btn-info'>Save Route</button></div>
+        <div class='col-xs-12' style='text-align:center'>
+            <div class='buttongroup map-group'>
+                <button type='button' class='btn btn-map' 
+                        ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('building')">Building Info</button>
+                <button type='button' class='btn btn-map' 
+                        ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('floorplan')">Floor Plan</button>
+                <button type='button' class='btn btn-map' ng-disabled='!userInfo.currentUser'>Save Route</button>
+            </div>
+        </div>
     </div> <!-- end of map buttons -->
 </div> <!-- end of directions section -->
 
- <div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'> 
+<div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'> 
 <!--<div class='section' id='floorplan'>-->
     <h3>Floor Plan: {{buildingInfo.selected}} </h3>
     <div class='row' style='margin-left:0;margin-right:0;position:absolute;top:120%;left:0;width:100vw'>
@@ -529,23 +537,23 @@
         <div class='row' style='text-align:center'>
             <div class='col-md-1'></div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='/static/images/blaine.jpg'>
+                <img id='aboutpic' src='images/blaine.jpg'>
                 <p><b>Blaine McGary</b><br>Server Scientist</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='/static/images/brynne.jpg'>
+                <img id='aboutpic' src='images/brynne.jpg'>
                 <p><b>Brynne Hansen</b><br>CSS Controller</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='/static/images/cody.jpg'>
+                <img id='aboutpic' src='images/cody.jpg'>
                 <p><b>Cody Hefner</b><br>Schedule Surgeon</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='/static/images/cory.jpg'>
+                <img id='aboutpic' src='images/cory.jpg'>
                 <p><b>Cory Kirkland</b><br>Map Mastermind</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='/static/images/eric.jpg'>
+                <img id='aboutpic' src='images/eric.jpg'>
                 <p><b>Eric Romrell</b><br>Database Doctor</p>
             </div>
             <div class='col-md-1'></div>
