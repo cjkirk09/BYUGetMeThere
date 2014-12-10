@@ -50,8 +50,8 @@ class DB:
         for start_coord in start_coords:
             for end_coord in end_coords:
                 x1 = float(start_coord.latitude)
-                x2 = float(start_coord.longitude)
-                y1 = float(end_coord.latitude)
+                y1 = float(start_coord.longitude)
+                x2 = float(end_coord.latitude)
                 y2 = float(end_coord.longitude)
                 
                 distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
