@@ -71,8 +71,8 @@ def getBuildingInfo(input):
 def initialize():
 	# same as "/" route. initial page seen by user
 	return "init"
-@app.route("/regester",methods=['GET','POST'])
-def regester():
+@app.route("/register",methods=['GET','POST'])
+def register():
 	myParser = Parser()
 	return myParser.createUser(request.get_json())
 @app.route("/login",methods=['GET','POST'])
