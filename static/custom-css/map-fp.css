@@ -1,0 +1,34 @@
+/* This is the css for the map, the map buttons, and the floor plan */
+
+.map-group {
+    width: 100%;
+}
+
+.btn-map,
+.btn-map:active,
+.btn-map:focus {
+    height: 45px;
+    width: 25%;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #e6e6e6;
+    font-size: 13pt;
+}
+
+.btn-map:hover {
+    background-color: #cc6600;
+    border-color: #cc6600;
+}
+
+.btn-map:disabled {
+    background-color: #4D4DAE;
+    border-color: #4D4DAE;
+    color: darkblue;
+}
+
+.floorplan-container {
+    -webkit-overflow-scrolling: touch;
+    overflow: scroll;
+}
