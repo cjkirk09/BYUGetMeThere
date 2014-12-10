@@ -165,7 +165,7 @@ class DB:
         
     @staticmethod
     def hashPassword(password):
-        
+        return pasword
     
     
         
