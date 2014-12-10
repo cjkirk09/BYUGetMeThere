@@ -17,27 +17,18 @@
     <script type="text/javascript" src="/static/js/markerwithlabel.js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
     <script src="/static/app.js"></script>
-<style type="text/css">
-   .labels {
-     color: red;
-     background-color: white;
-     font-family: "Lucida Grande", "Arial", sans-serif;
-     font-size: 10px;
-     font-weight: bold;
-     text-align: center;
-     border: 2px solid black;
-     white-space: nowrap;
-   }
- </style>
-    <script type="text/javascript"> // google maps
+   <script type="text/javascript"> // google maps
        var byu = new google.maps.LatLng(40.248770, -111.649273);
        var map;
        var positionmarker;
+       var startmarker;
+       var endmarker;
        var directionsDisplay;
        var directionsService = new google.maps.DirectionsService();
 
        function initialize(){
           directionsDisplay = new google.maps.DirectionsRenderer();
+          //directionsDisplay.setSuppressMarkers(true);
           var mapProp = {
              center:byu,
              zoom:15,
@@ -61,31 +52,22 @@
        if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
              var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-             console.log("I found the user's position: " + pos);
+             //console.log("I found the user's position: " + pos);
 
-var marker = new MarkerWithLabel({
-
-	position: byu,
-       draggable: false,
-       map: map,
-       labelContent: "BYU is here",
-       labelAnchor: new google.maps.Point(22, 0),
-       labelClass: "labels", // the CSS class for the label
-       labelStyle: {opacity: 0.75}
-});
-
-
-             positionmarker = new google.maps.Marker({
+             positionmarker = new MarkerWithLabel({
                  map:map,
                  draggable:false,
                  animation: google.maps.Animation.DROP,
                  position: pos,
-                 title: "Your Location"
+                 title: "Your Location",
+
+                 labelContent: "You are here",
+                 labelAnchor: new google.maps.Point(22, 0),
+                 labelClass: "maplabels", // the CSS class for the label
+                 labelStyle: {opacity: 0.75}
              });
   
              map.setCenter(pos);
-             // cody changed this - 
-             // when the map is at 12 it shows all of provo, but
              // when the map is at 17 it's close enough to see individual BYU buildings.
              // map.setZoom(12);
              
@@ -123,6 +105,12 @@ var marker = new MarkerWithLabel({
               positionmarker.setMap(null);
          }
          directionsDisplay.set('directions',null);
+         if(startmarker != null ){
+			 startmarker.close();
+		 }
+		 if(endmarker != null ){
+			 endmarker.close();
+		 }
      }
 
      function getRoute(scope){
@@ -150,7 +138,24 @@ var marker = new MarkerWithLabel({
             };
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
+					if(startmarker != null ){
+			           startmarker.close();
+		            }
+		            if(endmarker != null ){
+			           endmarker.close();
+		            }
                     directionsDisplay.setDirections(response);
+                    startmarker = new google.maps.InfoWindow({
+                        map:map,
+                        position: start,
+                        content: "Start: "+scope.routeInfo.startPoint,
+                    });
+                    endmarker = new google.maps.InfoWindow({
+                        map:map,
+                        position: end,
+                        content: "End: "+scope.routeInfo.endPoint,
+                    });
+
                 }
             });
         }
@@ -174,7 +179,7 @@ var marker = new MarkerWithLabel({
         </div>
         <div class='col-xs-4' id='logo'><img src="/static/images/logo.png"></div>
         <!-- login option -->
-        <div ng-click='toggleLogin()' onclick='toggleRouteBox()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
+        <div ng-click='toggleLogin()' onclick='closeRouteBox()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
         <div ng-click='logout()' ng-if='userInfo.currentUser' class='col-xs-4' id='login'>Logout</div>
     </div> 
 </div> <!-- end of top menu bar -->
@@ -245,7 +250,7 @@ var marker = new MarkerWithLabel({
     <!-- Route Box, only visible if the Route button is clicked -->
     <div class='popup' style='visibility:hidden' id='routebox'>
         <div class='row error' ng-if='routeInfo.errorMessage!=""'>
-            <div class='col-xs-12'><p>{{getRoute()}}</p></div>
+            <div class='col-xs-12'><p>{{routeInfo.errorMessage}}</p></div>
         </div>
         <div class='row' ng-if='routeInfo.errorMessage==""'>
             <div class='col-xs-12'><p>Please enter a starting and an ending point.</p></div>
@@ -300,15 +305,16 @@ var marker = new MarkerWithLabel({
     </div> <!-- end of map buttons -->
 </div> <!-- end of directions section -->
 
-<div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'> 
-<!--<div class='section' id='floorplan'>-->
-    <h3>Floor Plan: {{buildingInfo.selected}} </h3>
-    <div class='row' style='margin-left:0;margin-right:0;position:absolute;top:120%;left:0;width:100vw'>
-        <div class='col-xs-6' style='padding-left:30px;text-align:left'>
-            <button style='width:100px' type='button' class='btn btn-info' ng-click='previousFloor()'>Previous</button>
+<div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>
+<!-- <div class='section' id='floorplan'> -->
+    <h3>Floor Plan: {{buildingInfo.selected}}</h3>
+    <div class='row'>
+        <div class='col-xs-4' style='text-align:left'>
+            <button type='button' class='btn btn-floor' ng-click='previousFloor()'>Previous Floor</button>
         </div>
-        <div class='col-xs-6' style='pading-right:30px;text-align:right'>
-            <button style='width:100px' type='button' class='btn btn-info' ng-click='nextFloor()'>Next</button>
+        <div class='col-xs-4' style='text-align:center;padding-top:5px;font-size:14pt'>Floor: {{floorplans.currentFloor+1}}</div>
+        <div class='col-xs-4' style='text-align:right' >
+            <button type='button' class='btn btn-floor' ng-click='nextFloor()'>Next Floor</button>
         </div>
     </div>
     <div class='container floorplan-container'>   
@@ -615,6 +621,10 @@ var marker = new MarkerWithLabel({
             else {
                 document.getElementById("routebox").style.display = "none";
             }
+        }
+        
+        function closeRouteBox() {
+            document.getElementById("routebox").style.visibility = "hidden";
         }
     </script>
     

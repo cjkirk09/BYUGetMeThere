@@ -22,7 +22,7 @@
 					lastStartPoint: "",
 					lastEndPoint: "",
 					path: [],
-					errorMessage: "Please select a start point and an end point."
+					errorMessage: ""
 				},
 
                 buildingInfo: {
