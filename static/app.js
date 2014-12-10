@@ -248,7 +248,7 @@
                 	var username = $scope.userInfo.currentUsername;
                 	infoService.loadSchedule(username).then(function(success) {
                 		// save the user's schedule
-                	}
+                	});
                 },
                 saveSchedule: function () // send user-created schedule to server
                 {
