@@ -33,36 +33,11 @@ def getCustomPath():
 	myParser = Parser()
 	return myParser.getCustomPathJSON(request.get_json())
 
-@app.route("/getSavedPaths")
-def getSavedPaths():
-	#  username:"username",
-	#  password:"password"
+@app.route("/getSavedSchedules")
+def getSavedSchedules():
+	#  username:"username"
 	#Assuming we need to return the paths? JSON set up?
-	return "SavedPaths"
-@app.route("/loadPath")
-def loadPath():
-	#  username:"username",
-	#  password:"password",
-	#  pathid: "path" //or path points/ locations
-	#  returns
-	#  startCoord: [ lattitude, longitude ],
-	#  endCoord: [ lattitude, longitude ],
-	#  floorPlan: "url",
-	#  buildingInfo:
-	return "loadPath"
-@app.route("/loadTour")
-def loadTour():
-	#  tourname: "name"
-	# returns
-	#  path: [ [lat,long], [lat,long],,, ],
-	#  places: [ place:{ coord:[lat,long], name:"string", info:"string", image:"url"(optional) }, , ]
-	return "load tour"
-@app.route("/savePath")
-def savePath():
-	#  username: "username", //some way to know which user it is
-	#  coordinates: [,,]
-	# returns t/f on if successful or not
-	return "savePath"
+	return "SavedSchedules"
 @app.route("/getBuildingInfo/<input>")
 def getBuildingInfo(input):
 	myParser = Parser()
