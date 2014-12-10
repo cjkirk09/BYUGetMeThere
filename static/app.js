@@ -7,13 +7,15 @@
 				state: {
 					menuOpen: false,
 					loginOpen: false,
-					routeBoxOpen: false
+					routeBoxOpen: false,
+					newScheduleItemOpen: false
 				},
 				userInfo: {
 					username: "",
 					password: "",
 					errorMessage: "",
-                    currentUser: false
+                    currentUser: false,
+                    currentUsername: ""
 				},
 				routeInfo: {
                     boxOpen: false,
@@ -45,14 +47,19 @@
 
 	            scheduleItem: {
 	            	name: "",
-	            	time: "",
-	            	days: "",
+	            	hour: "",
+	            	minute: "",
+	            	ampm: "",
+	            	days: [false, false, false, false, false, false, false],
 	            	building_id: "",
 	            	room: ""
 	            },
 
                  schedule: {
-                 	list: []	// list of scheduleItems
+                 	list: [],
+                 	hoursList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                 	minutesList: ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
+                 	ampm: ['am', 'pm']
                  },
  
 				toggleMenu: function()
@@ -60,12 +67,14 @@
 					$scope.state.menuOpen = !$scope.state.menuOpen;	
 					$scope.state.loginOpen = false;
 					$scope.state.routeBoxOpen = false;
+					$scope.state.newScheduleItemOpen = false;
 				},
 				toggleLogin: function()
 				{
 					$scope.state.menuOpen = false;
 					$scope.state.loginOpen = !$scope.state.loginOpen;
 					$scope.state.routeBoxOpen = false;
+					$scope.state.newScheduleItemOpen = false;
 				},
 				toggleRouteBox: function(obj)
 				{
@@ -73,7 +82,16 @@
 					$scope.state.menuOpen = false;
 					$scope.state.loginOpen = false;
 					$scope.state.routeBoxOpen = !$scope.state.routeBoxOpen;
+					$scope.state.newScheduleItemOpen = false;
 				},
+				toggleNewScheduleItem: function()
+				{
+					$scope.state.menuOpen = false;
+					$scope.state.loginOpen = false;
+					$scope.state.routeBoxOpen = false;
+					$scope.state.newScheduleItemOpen = !$scope.state.newScheduleItemOpen;
+				},
+
 				register: function()
 				{
                     if ($scope.userInfo.currentUser) {
@@ -243,7 +261,7 @@
                 	// get all divs of id='scheduleItem'
                 	// remove them from DOM
                 },
-                loadSchedule: function () // get user's schedule from server
+                getSavedSchedules: function () // get user's schedule from server
                 {
                 	var username = $scope.userInfo.currentUsername;
                 	infoService.loadSchedule(username).then(function(success) {
@@ -252,15 +270,29 @@
                 },
                 saveSchedule: function () // send user-created schedule to server
                 {
-
+                	var userName = $scope.userInfo.currentUsername;
+                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
+                	// get schedule, convert it into data
+                	for (day in daysOfWeek)
+                	{
+	                	data = {
+	                		username:userName, 
+	                		schedule_name:daysOfWeek[day],
+	                		courses: []
+	                	};
+	                	// send to server
+	                	infoService.saveSchedule(data).then(function(success) {
+	                		// check for errors
+	                	})
+                	}
                 },
                 addScheduleItem: function () // called when the user pushes the + button
                 {
-
+                	// $scope
                 },
                 removeScheduleItem: function () // called when the user pushes the - button
                 {
-
+                	
                 }
             
 					
@@ -313,6 +345,14 @@
 			getAllBuildings: function()
 			{
 				return $http.get('http://104.236.182.126/getAllBuildings')
+					.then(function(response) {
+						return response.data;
+					});
+			},
+
+			saveSchedule: function(userString)
+			{
+				return $http.get('http://104.236.182.126/saveSchedule',userString)
 					.then(function(response) {
 						return response.data;
 					});
