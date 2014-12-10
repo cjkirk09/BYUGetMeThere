@@ -60,7 +60,7 @@ class Parser(object):
 
 		return toReturn
 
-	def getSavedSchedules(self,requestAsJson):
+	def getSavedSchedulesJSON(self,requestAsJson):
 		try:
 			toReturn = DB.getSavedSchedules(requestAsJson['username'])
 		except Exception, e:
