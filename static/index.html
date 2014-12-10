@@ -212,18 +212,18 @@
                         <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
                                placeholder="Start">
                     </div> -->
-                    <select ng-model='routeInfo.startPoint'>
+                    <select placeholder='Start' ng-model='routeInfo.startPoint'>
                         <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
-                            ({{building.id}}) {{building.name}}</option>
+                            {{building.id}} - {{building.name}}</option>
                     </select>
                 </div>
             </div>
             <div class='row'>
                 <div class='col-xs-12'>
                     <!-- <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'> -->
-                    <select ng-model='routeInfo.endPoint'>
+                    <select placeholder = 'End' ng-model='routeInfo.endPoint'>
                         <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
-                            ({{building.id}}) {{building.name}}</option>
+                            {{building.id}} - {{building.name}}</option>
                     </select>
                 </div>
             </div>
@@ -485,9 +485,9 @@
                             </button>
                         </span>
                 </div> -->
-                <select ng-model='buildingInfo.selected'>
+                <select placeholder='Select Building' ng-model='buildingInfo.selected'>
                     <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
-                        ({{building.id}}) {{building.name}}</option>
+                        {{building.id}} - {{building.name}}</option>
                 </select>
             </div>
             <div class='col-xs-2 col-md-1'>
