@@ -16,6 +16,7 @@
                     currentUser: false
 				},
 				routeInfo: {
+                    boxOpen: false,
 					startPoint: "",
 					endPoint: "",
 					lastStartPoint: "",
@@ -54,7 +55,7 @@
 					$scope.state.loginOpen = !$scope.state.loginOpen;
 					$scope.state.routeBoxOpen = false;
 				},
-				toggleRouteBox: function()
+				toggleRouteBox: function(obj)
 				{
 					//window.alert("in toggle");
 					$scope.state.menuOpen = false;
@@ -63,6 +64,10 @@
 				},
 				register: function()
 				{
+                    if ($scope.userInfo.currentUser) {
+                        $scope.userInfo.errorMessage = "Please log out first.";
+                        return;
+                    }
 					// make sure input is valid
                     if ($scope.userInfo.username === "") {
                         $scope.userInfo.errorMessage = "Please enter a valid username";
@@ -87,6 +92,10 @@
 				},
 				login: function()
 				{
+                    if ($scope.userInfo.currentUser) {
+                        $scope.userInfo.errorMessage = "Please log out first.";
+                        return;
+                    }
                     // username: toor
                     // password: mypassword
 					// make sure input is valid

@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from DB import DB
 
@@ -109,8 +110,8 @@ class Parser(object):
 			else:
 				toReturn = "False"
 		except Exception, e:
-			f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'w')
-			f.write(str(e))
+			f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+			f.write(str(datatime.datetime.now()) + str(e))
 			#f.write(str(requestAsJson))
 			f.close()	
 			toReturn = Parser.error(str(e))
@@ -123,6 +124,11 @@ class Parser(object):
 		except Exception, e:
 			toReturn = Parser.error(str(e))
 
+		f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+		f.write(str(datetime.datetime.now()))
+		#f.write(str(requestAsJson))
+		f.close()	
+		
 		return json.dumps(toReturn)
 
 
