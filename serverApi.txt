@@ -40,7 +40,16 @@ getSavedSchedules()
 	}
 	return
     {
-      schedules: [schedule1:{id: int, username: "string", schedule_name: "string"}, schedule2...]
+      schedules: [schedule1:{id: int, username: "string", schedule_name: "string", courses: [ 
+          course:{
+            name:"nameOfCourse",
+            schedule_name: "nameOfSchedule",
+            time:"hh:mm am/pm",
+            days:"MTWThF",
+            building_id:"acronym", 
+            room:"roomNum" 
+          },
+          ... , course:{ ... } ], schedule2...]
     }
 	
 

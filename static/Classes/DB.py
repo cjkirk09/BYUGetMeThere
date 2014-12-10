@@ -55,7 +55,7 @@ class DB:
                 y2 = float(end_coord.longitude)
                 
                 distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-                
+                                
                 if distance < least:
                     least = distance
                     best_start = start_coord
@@ -101,6 +101,9 @@ class DB:
         
         saved_schedules = []
         for schedule in schedules:
+            saved_schedules.courses = []
+            for course in Cousrse.getAllCoursesForSchedule(schedule.id):
+                saved_schedule.courses.append(course.__dict__)
             saved_schedules.append(schedule.__dict__)
         
         return saved_schedules
