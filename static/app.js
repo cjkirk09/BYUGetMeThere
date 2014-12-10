@@ -33,14 +33,26 @@
                     hours: "12:00am-12:00pm"
                 },
 
-				buildings : {
-					  allInfo: [],
-					  buildingList: []
+				buildings: {
+					allInfo: [],
+					buildingList: []
 				},
                 
                 floorplans: {
-                     list: [],
-                     currentFloor: 0
+	                list: [],
+	                currentFloor: 0
+	            },
+
+	            scheduleItem: {
+	            	name: "",
+	            	time: "",
+	            	days: "",
+	            	building_id: "",
+	            	room: ""
+	            }
+
+                 schedule: {
+                 	list: []	// list of scheduleItems
                  },
  
 				toggleMenu: function()
@@ -82,6 +94,7 @@
                             //$scope.userInfo.errorMessage = success;
                             if (success == "True") {
                                 $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
+                                $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
                             }
@@ -117,6 +130,7 @@
                             if (success == "true") {
                                 $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
+                                $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.password = "";
                             }
                         });	
@@ -223,6 +237,30 @@
                 {
                     $scope.floorplans.currentFloor = (($scope.floorplans.currentFloor-1) + $scope.floorplans.list.length)
                     % $scope.floorplans.list.length;
+                },
+                newSchedule: function () // same thing as hitting every minus button
+                {
+                	// get all divs of id='scheduleItem'
+                	// remove them from DOM
+                },
+                loadSchedule: function () // get user's schedule from server
+                {
+                	var username = $scope.userInfo.currentUsername;
+                	infoService.loadSchedule(username).then(function(success) {
+                		// save the user's schedule
+                	}
+                },
+                saveSchedule: function () // send user-created schedule to server
+                {
+
+                },
+                addScheduleItem: function () // called when the user pushes the + button
+                {
+
+                },
+                removeScheduleItem: function () // called when the user pushes the - button
+                {
+
                 }
             
 					
@@ -244,30 +282,29 @@
 		return {
 			getPath: function(stringPath)
 			{
-				return $http.post('http://104.236.182.126/getPath',stringPath)
+				return $http.post('http://BYUGetMeThere.com/getPath',stringPath)
 					.then(function(response) {
 						return response.data;
 					});
 			},
             getBuilding: function(searchedBuilding)
             {
-                return $http.get('http://104.236.182.126/getBuildingInfo/'+searchedBuilding)
+                return $http.get('http://BYUGetMeThere.com/getBuildingInfo/'+searchedBuilding)
                     .then(function(response) {
                         return response.data;    
                     });
-                    
             },
 
             verifyUser: function(userString)
             {
-                return $http.post('http://104.236.182.126/login',userString)
+                return $http.post('http://BYUGetMeThere.com/login',userString)
                     .then(function(response) {
                         return response.data;
                     });
             },
             createUser: function(userString)
             {
-                return $http.post('http://104.236.182.126/register',userString)
+                return $http.post('http://BYUGetMeThere.com/regester',userString)
                     .then(function(response) {
                         return response.data;
                     });
@@ -275,10 +312,18 @@
 
 			getAllBuildings: function()
 			{
-				return $http.get('http://104.236.182.126/getAllBuildings')
+				return $http.get('http://BYUGetMeThere.com/getAllBuildings')
 					.then(function(response) {
-					return response.data;
-				});
+						return response.data;
+					});
+			}
+
+			getSavedSchedules: function(userString)
+			{
+				return $http.get('http://BYUGetMeThere.com/getSavedSchedules',userString)
+					.then(function(response) {
+						return response.data;
+					});
 			}
 			
 		};
