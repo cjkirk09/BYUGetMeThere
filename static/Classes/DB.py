@@ -147,7 +147,7 @@ class DB:
         user = User()
         user.loadFromID(username)
         
-        if user.password == password:
+        if user.password == hashPassword(password):
             return True
         else:
             return False
@@ -159,9 +159,13 @@ class DB:
         if user.in_DB:
             return False
         user.username = username
-        user.password = password
+        user.password = hashPassword(password)
         user.save()
         return True
+        
+    @staticmethod
+    def hashPassword(password):
+        
     
     
         
