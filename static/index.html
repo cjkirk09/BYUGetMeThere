@@ -12,8 +12,21 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="/static/js/markerwithlabel.js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
     <script src="/static/app.js"></script>
+<style type="text/css">
+   .labels {
+     color: red;
+     background-color: white;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     font-weight: bold;
+     text-align: center;
+     border: 2px solid black;
+     white-space: nowrap;
+   }
+ </style>
     <script type="text/javascript"> // google maps
        var byu = new google.maps.LatLng(40.248770, -111.649273);
        var map;
@@ -47,12 +60,25 @@
           navigator.geolocation.getCurrentPosition(function(position) {
              var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
              console.log("I found the user's position: " + pos);
-  
+
+var marker = new MarkerWithLabel({
+
+	position: byu,
+       draggable: false,
+       map: map,
+       labelContent: "BYU is here",
+       labelAnchor: new google.maps.Point(22, 0),
+       labelClass: "labels", // the CSS class for the label
+       labelStyle: {opacity: 0.75}
+});
+
+
              positionmarker = new google.maps.Marker({
                  map:map,
                  draggable:false,
                  animation: google.maps.Animation.DROP,
-                 position: pos
+                 position: pos,
+                 title: "Your Location"
              });
   
              map.setCenter(pos);
