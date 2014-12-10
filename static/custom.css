@@ -127,24 +127,28 @@ h3 {
 }
 
 #registerbutton button,
-#cancelroute button {
-    font-size: 100%;
-    font-weight: 400;
-    color: #cc6600;
-    padding-left: 0;
-}
-
-#loginbutton,
-#getroute {
-    text-align: right;
-    padding-right: 15px;
-}
-
-#loginbutton button,
+#cancelroute button,
+#loginroute button,
+#clearroute button,
 #getroute button {
     font-size: 100%;
     font-weight: 400;
     color: #cc6600;
+}
+
+#loginbutton,
+#clearroute {
+    text-align: right;
+    padding-right: 15px;
+}
+
+#registerbutton button,
+#cancelroute button {
+    padding-left: 0;
+}
+
+#loginbutton button,
+#clearroute button {
     padding-right: 0;
 }
 
@@ -190,11 +194,6 @@ h3 {
     margin-top: -5px;
     position: absolute;
     left: 0px;
-}
-
-#newroute div.col-xs-4 {
-    display: inline;
-    top: 5px;
 }
 
 .row#mapbuttons {
@@ -317,7 +316,8 @@ h3 {
 }
 
 .mapmarker,
-.route{
+.route,
+.clear {
     padding-top: 0px;
     padding-bottom: 0px;
     background-color: darkblue;
@@ -326,10 +326,12 @@ h3 {
     font-size: 150%;
 }
 
-.route {
+.route,
+.clear {
     font-weight: 400;
     font-size: 90%;
 }
+    
 
 #campus a,
 #campus a:hover,

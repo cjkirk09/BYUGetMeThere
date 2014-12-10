@@ -12,7 +12,7 @@
 				userInfo: {
 					username: "",
 					password: "",
-					errorMessage: "invalid username/password",
+					errorMessage: "Invalid username/password.",
                     currentUser: false
 				},
 				routeInfo: {
@@ -21,7 +21,7 @@
 					lastStartPoint: "",
 					lastEndPoint: "",
 					path: [],
-					errorMessage: "ERROR MESSAGE WILL GO HERE"
+					errorMessage: "Please select a start point and an end point."
 				},
 
                 buildingInfo: {
@@ -167,8 +167,10 @@
 									$scope.routeInfo.errorMessage= "";
 
 									$scope.routeInfo.path = [];
-									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude, longitude:pathInfo.startCoord.longitude};
-									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude, longitude: pathInfo.endCoord.longitude};
+									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude,
+                                                                longitude:pathInfo.startCoord.longitude};
+									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
+                                                                longitude: pathInfo.endCoord.longitude};
                                     $scope.floorplans.list = pathInfo.floorPlans;
                                     $scope.getBuildingInfo();
 							   }
@@ -207,7 +209,8 @@
                 },
                 previousFloor: function() // floor plan pic to the previous floor
                 {
-                    $scope.floorplans.currentFloor = (($scope.floorplans.currentFloor-1) + $scope.floorplans.list.length) % $scope.floorplans.list.length;
+                    $scope.floorplans.currentFloor = (($scope.floorplans.currentFloor-1) + $scope.floorplans.list.length)
+                    % $scope.floorplans.list.length;
                 }
             
 					
