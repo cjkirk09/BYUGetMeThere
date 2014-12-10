@@ -304,7 +304,7 @@
             },
             createUser: function(userString)
             {
-                return $http.post('http://104.236.182.126/regester',userString)
+                return $http.post('http://104.236.182.126/register',userString)
                     .then(function(response) {
                         return response.data;
                     });

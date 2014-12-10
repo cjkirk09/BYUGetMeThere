@@ -33,36 +33,10 @@ def getCustomPath():
 	myParser = Parser()
 	return myParser.getCustomPathJSON(request.get_json())
 
-@app.route("/getSavedPaths")
-def getSavedPaths():
-	#  username:"username",
-	#  password:"password"
-	#Assuming we need to return the paths? JSON set up?
-	return "SavedPaths"
-@app.route("/loadPath")
-def loadPath():
-	#  username:"username",
-	#  password:"password",
-	#  pathid: "path" //or path points/ locations
-	#  returns
-	#  startCoord: [ lattitude, longitude ],
-	#  endCoord: [ lattitude, longitude ],
-	#  floorPlan: "url",
-	#  buildingInfo:
-	return "loadPath"
-@app.route("/loadTour")
-def loadTour():
-	#  tourname: "name"
-	# returns
-	#  path: [ [lat,long], [lat,long],,, ],
-	#  places: [ place:{ coord:[lat,long], name:"string", info:"string", image:"url"(optional) }, , ]
-	return "load tour"
-@app.route("/savePath")
-def savePath():
-	#  username: "username", //some way to know which user it is
-	#  coordinates: [,,]
-	# returns t/f on if successful or not
-	return "savePath"
+@app.route("/getSavedSchedules")
+def getSavedSchedules():
+	myParser = Parser()
+	return myParser.getSavedSchedulesJSON(request.get_json())
 @app.route("/getBuildingInfo/<input>")
 def getBuildingInfo(input):
 	myParser = Parser()
@@ -71,8 +45,8 @@ def getBuildingInfo(input):
 def initialize():
 	# same as "/" route. initial page seen by user
 	return "init"
-@app.route("/regester",methods=['GET','POST'])
-def regester():
+@app.route("/register",methods=['GET','POST'])
+def register():
 	myParser = Parser()
 	return myParser.createUser(request.get_json())
 @app.route("/login",methods=['GET','POST'])
