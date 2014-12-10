@@ -1,1 +1,1 @@
-{u'endPlace': u'BNSN', u'startPlace': u'CB'}
+{u'endPlace': u'FB', u'startPlace': u'CB'}2014-12-10 11:54:58.971966

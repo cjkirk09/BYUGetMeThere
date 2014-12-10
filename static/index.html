@@ -6,14 +6,14 @@
     <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
     <!-- css files -->
     <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Dosis:200, 400' >
-    <link rel="stylesheet" href='css/bootstrap.min.css'>
-    <link rel='stylesheet' href='custom.css'>
+    <link rel="stylesheet" href='/static/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/static/custom.css'>
     <!-- javascript files -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
-    <script src="app.js"></script>
+    <script src="/static/app.js"></script>
     <script type="text/javascript"> // google maps
        var byu = new google.maps.LatLng(40.248770, -111.649273);
        var map;
@@ -98,10 +98,11 @@
      }
 
      function getRoute(scope){
-            var message = scope.getRoute();
+         // set selected buildings
+         var message = scope.getRoute();
 	     scope.$apply();
 	     if( scope.routeInfo.errorMessage == "" ){
-            scope.toggleRouteBox();
+            toggleRouteBox();
             scope.$apply();
             var path = scope.routeInfo.path;
             var start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
@@ -143,7 +144,7 @@
                 <span class='glyphicon glyphicon-align-justify'></span>
             </a>
         </div>
-        <div class='col-xs-4' id='logo'><img src="images/logo.png"></div>
+        <div class='col-xs-4' id='logo'><img src="/static/images/logo.png"></div>
         <!-- login option -->
         <div ng-click='toggleLogin()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
         <div ng-click='logout()' ng-if='userInfo.currentUser' class='col-xs-4' id='login'>Logout</div>
@@ -186,7 +187,7 @@
             <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
         </ul>
     </div>
-    <div class='row' id='optionslogo'><img src='images/optionslogo.png'></div>
+    <div class='row' id='optionslogo'><img src='/static/images/optionslogo.png'></div>
 
 </div> <!-- end of options page -->
 
@@ -200,7 +201,7 @@
             </button>
         </div>
         <div class='col-xs-4' style='text-align:center;margin-top:3px;'>
-            <button class='btn route' type='button' ng-click="toggleRouteBox()">Route</button>
+            <button class='btn route' type='button' ng-click="toggleRouteBox()" onclick="toggleRouteBox()">Route</button>
         </div>
         <div class='col-xs-4' style='text-align:center;margin-top:3px;'> 
             <button type='button' class='btn clear' onclick="clearRoute()">Clear</button> 
@@ -208,7 +209,7 @@
     </div> <!-- end of new route menu -->
 
     <!-- Route Box, only visible if the Route button is clicked -->
-    <div class='section' ng-if='state.routeBoxOpen' id='routebox'>
+    <div class='section' style='visibility:hidden' id='routebox'>
         <div id='routeinput'>
             <div class='row'>
                 <div class='col-xs-12'>
@@ -221,7 +222,7 @@
                         <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
                                placeholder="Start">
                     </div> -->
-                    <select placeholder='Start' ng-model='routeInfo.startPoint'>
+                    <select placeholder='Start' id='Start' ng-model='routeInfo.startPoint'>
                         <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
                             {{building.id}} - {{building.name}}</option>
                     </select>
@@ -239,11 +240,11 @@
         </div> <!-- end of route box input fields -->
         <div class='row' id='routeboxbuttons'>
             <div class='col-xs-4' id='cancelroute'>
-               <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
+               <button type='button' class='btn btn-info' ng-click="toggleRouteBox()" onclick="toggleRouteBox()">Cancel</button>
             </div>
             <div class='col-xs-4' id='getroute' style='text-align:center'>
                 <button type='button' class='btn btn-info' 
-                        onclick=" getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
+                        onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
             </div>  
             <div class='col-xs-4' id='clearroute'>
                <button type='button' class='btn btn-info' onclick="clearRoute()">Clear</button>
@@ -513,7 +514,6 @@
         <div class='row' style='padding-top: 70px'>
             <div class='col-xs-12' style='font-size:150%'>
                 <b>You searched for {{buildingInfo.echo_search}}</b><br><br>
-                Current: {{buildingInfo.selected}} <br>
                 Building: {{buildingInfo.name}} <br>    
                 Phone-number: {{buildingInfo.phone}} <br>
                 Hours: {{buildingInfo.hours}} <br>
@@ -535,23 +535,23 @@
         <div class='row' style='text-align:center'>
             <div class='col-md-1'></div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='images/cody.jpg'>
-                <p><b>Cody Hefner</b><br>Schedule Surgeon</p>
-            </div>
-            <div class='col-md-2'>
-                <img id='aboutpic' src='images/cory.jpg'>
-                <p><b>Cory Kirkland</b><br>Map Mastermind</p>
-            </div>
-            <div class='col-md-2'>
-                <img id='aboutpic' src='images/blaine.jpg'>
+                <img id='aboutpic' src='/static/images/blaine.jpg'>
                 <p><b>Blaine McGary</b><br>Server Scientist</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='images/brynne.jpg'>
+                <img id='aboutpic' src='/static/images/brynne.jpg'>
                 <p><b>Brynne Hansen</b><br>CSS Controller</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='images/eric.jpg'>
+                <img id='aboutpic' src='/static/images/cody.jpg'>
+                <p><b>Cody Hefner</b><br>Schedule Surgeon</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='/static/images/cory.jpg'>
+                <p><b>Cory Kirkland</b><br>Map Mastermind</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='/static/images/eric.jpg'>
                 <p><b>Eric Romrell</b><br>Database Doctor</p>
             </div>
             <div class='col-md-1'></div>
@@ -575,8 +575,18 @@
                 curtop += obj.offsetTop;
             } while (obj = obj.offsetParent);
             return [curtop];
+            }
         }
-}
+        
+        function toggleRouteBox() {
+            document.getElementById("routebox").style.visibility = "visible";
+            if(document.getElementById("routebox").style.display == "none" ) {
+                document.getElementById("routebox").style.display = "";
+            }
+            else {
+                document.getElementById("routebox").style.display = "none";
+            }
+        }
     </script>
     
 </body>
