@@ -35,9 +35,8 @@ def getCustomPath():
 
 @app.route("/getSavedSchedules")
 def getSavedSchedules():
-	#  username:"username"
-	#Assuming we need to return the paths? JSON set up?
-	return "SavedSchedules"
+	myParser = Parser()
+	return myParser.getSavedSchedulesJSON(request.get_json())
 @app.route("/getBuildingInfo/<input>")
 def getBuildingInfo(input):
 	myParser = Parser()
