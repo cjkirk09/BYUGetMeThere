@@ -1,5 +1,6 @@
 import math
 import json
+import hashlib
 from Query import Query
 from Building import Building
 from Coordinate import Coordinate
@@ -147,7 +148,7 @@ class DB:
         user = User()
         user.loadFromID(username)
         
-        if user.password == DB.hashPassword(password):
+        if user.password == str(hash(password)):
             return True
         else:
             return False
@@ -159,7 +160,7 @@ class DB:
         if user.in_DB:
             return False
         user.username = username
-        user.password = DB.hashPassword(password)
+        user.password = str(hash(password))
         user.save()
         return True
         
