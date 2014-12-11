@@ -55,15 +55,6 @@
 	            	days: [false, false, false, false, false, false, false],
 	            	building_id: "Building",
 	            	room: ""
-// =======
-// 	            	hour: "",
-// 	            	minute: "",
-// 	            	ampm: "",
-// 	            	days: [false, false, false, false, false, false, false],
-// 	            	building_id: "",
-// 	            	room: "",
-// 	            	errorMessage: ""
-// >>>>>>> Stashed changes
 	            },
 
 				time: {
@@ -294,8 +285,24 @@
                 },
                 newSchedule: function () // same thing as hitting every minus button
                 {
-                	// get all divs of id='scheduleItem'
-                	// remove them from DOM
+                	$scope.userInfo.schedules = initializeSchedules();
+                },
+                initializeSchedules: function () // set up the days of the week schedules
+                {
+                	// empty out the user's schedules array
+                	// create 7 new schedules, one for each day of the week
+                	// they should be named appropriately and have an empty courses array
+                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
+                	var schedules = [];
+                	for (int i = 0; i < 7; i++)
+                	{
+                		var newSchedule = {
+                			name = daysOfWeek[i];
+                			courses = [];
+                		};
+                		schedules.push(newSchedule);
+                	}
+                	return schedules;
                 },
                 getSavedSchedules: function () // get user's schedule from server
                 {
