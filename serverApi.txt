@@ -18,13 +18,11 @@ getPath()
 	}
 getCustomPath()
 	{
-	  start_latitude: decimal,
-      start_longitude: decimal,
 	  endPlace: "building_id" (e.g. TMCB)
 	}
 	returns
 	{
-	  startCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
+	  startCoord: { "currentLocation"},
 	  endCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
 	  floorPlans: [floor1_url, floor2_url, ...]
 	  buildingInfo: { 
