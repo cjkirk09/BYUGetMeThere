@@ -47,25 +47,25 @@
 	                currentFloor: 0
 	            },
 
+	            // this is where the data is stored from the schedule popup
 	            newcourse: {
 	            	name: "",
 	            	hour: "Hour",
 	            	minute: "Minute",
 	            	ampm: "AM/PM",
+	            	//     Su 		M 	   T      W      Th     F      Sa
 	            	days: [false, false, false, false, false, false, false],
 	            	building_id: "Building",
 	            	room: ""
 	            },
 
-				schedule: {
-					name: "",
-					courses: [] // a list of courses that are in this schedule
-				},
-
 				time: {
 					hoursList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 					minutesList: [00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
-					ampm: ['am', 'pm']
+					ampm: ['am', 'pm'],
+                	daysOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                	daysAbbrev: ["Su", "M", "T", "W", "Th", "F", "Sa"],
+					todaysDayOfWeek: "not set yet"
 				},
  
 				toggleMenu: function()
@@ -128,6 +128,8 @@
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
+                                $scope.date.todaysDayOfWeek = $scope.todayDayOfTheWeek();
+                                $scope.userInfo.schedules = $scope.initializeSchedules();
                             }
                             else {
                                 $scope.userInfo.errorMessage = "Sorry, that username is taken";
@@ -163,6 +165,8 @@
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.password = "";
+                                $scope.date.todaysDayOfWeek = $scope.todayDayOfTheWeek();
+                                $scope.userInfo.schedules = $scope.getSavedSchedules();
                             }
                         });	
                         // let the user close the login screen so they can see success/failure
@@ -295,41 +299,114 @@
                 },
                 newSchedule: function () // same thing as hitting every minus button
                 {
-                	// get all divs of id='scheduleItem'
-                	// remove them from DOM
+                	$scope.userInfo.schedules = initializeSchedules();
+                },
+                initializeSchedules: function () // set up the days of the week schedules
+                {
+                	// empty out the user's schedules array
+                	// create 7 new schedules, one for each day of the week
+                	// they should be named appropriately and have an empty courses array
+                	var schedules = [];
+                	for (var i = 0; i < 7; i++)
+                	{
+                		var newSchedule = {
+                			name: $scope.time.daysOfWeek[i],
+                			courses: []
+                		};
+                		schedules.push(newSchedule);
+                	}
+                	return schedules;
                 },
                 getSavedSchedules: function () // get user's schedule from server
                 {
-                	var username = $scope.userInfo.currentUsername;
-                	infoService.loadSchedule(username).then(function(success) {
+                	var data = {username: $scope.userInfo.currentUsername};
+                	infoService.getSavedSchedules(data).then(function(success) {
                 		// save the user's schedule
+                		// if the user doesn't have a schedule for a day of the week, add a blank schedule as placeholder
+                		if (success.error === "'NoneType' object has no attribute '__getitem__'")
+                		{
+                			return $scope.initializeSchedules();
+                		}
+                		else
+                		{
+                			console.log(success);
+                			return success;
+                		}
                 	});
                 },
-                addCourse: function () // add a course to the current schedule
+                addCourse: function () // add a course to the user's schedule(s)
                 {
+            		// ensure the user filled in all the boxes - 
+            		// if even one field is missing OR if they haven't selected any days, 
+            		// give an error and don't add the course
+            		var allboxesfilled = true;
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.name != "");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.hour != "Hour");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.minute != "Minute");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.ampm != "AM/PM");
+            		var dayselected = false;
+            		for (i in $scope.newcourse.days) dayselected = dayselected || ($scope.newcourse.days[i]==true);
+            		allboxesfilled = allboxesfilled && dayselected;
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.building_id != "Building");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.room != "");
+            		if (!allboxesfilled)
+            		{
+            			// error - all fields are required!
+            			$scope.newcourse.errorMessage = "All fields are required.";
+            			console.log("All fields are required to add a course.");
+            			return;
+            		}
+
                 	// parse the add course popup
-
-                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
-                	for (day in daysOfWeek)
+                	for (day in $scope.newcourse.days)
                 	{
-                		// if the user indicated the course is on this day, add it to that day's schedule
-                		if ($scope.course.days[day])
-                		{
+    					// parse the days of the week into a string
+    					var dayString = "";
+    					for (i in $scope.newcourse.days) 
+    						if ($scope.newcourse.days[i] == true) 
+    							dayString += $scope.time.daysAbbrev[i];
 
+                		// if the user indicated the course is on this day, add it to that day's schedule
+                		if ($scope.newcourse.days[day] == true)
+                		{
+                			var s;
+                			// find the schedule for that day
+                			var added = false;
+                			for (schedule in $scope.userInfo.schedules)
+                			{
+                				if ($scope.userInfo.schedules[schedule].name === $scope.time.daysOfWeek[day])
+                				{
+                					s = $scope.userInfo.schedules[schedule];
+
+	                				// add the course to the schedule
+	                				var course = {
+	                					name: $scope.newcourse.name,
+	                					hour: $scope.newcourse.hour,
+	                					minute: $scope.newcourse.minute,
+	                					ampm: $scope.newcourse.ampm,
+	                					days: dayString,
+	                					building_id: $scope.newcourse.building_id,
+	                					room: $scope.newcourse.room
+	                				}
+	                				s.push(course);
+
+	                				$scope.userInfo.schedules[schedule] = s;
+                					added = true;
+                				}
+                			}
                 		}
                 	}
                 },
                 saveSchedule: function () // send user-created schedule to server
                 {
                 	var userName = $scope.userInfo.currentUsername;
-                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
                 	var courses = [];
                 	// get schedule, convert it into data
-                	for (day in daysOfWeek)
+                	for (day in $scope.time.daysOfWeek)
                 	{
 	                	data = {
 	                		username:userName, 
-	                		schedule_name:daysOfWeek[day],
+	                		schedule_name: $scope.time.daysOfWeek[day],
 	                		courses: []
 	                	};
 	                	// send to server
@@ -341,16 +418,21 @@
                 clearTentativeCourse: function () // clear button in new course
                 {
                 	$scope.newcourse.name = "";
-                	$scope.newcourse.hour = "";
-                	$scope.newcourse.minute = "";
-                	$scope.newcourse.ampm = "";
+                	$scope.newcourse.hour = "Hour";
+                	$scope.newcourse.minute = "Minute";
+                	$scope.newcourse.ampm = "AM/PM";
                 	$scope.newcourse.days = [false, false, false, false, false, false, false];
-                	$scope.newcourse.building_id = "";
+                	$scope.newcourse.building_id = "Building";
                 	$scope.newcourse.room = "";
                 },
                 removeCourse: function () // called when the user pushes the - button
                 {
-                	$scope.toggleOkDialog(); // close the warning message
+                	$scope.toggleOkDialog(); // close the warning message	
+                },
+                todayDayOfTheWeek: function() // used for scheduling
+                {
+                	var day = daysOfWeek[new Date().getDay()];
+                	return day;
                 }
 			});
 			infoService.getAllBuildings().then(function(buildingData){

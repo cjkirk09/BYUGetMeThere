@@ -121,24 +121,7 @@
             toggleRouteBox();
             scope.$apply();
             var path = scope.routeInfo.path;
-            var start;
-            if( path[0] == "currentLocation" ){
-				if(navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                      start = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-		           }, function() {handleNoGeolocation(true);});
-			   }
-			   else{
-				   handleNoGeolocation(false);
-				   clearRoute();
-				   return;
-			   }
-			   //findMyLocation();
-			   //return;
-			}        
-            else{
-                start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
-            }
+            var start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
             var end = new google.maps.LatLng(path[path.length-1].latitude, path[path.length-1].longitude);
             var waypts = [];
             if( path.length >2 ){
@@ -270,14 +253,13 @@
         <div class='row error' ng-if='routeInfo.errorMessage!=""'>
             <div class='col-xs-12'><p>{{routeInfo.errorMessage}}</p></div>
         </div>
-        <div class='row' ng-if='routeInfo.errorMessage==" "'>
+        <div class='row' ng-if='routeInfo.errorMessage==""'>
             <div class='col-xs-12'><p>Please enter a starting and an ending point.</p></div>
         </div>
         <div id='routeinput'>
             <div class='row'>
                 <div class='col-xs-12'>
                     <select id='Start' ng-model='routeInfo.startPoint'>
-                        <option disabled>Start</option>
                         <option value='currentLocation'>Current Location</option>
                         <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
                             {{building.id}} - {{building.name}}</option>
@@ -287,8 +269,13 @@
             <div class='row'>
                 <div class='col-xs-12'>
                     <!-- <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'> -->
+<<<<<<< HEAD
                     <select ng-model='routeInfo.endPoint'>
                         <option disabled>End</option>
+=======
+                    <select placeholder = 'End' ng-model='routeInfo.endPoint'>
+<!--                        <option selected>End</option>-->
+>>>>>>> 57d28c57803e5e81d8396964c8a1d04fe986b579
                         <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
                             {{building.id}} - {{building.name}}</option>
                     </select>
@@ -447,6 +434,7 @@
                 </button>
             </div>
         </div>
+<<<<<<< HEAD
         <div class='row'>
             <div class='col-xs-12' style='text-align:center'>
                 <button type='button' class='btn btn-schedule'>
@@ -464,8 +452,73 @@
                 <button type='button' class='btn btn-schedule'>
                     Map Schedule</button>
             </div>
+=======
+        <p ng-disabled='!userInfo.currentUser' 
+        <div class='buttongroup'>
+            <button type='button' class='col-xs-9 btn btn-info btn-lg'>New  Schedule</button>
+            <button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-9 btn btn-info btn-lg'>Load Schedule</button>
+            <button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-9 btn btn-info btn-lg'>Save Schedule</button>
+            <!-- REMOVED - a user can delete courses from their schedule by hitting the minus button to clear everything out, then hitting save on a blank schedule<button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-9 btn btn-info btn-lg'>Delete Current Schedule</button> -->
+            <button type='button' class='col-xs-9 btn btn-info btn-lg'>Map Schedule</button>
+>>>>>>> 57d28c57803e5e81d8396964c8a1d04fe986b579
         </div>
     </div>
+
+    <!-- add course page -->
+    <div class='popup' id='newscheduleitempage' ng-if='state.courseDialogOpen'>
+
+        <div id='newcoursename'>
+            <div class='row'>
+                <div class='col-xs-12'><input class='form-control' type='text' ng-model='newcourse.name' placeholder="Course Name" /></div>
+            </div>
+        </div> <!-- end of course name input -->
+
+        <div id='newstarttime'>
+            <div class='row'>
+                  <div class='col-xs-4'><select ng-model='newcourse.hour'><option ng-repeat='hour in time.hoursList' value='{{hour}}'>{{hour}}</option></select>
+                  </div>
+                  <div class='col-xs-4'><select ng-model='newcourse.minute'><option ng-repeat='minute in time.minutesList' value='{{minute}}'>{{minute}}</option></select>
+                  </div>
+                  <div class='col-xs-4'><select ng-model='newcourse.ampm'><option ng-repeat='ampm in time.ampm' value='{{ampm}}'>{{ampm}}</option></select>
+                  </div>
+            </div>
+        </div> <!-- end of time input -->
+
+        <div id='newdays'>
+            <div class='row'>
+                <div class='col-xs-12'><div id='daysbuttons'>
+                    Su:<input type="checkbox" class="day Sunday" ng-model='newcourse.days[0]'></input>
+                    M: <input type="checkbox" class="day Monday" ng-model='newcourse.days[1]'></input>
+                    Tu:<input type="checkbox" class="day Tuesday" ng-model='newcourse.days[2]'></input>
+                    W: <input type="checkbox" class="day Wednesday" ng-model='newcourse.days[3]'></input>
+                    Th:<input type="checkbox" class="day Thursday" ng-model='newcourse.days[4]'></input>
+                    F: <input type="checkbox" class="day Friday" ng-model='newcourse.days[5]'></input>
+                    Sa:<input type="checkbox" class="day Saturday" ng-model='newcourse.days[6]'></input>
+                </div></div>
+            </div>
+        </div> <!-- end of days of the week input -->
+
+        <div id='newlocation'>
+            <div class='row'>
+                <div class='col-xs-4'><input class='form-control' type='text' ng-model='newcourse.room' placeholder="rm#" /></div>
+                <div class='col-xs-8'><select ng-model='newcourse.building_id'><option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>{{building.id}} - {{building.name}}</option></select></div>
+            </div>
+        </div><!-- end of location -->
+
+        <div class='row' id='newcourseerror' ng-if='userInfo.errorMessage!=""'>
+            <p>{{userInfo.errorMessage}}</p>
+        </div>
+
+        <div class='row' id='newcoursebuttons'>
+            <div class='col-xs-12' style='text-align:center'>
+                <div class='buttongroup'>
+                    <button type='button' class='btn btn-route' ng-click="toggleCourseDialog()">Cancel</button>
+                    <button type='button' class='btn btn-route' ng-click="addCourse()">Add Course</button>
+                    <button type='button' class='btn btn-route' ng-click="clearTentativeCourse()">Clear</button>
+                </div>
+            </div>
+        </div> <!-- end of route box buttons -->
+    </div> <!-- end of new course popup -->
 </div>
 
 <div class='section' id='campus'>
@@ -644,8 +697,22 @@
         <h3>Building Info</h3>
         <div class='row' id='buildinglist'>
             <div class='col-xs-10 col-md-11'>
+<<<<<<< HEAD
                 <select ng-model='buildingInfo.selected'>
                     <option disabled>Select Building</option>
+=======
+                <!-- <div class='input-group'>
+                    <input type='text' class='form-control' ng-model='buildingInfo.current' 
+                           id='buildingsearch' placeholder='Search'>
+                        <span class='input-group-btn'>
+                            <button class='btn btn-default' type='button'
+                                    ng-click="getBuildingInfo()">
+                                <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
+                            </button>
+                        </span>
+                </div> -->
+                <select placeholder='Select Building' ng-model='buildingInfo.selected'>
+>>>>>>> 57d28c57803e5e81d8396964c8a1d04fe986b579
                     <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
                         {{building.id}} - {{building.name}}</option>
                 </select>
