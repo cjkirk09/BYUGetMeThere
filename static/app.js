@@ -49,21 +49,21 @@
 	            // this is where the data is stored from the schedule popup
 	            newcourse: {
 	            	name: "",
-// <<<<<<< Updated upstream
-// 	            	hour: "Hour",
-// 	            	minute: "Minute",
-// 	            	ampm: "AM/PM",
-// 	            	days: [false, false, false, false, false, false, false],
-// 	            	building_id: "Building",
-// 	            	room: ""
-// =======
-	            	hour: "",
-	            	minute: "",
-	            	ampm: "",
+	            	hour: "Hour",
+	            	minute: "Minute",
+	            	ampm: "AM/PM",
 	            	days: [false, false, false, false, false, false, false],
-	            	building_id: "",
-	            	room: "",
-	            	errorMessage: ""
+	            	building_id: "Building",
+	            	room: ""
+// =======
+// 	            	hour: "",
+// 	            	minute: "",
+// 	            	ampm: "",
+// 	            	days: [false, false, false, false, false, false, false],
+// 	            	building_id: "",
+// 	            	room: "",
+// 	            	errorMessage: ""
+// >>>>>>> Stashed changes
 	            },
 
 				time: {
@@ -125,6 +125,7 @@
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
+                                $scope.userInfo.schedules = initializeSchedules();
                             }
                             else {
                                 $scope.userInfo.errorMessage = "Sorry, that username is taken";
@@ -160,6 +161,7 @@
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.password = "";
+                                $scope.userInfo.schedules = getSavedSchedules();
                             }
                         });	
                         // let the user close the login screen so they can see success/failure
@@ -302,6 +304,7 @@
                 		// save the user's schedule
                 		// if the user doesn't have a schedule for a day of the week, add a blank schedule as placeholder
                 		console.log(success);
+                		return success;
                 	});
                 },
                 addCourse: function () // add a course to the user's schedule(s)
@@ -311,13 +314,13 @@
             		// give an error and don't add the course
             		var allboxesfilled = true;
             		allboxesfilled = allboxesfilled && ($scope.newcourse.name != "");
-            		allboxesfilled = allboxesfilled && ($scope.newcourse.hour != "");
-            		allboxesfilled = allboxesfilled && ($scope.newcourse.minute != "");
-            		allboxesfilled = allboxesfilled && ($scope.newcourse.ampm != "");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.hour != "Hour");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.minute != "Minute");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.ampm != "AM/PM");
             		var dayselected = false;
             		for (i in $scope.newcourse.days) dayselected = dayselected || ($scope.newcourse.days[i]==true);
             		allboxesfilled = allboxesfilled && dayselected;
-            		allboxesfilled = allboxesfilled && ($scope.newcourse.building_id != "");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.building_id != "Building");
             		allboxesfilled = allboxesfilled && ($scope.newcourse.room != "");
             		if (!allboxesfilled)
             		{
@@ -330,7 +333,7 @@
                 	// parse the add course popup
                 	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
                 	var daysAbbrev = {0: "M", 1: "T", 2: "W", 3: "Th", 4: "F", 5: "Sa", 6: "Su"};
-                	for (day in $scope.newcourse.days[day])
+                	for (day in $scope.newcourse.days)
                 	{
     					// parse the days of the week into a string
     					var dayString = "";
@@ -391,11 +394,11 @@
                 clearTentativeCourse: function () // clear button in new course
                 {
                 	$scope.newcourse.name = "";
-                	$scope.newcourse.hour = "";
-                	$scope.newcourse.minute = "";
-                	$scope.newcourse.ampm = "";
+                	$scope.newcourse.hour = "Hour";
+                	$scope.newcourse.minute = "Minute";
+                	$scope.newcourse.ampm = "AM/PM";
                 	$scope.newcourse.days = [false, false, false, false, false, false, false];
-                	$scope.newcourse.building_id = "";
+                	$scope.newcourse.building_id = "Building";
                 	$scope.newcourse.room = "";
                 },
                 removeCourse: function () // called when the user pushes the - button
