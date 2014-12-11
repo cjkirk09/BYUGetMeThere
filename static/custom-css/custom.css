@@ -1,7 +1,7 @@
 body {
     background-color: #e6e6e6; /* gray */
     font-family: 'Dosis';
-    font-weight: 200;
+    font-weight: 300;
     width: 100%;
     padding: 0px;
 /*    overflow: hidden;*/
@@ -189,7 +189,6 @@ h3 {
 #buildinglist {
     width: 100%;
     height: 60px;
-    padding: 12px;
     background-color: darkblue;
 }
 
@@ -303,7 +302,7 @@ select {
     margin-right: 2px;
     border-radius: 10px;
     font-size: 13pt;
-    font-weight: 200;
+    font-weight: 300;
     padding-top: 0px;
     padding-bottom: 0px;
 }
@@ -343,7 +342,7 @@ select {
     border-radius: 25px;
     color: #e6e6e6;
     font-size: 13pt;
-    font-weight: 200;
+    font-weight: 300;
 }
 
 .btn-schedule:hover {
@@ -360,7 +359,7 @@ select {
     border-radius: 10px;
     width: 50px;
     font-size: 13pt;
-    font-weight: 200;
+    font-weight: 300;
     height: 40px;
     text-align: center;
     padding-top: 0px;
@@ -370,4 +369,75 @@ select {
 .btn-ok:hover {
     background-color: darkblue;
     border-color: darkblue;
+}
+
+.campus-info {
+    text-align:right;
+    padding-right:0;
+    font-size:120%;
+}
+
+.campus-link {
+    text-align:left;
+    padding-left:50px
+}
+
+.dropdown {
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.btn-dropdown,
+.btn-dropdown:active,
+.btn-dropdown:focus {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #e6e6e6;
+    border-radius: 15px;
+    font-size: 13pt;
+}
+
+.btn-dropdown:hover {
+    background-color: #cc6600;
+    border-color: #cc6600;
+    color: #e6e6e6;
+}
+
+.btn-search,
+.btn-search:active,
+.btn-search:focus {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #cc6600;
+    border-radius: 25px;
+    font-size: 150%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 0;
+    padding-right:0
+}
+
+.btn-search:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #e6e6e6;
+}
+
+.building-search {
+    height: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#email,
+#email:active,
+#email:visited {
+    color: darkblue;
+    text-decoration: none;
+}
+
+#email:hover {
+    color: #cc6600;
+    text-decoration: none;
 }
