@@ -20,8 +20,8 @@
 				},
 				routeInfo: {
                     boxOpen: false,
-					startPoint: "",
-					endPoint: "",
+					startPoint: "Start",
+					endPoint: "End",
 					lastStartPoint: "",
 					lastEndPoint: "",
 					path: [],
@@ -30,7 +30,7 @@
 
                 buildingInfo: {
                     echo_search: "",
-                    selected: "",
+                    selected: "Building",
                     name: "BUILDING NAME",
                     phone: "801-555-1234",
                     hours: "12:00am-12:00pm"
