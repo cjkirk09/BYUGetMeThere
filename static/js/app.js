@@ -422,6 +422,14 @@
                 {
                 	$scope.toggleOkDialog(); // close the warning message	
                 },
+                showPrevSchedule: function ()
+                {
+                	console.log("TODO: SHOW PREV SCHEDULE");
+                },
+                showNextSchedule: function ()
+                {
+                	console.log("TODO: SHOW NEXT SCHEDULE");
+                },
                 getDayOfWeek: function() // used for scheduling
                 {
                 	var day = $scope.time.daysOfWeek[new Date().getDay()];
