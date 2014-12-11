@@ -214,9 +214,6 @@
 						$scope.routeInfo.errorMessage = "Please enter an ending point";	
 					}
 					else{
-                        // set selected building so the building info button will work right
-                        $scope.buildingInfo.selected = $scope.routeInfo.endPoint;
-
 						//convert the entered info to the building abbreviations and check that they are valid
 						if($scope.validRoute()){
 							if($scope.routeInfo.lastStartPoint !=$scope.routeInfo.startPoint || 
@@ -255,7 +252,7 @@
 									    $scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
                                                                 longitude: pathInfo.endCoord.longitude};
                                         $scope.floorplans.list = pathInfo.floorPlans;
-                                        $scope.getBuildingInfo();
+                                        $scope.getBuildingInfo($scope.routeInfo.endPoint);
 							       }
 							       });
 							    
@@ -277,19 +274,20 @@
 					//$scope.routeInfo.errorMessage = "";		
 					// $scope.routeInfo.errorMessage = "I couldn't get the route yet";
 				},
-                getBuildingInfo: function() 
+                getBuildingInfo: function(selected) 
                 {
-                    var searchedBuilding = $scope.buildingInfo.selected;
-                    $scope.buildingInfo.echo_search = searchedBuilding;
+                    $scope.buildingInfo.selected = selected;
+                    $scope.buildingInfo.echo_search = selected;
                     // get building info from server 
-                    infoService.getBuilding(searchedBuilding).then(function(building){
+                    infoService.getBuilding(selected).then(function(building){
                         $scope.buildingInfo.name = building.name;
                         $scope.buildingInfo.phone = building.phone_number;
-                        $scope.buildingInfo.hours = building.hours;   
+                        $scope.buildingInfo.hours = building.hours; 
+                        if ($scope.buildingInfo.hours == "") {
+                            $scope.buildingInfo.hours = "Sorry. Hours for this building are unavailable."
+                        }  
                     });
-                    if ($scope.buildingInfo.hours = "N/A") {
-                        $scope.buildingInfo.hours = "Sorry. Hours for this building are unavailable."
-                    }
+                    
                 },
                 nextFloor: function () //advance floor plan pic to the next floor
                 {
