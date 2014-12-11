@@ -1,6 +1,7 @@
+/* the map marker icon */
 .btn-mapmarker,
 .btn-mapmarker:active,
-.btn-mapmarker:focus { /* the map marker icon */
+.btn-mapmarker:focus { 
     cursor: pointer;
     padding-top: 0px;
     padding-bottom: 0px;
@@ -16,6 +17,15 @@
     border-color: darkblue;
 }
 
+.btn-mapmarker {
+    cursor: pointer;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #cc6600;
+    font-size: 150%;
+}
 
 .btn-newroute:hover,
 .btn-newroute:active,
@@ -33,16 +43,6 @@
     background-color: #DB944D;
     border-color: #DB944D;
     color: darkblue;
-}
-
-.btn-mapmarker {
-    cursor: pointer;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    background-color: darkblue;
-    border-color: darkblue;
-    color: #cc6600;
-    font-size: 150%;
 }
 
 .btn-newroute,
@@ -56,31 +56,14 @@
     margin-right: 2px;
     border-radius: 10px;
     font-size: 15pt;
-    font-weight: 200;
+    font-weight: 400;
     padding-top: 0px;
     padding-bottom: 0px;
     padding-left: 8px;
     padding-right: 8px;
 }
 
-.btn-newroute:hover,
-.btn-newroute:active,
-.btn-newroute:focus,
-.btn-route:hover,
-.btn-route:active,
-.btn-route:focus {
-    background-color: darkblue;
-    border-color: darkblue;
-    color: #e6e6e6;
-}
-
-.btn-newroute:disabled,
-.btn-route:disabled {
-    background-color: #DB944D;
-    border-color: #DB944D;
-    color: darkblue;
-}
-
+/* buttons at the bottom of the map */
 .btn-map,
 .btn-map:active,
 .btn-map:focus {
@@ -122,6 +105,7 @@
     color: #e6e6e6;
 }
 
+/* campus links dropdown */
 .dropdown {
     width: 70%;
     margin-left: 15%;
@@ -164,7 +148,7 @@
     color: #e6e6e6;
 }
 
-
+/* the buttons for the new class popup */
 .btn-newclass {
     background-color: #cc6600;
     border-color: #cc6600;
@@ -175,11 +159,12 @@
     margin-right: 2px;
     border-radius: 10px;
     font-size: 13pt;
-    font-weight: 300;
+    font-weight: 400;
     padding-top: 0px;
     padding-bottom: 0px;
 }
 
+/* the plus and minus buttons */
 .btn-rmclass,
 .btn-rmclass:active,
 .btn-rmclass:focus,
@@ -215,7 +200,7 @@
     border-radius: 25px;
     color: #e6e6e6;
     font-size: 13pt;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .btn-schedule:hover {
@@ -223,6 +208,7 @@
     border-color: #cc6600;
 }
 
+/* the ok button for the remove class warning */
 .btn-ok,
 .btn-ok:active,
 .btn-ok:focus {
@@ -232,7 +218,7 @@
     border-radius: 10px;
     width: 50px;
     font-size: 13pt;
-    font-weight: 300;
+    font-weight: 400;
     height: 40px;
     text-align: center;
     padding-top: 0px;

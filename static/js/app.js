@@ -1,4 +1,4 @@
-function (app) {
+(function (app) {
 	app.controller('menuController', [
 		'$scope',
 		'infoService',
@@ -17,7 +17,7 @@ function (app) {
 					errorMessage: "",
                     currentUser: false,
                     currentUsername: "",
-                    schedules: []
+                    schedules: function(){ return $scope.initializeSchedules(); }
 				},
 				routeInfo: {
                     boxOpen: false,
@@ -415,8 +415,6 @@ function (app) {
                 	$scope.newcourse.minute = "Minute";
                 	$scope.newcourse.ampm = "AM/PM";
                 	$scope.newcourse.days = [false, false, false, false, false, false, false];
-                	$scope.newcourse.building_id = "Building";
-                	$scope.newcourse.room = "";
                 },
                 removeCourse: function () // called when the user pushes the - button
                 {

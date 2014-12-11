@@ -1,17 +1,50 @@
 body {
     background-color: #e6e6e6; /* gray */
-    font-family: 'Dosis';
-    font-weight: 300;
+    font-family: 'Quicksand';
+    font-weight: 400;
     width: 100%;
     padding: 0px;
-/*    overflow: hidden;*/
+/*    overflow: hidden;*/ /* this disables scrolling */
 }
 
 h3 {
     color: darkblue;
-    font-weight: 400;
+    font-weight: 700;
     font-size: 25pt;
     text-align: center;
+}
+
+.section {
+    height: 100vh;
+    width: 100vw;
+    float: left;
+    padding-top: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.popup {
+    font-size: 14pt;
+    background-color: darkblue;
+    color: #e6e6e6;
+    width: 80%; 
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 75px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
+    z-index: 1000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    text-align: center;
+    border-radius: 25px;
+}
+
+.error {
+    color: red;
+    font-weight: 400;
 }
 
 /*menu bar */
@@ -26,11 +59,12 @@ h3 {
 #menubtn {
     padding-top: 5px;
     padding-left: 20px;
+    cursor: pointer;
 }
 
 #menubtn a { /*glyphicon*/
     color: #808080;
-    font-size: 150%;
+    font-size: 200%;
     text-decoration: none;
 }
 
@@ -91,30 +125,7 @@ h3 {
     color: darkblue;
 }
 
-.popup {
-    font-size: 14pt;
-    background-color: darkblue;
-    color: #e6e6e6;
-    width: 80%; 
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-top: 75px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-bottom: 20px;
-    z-index: 1000;
-    position: fixed;
-    left: 0;
-    top: 0;
-    text-align: center;
-    border-radius: 25px;
-}
-
-.error {
-    color: red;
-    font-weight: 400;
-}
-
+/* input boxes */
 #loginpage input,
 #routebox input,
 #newclasspage input,
@@ -134,6 +145,7 @@ h3 {
     margin-right: 5px;
 }
 
+/* schedule input page */
 .newclassrow {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -143,6 +155,7 @@ h3 {
     margin: 0px;
 }
 
+/* a class on the map schedule page */
 #class {
     font-size: 14pt;
     padding-top: 5px;
@@ -151,8 +164,7 @@ h3 {
     padding-left: 10px;
 }
 
-/*building list*/
-
+/* building info list */
 .row#buildinglist {
     margin-left: 0px;
     margin-right: 0px;
@@ -166,13 +178,10 @@ h3 {
     background-color: darkblue;
 }
 
-.section {
-    height: 100vh;
-    width: 100vw;
-    float: left;
-    padding-top: 60px;
-    padding-left: 15px;
-    padding-right: 15px;
+.building-search {
+    height: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 /*bootstrap override*/
@@ -216,8 +225,10 @@ select {
      text-align: center;
      border: 2px solid black;
      white-space: nowrap;
+     padding: 3px;
 }
 
+/* the campus links */
 .campus-info {
     text-align:right;
     padding-right:0;
@@ -239,12 +250,6 @@ select {
 
 .campus-link a:hover {
     color: darkblue;
-}
-
-.building-search {
-    height: 30px;
-    margin-top: 15px;
-    margin-bottom: 15px;
 }
 
 #email,
