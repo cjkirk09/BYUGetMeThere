@@ -369,7 +369,6 @@
                 		// if the user indicated the course is on this day, add it to that day's schedule
                 		if ($scope.newcourse.days[day] == true)
                 		{
-                			var s;
                 			// find the schedule for that day
                 			for (schedule in $scope.userInfo.schedules)
                 			{
@@ -389,6 +388,8 @@
                 			}
                 		}
                 	}
+
+					$scope.newcourse.errorMessage = "Class added.";
                 },
                 saveSchedule: function () // send user-created schedule to server
                 {
