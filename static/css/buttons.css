@@ -1,0 +1,231 @@
+/* the map marker icon */
+.btn-mapmarker,
+.btn-mapmarker:active,
+.btn-mapmarker:focus { 
+    cursor: pointer;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #cc6600;
+    font-size: 150%;
+}
+
+.btn-mapmarker:hover {
+    color: #e6e6e6;
+    background-color: darkblue;
+    border-color: darkblue;
+}
+
+.btn-mapmarker {
+    cursor: pointer;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #cc6600;
+    font-size: 150%;
+}
+
+.btn-newroute:hover,
+.btn-newroute:active,
+.btn-newroute:focus,
+.btn-route:hover,
+.btn-route:active,
+.btn-route:focus {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #e6e6e6;
+}
+
+.btn-newroute:disabled,
+.btn-route:disabled {
+    background-color: #DB944D;
+    border-color: #DB944D;
+    color: darkblue;
+}
+
+.btn-newroute,
+.btn-route,
+.btn-login {
+    background-color: #cc6600;
+    border-color: #cc6600;
+    color: #e6e6e6;
+    height: 30px;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 10px;
+    font-size: 15pt;
+    font-weight: 400;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+/* buttons at the bottom of the map */
+.btn-map,
+.btn-map:active,
+.btn-map:focus {
+    height: 45px;
+    width: 25%;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: darkblue;
+    border-color: darkblue;
+    border-radius: 25px;
+    color: #e6e6e6;
+    font-size: 100%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.btn-map:hover,
+.btn-floor:hover {
+    background-color: #cc6600;
+    border-color: #cc6600;
+}
+
+.btn-map:disabled,
+.btn-schedule:disabled {
+    background-color: #4d4dae;
+    border-color: #4d4dae;
+    color: darkblue;
+}
+
+.btn-floor,
+.btn-floor:active,
+.btn-floor:focus {
+    width: 100%;
+    height: 40px;
+    font-size: 13pt;
+    background-color: darkblue;
+    border-color: darkblue;
+    border-radius: 25px;
+    color: #e6e6e6;
+}
+
+/* campus links dropdown */
+.dropdown {
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.btn-dropdown,
+.btn-dropdown:active,
+.btn-dropdown:focus {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #e6e6e6;
+    border-radius: 15px;
+    font-size: 13pt;
+}
+
+.btn-dropdown:hover {
+    background-color: #cc6600;
+    border-color: #cc6600;
+    color: #e6e6e6;
+}
+
+.btn-search,
+.btn-search:active,
+.btn-search:focus {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #cc6600;
+    border-radius: 25px;
+    font-size: 150%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 0;
+    padding-right:0
+}
+
+.btn-search:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+    color: #e6e6e6;
+}
+
+/* the buttons for the new class popup */
+.btn-newclass {
+    background-color: #cc6600;
+    border-color: #cc6600;
+    color: #e6e6e6;
+    width: 120px;
+    height: 30px;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 10px;
+    font-size: 13pt;
+    font-weight: 400;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+/* the plus and minus buttons */
+.btn-rmclass,
+.btn-rmclass:active,
+.btn-rmclass:focus,
+.btn-addclass,
+.btn-addclass:active,
+.btn-addclass:focus {
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+    color: #cc6600;
+    font-size: 125%;
+    height: 50px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-radius: 25px;
+}
+
+.btn-rmclass:hover,
+.btn-addclass:hover {
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+    color: darkblue;
+}
+
+.btn-schedule,
+.btn-schedule:active,
+.btn-schedule:focus {
+    height: 45px;
+    width: 50%;
+    margin: 5px;
+    background-color: darkblue;
+    border-color: darkblue;
+    border-radius: 25px;
+    color: #e6e6e6;
+    font-size: 13pt;
+    font-weight: 400;
+}
+
+.btn-schedule:hover {
+    background-color: #cc6600;
+    border-color: #cc6600;
+}
+
+/* the ok button for the remove class warning */
+.btn-ok,
+.btn-ok:active,
+.btn-ok:focus {
+    background-color: #cc6600;
+    border-color: #cc6600;
+    color: #e6e6e6;
+    border-radius: 10px;
+    width: 50px;
+    font-size: 13pt;
+    font-weight: 400;
+    height: 40px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.btn-ok:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+}

@@ -1,4 +1,5 @@
 import json
+import datetime
 
 from DB import DB
 
@@ -40,12 +41,11 @@ class Parser(object):
 		
 	def getCustomPathJSON(self,requestAsJson):
 		try:
-			startLat = requestAsJson['start_latitude']
-			startLon = requestAsJson['start_longitude']
-			toReturn = DB.getCustomPath(startLat,startLon,requestAsJson['endPlace'])
+			toReturn = DB.getCustomPath(40.249145, -111.649238,requestAsJson['endPlace'])
 		except Exception, e:
 			toReturn = Parser.error(str(e))
 
+		toReturn['building_id'] = 'currentLocation'
 		return json.dumps(toReturn)
 
 	def loginJSON(self,requestAsJson):
@@ -59,7 +59,7 @@ class Parser(object):
 
 		return toReturn
 
-	def getSavedSchedules(self,requestAsJson):
+	def getSavedSchedulesJSON(self,requestAsJson):
 		try:
 			toReturn = DB.getSavedSchedules(requestAsJson['username'])
 		except Exception, e:
@@ -109,8 +109,8 @@ class Parser(object):
 			else:
 				toReturn = "False"
 		except Exception, e:
-			f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'w')
-			f.write(str(e))
+			f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+			f.write(str(datatime.datetime.now()) + str(e))
 			#f.write(str(requestAsJson))
 			f.close()	
 			toReturn = Parser.error(str(e))
@@ -123,6 +123,11 @@ class Parser(object):
 		except Exception, e:
 			toReturn = Parser.error(str(e))
 
+		f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+		f.write(str(datetime.datetime.now()))
+		#f.write(str(requestAsJson))
+		f.close()	
+		
 		return json.dumps(toReturn)
 
 

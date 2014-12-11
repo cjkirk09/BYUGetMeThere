@@ -1,121 +1,24 @@
-<!-- web application -->
+<!--web application -->
 
 <!DOCTYPE HTML>
 <title>BYU Get Me There</title>
 <head>
-    <meta charset='utf-8' name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset='utf-8' name='viewport' content='width=device-width, height=device-height, initial-scale=1'>
     <!-- css files -->
-    <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Dosis:200, 400' >
-    <link rel="stylesheet" href='css/bootstrap.min.css'>
-    <link rel='stylesheet' href='custom.css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato|Quicksand:300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href='/static/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/static/css/custom.css'>
+    <link rel='stylesheet' href='/static/css/login-rb.css'>
+    <link rel='stylesheet' href='/static/css/map-fp.css'>
+    <link rel='stylesheet' href='/static/css/buttons.css'>
     <!-- javascript files -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript" src="/static/js/markerwithlabel.js"></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js'></script>
-    <script src="app.js"></script>
-    <script type="text/javascript"> // google maps
-       var byu = new google.maps.LatLng(40.248770, -111.649273);
-       var map;
-       var positionmarker;
-       var directionsDisplay;
-       var directionsService = new google.maps.DirectionsService();
-
-       function initialize(){
-          directionsDisplay = new google.maps.DirectionsRenderer();
-          var mapProp = {
-             center:byu,
-             zoom:15,
-             mapTypeId: google.maps.MapTypeId.ROADMAP,
-             zoomControlOptions:{
-                style: google.maps.ZoomControlStyle.DEFAULT,
-                position: google.maps.ControlPosition.LEFT_CENTER
-             }
-          };
-  
-          map=new google.maps.Map(document.getElementById('map'),mapProp);
-          directionsDisplay.setMap(map);
-       }
-
-       // Try HTML5 geolocation
-       function findMyLocation(){
-       // window.alert("in findMyLocation");
-
-       if(navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-             var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-             console.log("I found the user's position: " + pos);
-  
-             positionmarker = new google.maps.Marker({
-                 map:map,
-                 draggable:false,
-                 animation: google.maps.Animation.DROP,
-                 position: pos
-             });
-  
-             map.setCenter(pos);
-             map.setZoom(12);
-             // i think this will set the text box to the current location, but i need to upload it to a device to test it
-
-           }, function() {handleNoGeolocation(true);});
-       } //closes if
-       else {
-         // Browser doesn't support Geolocation
-         handleNoGeolocation(false);
-       }
-     }//closes findMyLocation
-  
-     function handleNoGeolocation(errorFlag) {
-       if (errorFlag) {
-         var content = 'Error: The Geolocation service failed.';
-       } else {
-         var content = 'Error: Your browser doesn\'t support geolocation.';
-       }
-       
-     /*  var options = {
-         map: map,
-         position: byu,
-         content: content
-       };
-     */
-       var infowindow = new google.maps.InfoWindow(options);
-       map.setCenter(options.position);
-       map.setZoom(15);
-     }
-
-     function getRoute(scope){
-            var message = scope.getRoute();
-	     scope.$apply();
-	     if( scope.routeInfo.errorMessage == "" ){
-            scope.toggleRouteBox();
-            scope.$apply();
-            var path = scope.routeInfo.path;
-            var start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
-            var end = new google.maps.LatLng(path[path.length-1].latitude, path[path.length-1].longitude);
-            var waypts = [];
-            if( path.length >2 ){
-                for( var i=1; i < path.length-1; i++ ){
-                    waypts.push( { location: new google.maps.LatLng(path[i].latitude, path[i].longitude), stopover:true});
-                }
-            }
-            var request = {
-                origin: start,
-                destination: end,
-                waypoints: waypts,
-                optimizeWaypoints: false,
-                travelMode: google.maps.TravelMode.WALKING
-            };
-            directionsService.route(request, function(response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    directionsDisplay.setDirections(response);
-                }
-            });
-        }
-     }
-     
-     google.maps.event.addDomListener(window, 'load', initialize);
-   
-    </script>
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/map.js"></script>
 </head>
 
 <body ng-app='ByuGetMeThereApp'>
@@ -125,39 +28,46 @@
     <div class='row'>
         <!-- menu btn -->
         <div class='col-xs-4' id='menubtn'>
-            <a ng-click='toggleMenu()' href='#optionspage'>
+            <a ng-click='toggleMenu()'>
                 <span class='glyphicon glyphicon-align-justify'></span>
             </a>
         </div>
-        <div class='col-xs-4' id='logo'><img src="images/logo.png"></div>
+        <div class='col-xs-4' id='logo'><img src="/static/images/logo.png"></div>
         <!-- login option -->
-        <div ng-click='toggleLogin()' class='col-xs-4' id='login'><a>Sign in</a></div> 
+        <div ng-click='toggleLogin()' onclick='closeRouteBox()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
+        <div ng-click='logout()' ng-if='userInfo.currentUser' class='col-xs-4' id='login'>Logout</div>
     </div> 
 </div> <!-- end of top menu bar -->
 
 <!-- login page -->
-<div class='section' ng-if='state.loginOpen' id='loginpage'>
+<div class='popup' ng-if='state.loginOpen' id='loginpage'>
+    <div class='row' ng-if='userInfo.errorMessage!=""'>
+        <div class='col-xs-12'><p>{{userInfo.errorMessage}}</p></div>
+    </div>
+    <div class='row' ng-if='userInfo.errorMessage==""'>
+        <div class='col-xs-12'><p>Welcome to BYU Get Me There!</p></div>
+    </div>
     <div id='logininput'>
         <div class='row'>
-            <div class='col-xs-12'><input class='form-control' type='text' 
-                                          ng-model='userInfo.username' placeholder="Username"></div>
+            <div class='col-xs-12'>
+                <input class='form-control' type='text' ng-model='userInfo.username' placeholder="Username">
+            </div>
         </div>
         <div class='row'>
-            <div class='col-xs-12'><input class='form-control' type='password' 
-                                          ng-model='userInfo.password' placeholder='Password'></div>
+            <div class='col-xs-12'>
+                <input class='form-control' type='password' ng-model='userInfo.password' placeholder='Password'>
+            </div>
         </div>
     </div> <!-- end of login input boxes -->
     <div class='row' id='loginbuttons'>
-        <div class='col-xs-6' id='registerbutton'>
-            <button type='button' class='btn btn-info' ng-click="register()">Register</button>
-        </div>
-        <div class='col-xs-6' id='loginbutton'>
-            <button type='button' class='btn btn-info' ng-click="login()">Login</button>
+        <div class='col-xs-12'>
+            <div class='buttongroup login-group'>
+                <button type='button' class='btn btn-login' ng-click='toggleLogin()'>Cancel</button>
+                <button type='button' class='btn btn-login' ng-click="register()">Register</button>
+                <button type='button' class='btn btn-login' ng-click="login()">Login</button>
+            </div>    
         </div>
     </div> <!-- end of login buttons -->
-    <div class='row' id='loginerror' ng-if='userInfo.errorMessage!=""'>
-        <p>{{userInfo.errorMessage}}</p>
-    </div>
 </div> <!-- end of login page -->
 
 <!-- options page -->   
@@ -171,43 +81,40 @@
             <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
         </ul>
     </div>
-    <div class='row' id='optionslogo'><img src='images/optionslogo.png'></div>
-
+    <div class='row' id='optionslogo'><img src='/static/images/optionslogo.png'></div>
 </div> <!-- end of options page -->
 
 <!-- directions: map and route options -->
 <div class='section' id='directions'>
     <!-- new route menu -->
     <div class='row' id='newroute'>
-        <div class='col-xs-3' style="text-align:center">
-            <button class='btn mapmarker' type='button' onclick="findMyLocation()">
-               <span class='glyphicon glyphicon-map-marker'></span>
+        <div class='col-xs-4' style='text-align:left'>
+            <button class='btn btn-mapmarker' type='button' onclick="findMyLocation()">
+                <span class='glyphicon glyphicon-map-marker'></span>
             </button>
         </div>
-        <div class='col-xs-5'></div>
-        <div class='col-xs-4'>
-            <button class='btn route' type='button' ng-click="toggleRouteBox()">
-               Route
-            </button>
+        <div class='col-xs-8' style='text-align:right'>
+            <div class='buttongroup newroute-group'>
+                <button class='btn btn-newroute route' type='button' ng-click="toggleRouteBox()"
+                        onclick="toggleRouteBox()">Route</button>
+                <button type='button' class='btn btn-newroute clear' onclick="clearRoute()">Clear</button> 
+            </div>
         </div>
     </div> <!-- end of new route menu -->
 
     <!-- Route Box, only visible if the Route button is clicked -->
-    <div class='section' ng-if='state.routeBoxOpen' id='routebox'>
+    <div class='popup' style='visibility:hidden' id='routebox'>
+        <div class='row error'>
+            <div class='col-xs-12'><p>{{getRoute()}}</p></div>
+        </div>
         <div id='routeinput'>
             <div class='row'>
                 <div class='col-xs-12'>
-                   <!-- <div class='input-group'>
-                        <span class='input-group-btn'>
-                            <button class='btn btn-default' type='button' onclick="findMyLocation()">
-                               <span class='glyphicon glyphicon-map-marker' style='color:#cc6600;font-size:150%'></span>
-                            </button>
-                        </span>
-                        <input class='form-control' type='text' ng-model='routeInfo.startPoint' 
-                               placeholder="Start">
-                    </div> -->
-                    <select ng-model='routeInfo.startPoint'>
-                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
+                    <select id='Start' ng-model='routeInfo.startPoint'>
+                        <option disabled>Start</option>
+                        <option value='currentLocation'>Current Location</option>
+                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
+                            {{building.id}} - {{building.name}}</option>
                     </select>
                 </div>
             </div>
@@ -215,78 +122,184 @@
                 <div class='col-xs-12'>
                     <!-- <input class='form-control' type='text' ng-model='routeInfo.endPoint' placeholder='End'> -->
                     <select ng-model='routeInfo.endPoint'>
-                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>({{building.id}}) {{building.name}}</option>
+                        <option disabled>End</option>
+                        <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
+                            {{building.id}} - {{building.name}}</option>
                     </select>
                 </div>
             </div>
         </div> <!-- end of route box input fields -->
         <div class='row' id='routeboxbuttons'>
-            <div class='col-xs-6' id='cancelroute'>
-               <button type='button' class='btn btn-info' ng-click="toggleRouteBox()">Cancel</button>
-            </div>
-            <div class='col-xs-6' id='getroute'>
-                <button type='button' class='btn btn-info' 
-                        onclick=" getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
+            <div class='col-xs-12' style='text-align:center'>
+                <div class='buttongroup'>
+                    <button type='button' class='btn btn-route' ng-click="toggleRouteBox()"
+                            onclick="toggleRouteBox()">Cancel</button>
+                    <button type='button' class='btn btn-route'
+                        onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
+                    <button type='button' class='btn btn-route' onclick="clearRoute()">Clear</button>
+                </div>
             </div>
         </div> <!-- end of route box buttons -->
-        <div class='row' id='routeerror'>
-            <p>{{getRoute()}}</p>
-        </div>
    </div> <!-- end of Route Box -->   
 
     <!-- back to map -->
     <div class='container mapcontainer' id='map'></div>
-
+    <!-- map buttons -->
     <div class='row' id='mapbuttons'>
-        <div><button type='button' class='col-xs-4 btn btn-info' onclick="goTo('building')">Building Info</button></div>
-        <div><button type='button' class='col-xs-4 btn btn-info' ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('floorplan')">Floor Plan</button></div>
-        <div><button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-4 btn btn-info'>Save Route</button></div>
+        <div class='col-xs-12' style='text-align:center'>
+            <div class='buttongroup map-group'>
+                <button type='button' class='btn btn-map' 
+                        ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('building')">Building Info</button>
+                <button type='button' class='btn btn-map' 
+                        ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('floorplan')">Floor Plan</button>
+                <button type='button' class='btn btn-map' ng-disabled='!userInfo.currentUser'>Save Route</button>
+            </div>
+        </div>
     </div> <!-- end of map buttons -->
 </div> <!-- end of directions section -->
 
 <div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>
-    <h3>Floor Plan {{floorplans.list[floorplans.currentFloor]}}</h3>
-    <div class=' container floorplan-container'>
-        <div class='row' style='position:absolute;top:190%;left:10%;width:85vw'>
-            <div class='col-xs-6' style='text-align:left'><button style='width:100px' type='button' class='btn btn-info' ng-click='previousFloor()'>Previous</button></div>
-            <div class='col-xs-6' style='text-align:right'><button style='width:100px' type='button' class='btn btn-info' ng-click='nextFloor()'>Next</button></div>
+<!-- <div class='section' id='floorplan'> -->
+    <h3>Floor Plan: {{buildingInfo.selected}} {{floorplans.currentFloor+1}}</h3>
+    <div class='row' style='margin-bottom:10px'>
+        <div class='col-xs-4' style='text-align:left'>
+            <button type='button' class='btn btn-floor' ng-click='previousFloor()'>Previous Floor</button>
         </div>
-        <iframe id='floorplan-pic' src='{{floorplans.list[floorplans.currentFloor]}}'></iframe>
-
-        
+        <div class='col-xs-4' style='text-align:center'>
+            <button type='button' class='btn btn-floor' onclick='goTo("map")'>Back to Map</button>
+        </div>
+        <div class='col-xs-4' style='text-align:right' >
+            <button type='button' class='btn btn-floor' ng-click='nextFloor()'>Next Floor</button>
+        </div>
+    </div>
+    <div class='container floorplan-container'>   
+        <img content='user-scalable=yes, min-scale=0.5, max-scale=2' src='{{floorplans.list[floorplans.currentFloor]}}'
+             alt='Sorry. Floor plans for this building are unavailable.'>
     </div>
 </div>
 
 <div class='section' id='schedule'>
+     <!-- add course page -->
+    <div class='popup' id='newclasspage' ng-if='state.courseDialogOpen'>
+        
+        <div class='row error' ng-if='newcourse.errorMessage!=""'>
+            <div class='col-xs-12'>
+                <p>{{newcourse.errorMessage}}</p>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-12'>
+                <p>Enter a new class here</p>
+            </div>
+        </div>
+        <!-- course name input -->
+        <div class='row newclassrow'>
+            <div class='col-xs-12'>
+                <input class='form-control' type='text' ng-model='newcourse.name' placeholder="Course Name">
+            </div>
+        </div> <!-- end of course name input -->
+        <!-- time of class input-->
+        <div class='row newclassrow'>
+              <div class='col-xs-4'>
+                <select ng-model='newcourse.hour'>
+                    <option disabled>Hour</option>
+                    <option ng-repeat='hour in time.hoursList' value='{{hour}}'>{{hour}}</option>
+                </select>
+              </div>
+              <div class='col-xs-4'>
+                <select ng-model='newcourse.minute'>
+                    <option disabled>Minute</option>
+                    <option ng-repeat='minute in time.minutesList' value='{{minute}}'>{{minute}}</option>
+                </select>
+              </div>
+              <div class='col-xs-4'>
+                <select ng-model='newcourse.ampm'>
+                    <option disabled>AM/PM</option>
+                    <option ng-repeat='ampm in time.ampm' value='{{ampm}}'>{{ampm}}</option>
+                </select>
+              </div>
+        </div> <!-- end of time input -->
+        <!-- days of week input-->
+        <div class='row newclassrow'>
+            <div class='col-xs-12'><div id='daysbuttons'>
+                Su:<input type="checkbox" ng-model='newcourse.days[0]'>
+                M: <input type="checkbox" ng-model='newcourse.days[1]'>
+                Tu:<input type="checkbox" ng-model='newcourse.days[2]'>
+                W: <input type="checkbox" ng-model='newcourse.days[3]'>
+                Th:<input type="checkbox" ng-model='newcourse.days[4]'>
+                F: <input type="checkbox" ng-model='newcourse.days[5]'>
+                Sa:<input type="checkbox" ng-model='newcourse.days[6]'>
+            </div></div>
+        </div> <!-- end of days of the week input -->
+        <!-- building input-->
+        <div class='row newclassrow'>
+            <div class='col-xs-4'>
+                <input class='form-control' type='text' ng-model='newcourse.room' placeholder="Room #" />
+            </div>
+            <div class='col-xs-8' style='margin-top:5px'>
+                <select ng-model='newcourse.building_id'>
+                    <option disabled>Building</option>
+                    <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
+                        {{building.id}} - {{building.name}}</option>
+                </select>
+            </div>
+        </div> <!-- end of building input -->
+        <!-- buttons for new class popup -->
+        <div class='row newclassrow'>
+            <div class='col-xs-12' style='text-align:center'>
+                <div class='buttongroup'>
+                    <button type='button' class='btn btn-newclass' ng-click="toggleCourseDialog()">Cancel</button>
+                    <button type='button' class='btn btn-newclass' ng-click="addCourse()">Add Course</button>
+                    <button type='button' class='btn btn-newclass' ng-click="clearTentativeCourse()">Clear</button>
+                </div>
+            </div>
+        </div> <!-- end of new course popup buttons -->
+    </div> <!-- end of new course popup -->
+    
+    <div class='popup' ng-if='state.minusClicked'>
+        <div class='row'>
+            <div class='col-xs-9' style='margin-top:5px'>
+                Are you sure you want to remove this class?
+            </div>
+            <div class='col-xs-3'>
+                <button class='btn btn-ok' type='button' ng-click='removeCourse()'>Ok</button>
+            </div>
+        </div>
+    </div>
     <div class='container'>
         <h3>Enter Your Schedule</h3>
-        <div class='row' id='class'>
-            <div class='col-xs-2'>
-                <button class='btn' id='rmclass' type='button'>
-                    <span id='minus' class="glyphicon glyphicon-minus-sign"></span>
+         <div class='row'>
+            <div class='col-xs-2' style='text-align:center'>
+                <button class='btn btn-rmclass' type='button' ng-click='toggleOkDialog()'>
+                    <span class="glyphicon glyphicon-minus-sign"></span>
                 </button>
             </div>
-            <div class='col-xs-10'>CS 142 - TMCB 1170<br>MWF - 9:00am</div>  
+            <div class='col-xs-10'>$(name) - $(building_id) $(room)<br>$(days) - $(time)</div>  
         </div>
-        <div class='row' id='class'>
-            <div class='col-xs-2'>
-                <button class='btn' id='rmclass' type='button'>
-                    <span id='minus' class="glyphicon glyphicon-minus-sign"></span>
-                </button>
-            </div>
-            <div class='col-xs-10'>MATH 113 - JKB 3108<br>MWF - 11:00am</div>
-        </div>   
-        <div class='row' id='class'>
-            <div class='col-xs-2'>
-                <button class='btn' id='addclass' type='button'>
-                    <span id='plus' class='glyphicon glyphicon-plus-sign'></span>
+        <div class='row'>
+            <div class='col-xs-2' style='text-align:center'>
+                <button class='btn btn-addclass' type='button' ng-click='toggleCourseDialog()'>
+                    <span class='glyphicon glyphicon-plus-sign'></span>
                 </button>
             </div>
         </div>
-        <div class='buttongroup'>
-            <button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-9 btn btn-info btn-lg'>Load Schedule</button>
-            <button type='button' ng-disabled='!userInfo.currentUser' class='col-xs-9 btn btn-info btn-lg'>Save Schedule</button>
-            <button type='button' class='col-xs-9 btn btn-info btn-lg'>Map Schedule</button>
+        <div class='row'>
+            <div class='col-xs-12' style='text-align:center'>
+                <button type='button' class='btn btn-schedule'>
+                    New Schedule</button>
+            </div>
+            <div class='col-xs-12' style='text-align:center'>
+                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule'>
+                    Load Schedule</button>
+            </div>
+            <div class='col-xs-12' style='text-align:center'>
+                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule'>
+                    Save Schedule</button>
+            </div>
+            <div class='col-xs-12' style='text-align:center'>
+                <button type='button' class='btn btn-schedule'>
+                    Map Schedule</button>
+            </div>
         </div>
     </div>
 </div>
@@ -294,101 +307,102 @@
 <div class='section' id='campus'>
     <div class='container'>
         <h3>Campus Links</h3>
+        <!-- links to various campus offices -->
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 BYU Home Page
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='http://home.byu.edu/home/'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 Contact BYU
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='http://home.byu.edu/home/contact/'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 Lost and Found
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='https://lostandfound.byu.edu/content/lost-and-found-contact-information'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 WSC Information Desk
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='https://wscinfodesk.byu.edu/'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 ID Center
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='https://idcenter.byu.edu/'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 BYU Counseling Center
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='https://caps.byu.edu/paperwork'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 University Advisement
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='https://universityadvisement.byu.edu/'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 Career Services
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='https://ucs.byu.edu/'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
         <div class='row'>
-            <div class='col-xs-6' style='text-align:right;padding-right:0;font-size:120%'>
+            <div class='col-xs-6 campus-info'>
                 CougarEat
             </div>
-            <div class='col-xs-6' style='text-align:left;padding-left:50px'>
+            <div class='col-xs-6 campus-link'>
                 <a href='http://dining.byu.edu/cougareat/hours.html'>
                     <span class='glyphicon glyphicon-arrow-right'></span>
                 </a>
             </div>
         </div>
+        <!-- campus advisement centers drop down list -->
         <div class='row' style='padding-top:10px'>
-            <div class='col-md-4'></div>
-            <div class='col-xs-12 col-md-4'>
-                <div class='dropdown' style='text-align:center'>
-                    <button class='btn btn-default dropdown-toggle' type='button' 
+            <div class='col-xs-12' style='text-align:center'>
+                <div class='dropdown'>
+                    <button class='btn btn-dropdown dropdown-toggle' type='button' 
                             id='campus-dropdown' data-toggle='dropdown' aria-expanded='true' style='width:100%'>
                         Campus Advisement Centers
                         <span class='caret'></span>
@@ -457,7 +471,6 @@
                     </ul>
                 </div>
             </div>
-            <div class='col-md-4'></div>
         </div>
     </div>
 </div>
@@ -466,32 +479,23 @@
     <div class='container'>
         <h3>Building Info</h3>
         <div class='row' id='buildinglist'>
-            <div class='col-xs-10 col-md-11'>
-                <!-- <div class='input-group'>
-                    <input type='text' class='form-control' ng-model='buildingInfo.current' 
-                           id='buildingsearch' placeholder='Search'>
-                        <span class='input-group-btn'>
-                            <button class='btn btn-default' type='button'
-                                    ng-click="getBuildingInfo()">
-                                <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
-                            </button>
-                        </span>
-                </div> -->
-                <select ng-model='buildingInfo.selected'>
+            <div class='col-xs-1'></div>
+            <div class='col-xs-9' style='text-align:right'>
+                <select class='building-search' ng-model='buildingInfo.selected'>
+                    <option disabled>Select Building</option>
                     <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>
-                        ({{building.id}}) {{building.name}}</option>
+                        {{building.id}} - {{building.name}}</option>
                 </select>
             </div>
-            <div class='col-xs-2 col-md-1'>
-                 <button class='btn btn-default' type='button' ng-click="getBuildingInfo()">
-                     <span class='glyphicon glyphicon-search' style="color:#cc6600;font-size:150%"></span>
+            <div class='col-xs-2' style='text-align:left'>
+                 <button class='btn btn-search' type='button' ng-click="getBuildingInfo(buildingInfo.selected)">
+                     <span class='glyphicon glyphicon-search'></span>
                 </button>
             </div>
         </div> <!-- end of search -->
         <div class='row' style='padding-top: 70px'>
             <div class='col-xs-12' style='font-size:150%'>
                 <b>You searched for {{buildingInfo.echo_search}}</b><br><br>
-                Current: {{buildingInfo.selected}} <br>
                 Building: {{buildingInfo.name}} <br>    
                 Phone-number: {{buildingInfo.phone}} <br>
                 Hours: {{buildingInfo.hours}} <br>
@@ -499,37 +503,37 @@
         </div>
     </div>
 </div>
-
+<!-- about us section -->
 <div class='section' id='about'>
     <div class='container'>
         <h3>About Us</h3>
         <div class='row' style='font-size:150%'>
             <p> In the fall of 2014, five BYU students took an Internet Programming class. 
                 They struggled through multiple labs, awaiting the day that they could create 
-                their own Web Application for the world. Finally that day came. This is the result.
+                their own Web Application for the world. Finally that day came. This website is the result.
             </p>
-        </div>
-        <div class='row' style='text-align:center'><b>Contact us at:</b> webteam@ByuGetMeThere.com</div><br>
+        </div> <!-- end of about us paragraph -->
+        <div class='row' style='text-align:center'><b>Contact us at:  </b><a id='email' href='mailto:webteam@ByuGetMeThere.com'>webteam@ByuGetMeThere.com</a></div><br>
         <div class='row' style='text-align:center'>
             <div class='col-md-1'></div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='images/cody.jpg'>
-                <p><b>Cody Hefner</b><br>Schedule Surgeon</p>
-            </div>
-            <div class='col-md-2'>
-                <img id='aboutpic' src='images/cory.jpg'>
-                <p><b>Cory Kirkland</b><br>Map Mastermind</p>
-            </div>
-            <div class='col-md-2'>
-                <img id='aboutpic' src='images/blaine.jpg'>
+                <img id='aboutpic' src='/static/images/blaine.jpg'>
                 <p><b>Blaine McGary</b><br>Server Scientist</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='images/brynne.jpg'>
+                <img id='aboutpic' src='/static/images/brynne.jpg'>
                 <p><b>Brynne Hansen</b><br>CSS Controller</p>
             </div>
             <div class='col-md-2'>
-                <img id='aboutpic' src='images/eric.jpg'>
+                <img id='aboutpic' src='/static/images/cody.jpg'>
+                <p><b>Cody Hefner</b><br>Schedule Surgeon</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='/static/images/cory.jpg'>
+                <p><b>Cory Kirkland</b><br>Map Mastermind</p>
+            </div>
+            <div class='col-md-2'>
+                <img id='aboutpic' src='/static/images/eric.jpg'>
                 <p><b>Eric Romrell</b><br>Database Doctor</p>
             </div>
             <div class='col-md-1'></div>
@@ -537,24 +541,6 @@
     </div>
 </div>
 </div>
-    <script>
-        function display(){
-            window.alert("in display");
-        }
-
-        function goTo(id){
-            window.scroll(0,findPos(document.getElementById(id)));
-        }
-        
-        function findPos(obj) {
-            var curtop = 0;
-            if (obj.offsetParent) {
-            do {
-                curtop += obj.offsetTop;
-            } while (obj = obj.offsetParent);
-            return [curtop];
-        }
-}
-    </script>
+    
     
 </body>

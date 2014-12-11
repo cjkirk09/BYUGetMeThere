@@ -18,13 +18,11 @@ getPath()
 	}
 getCustomPath()
 	{
-	  start_latitude: decimal,
-      start_longitude: decimal,
 	  endPlace: "building_id" (e.g. TMCB)
 	}
 	returns
 	{
-	  startCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
+	  startCoord: { "currentLocation"},
 	  endCoord: { id: id, building_id: buildingID, latitude: number, longitude: number, in_DB: T/F },
 	  floorPlans: [floor1_url, floor2_url, ...]
 	  buildingInfo: { 
@@ -40,10 +38,32 @@ getSavedSchedules()
 	}
 	return
     {
-      schedules: [schedule1:{id: int, username: "string", schedule_name: "string"}, schedule2...]
+      	schedules: [
+	      	schedule1:
+	      	{
+	      		id: int, 
+	      		username: "string", 
+	      		schedule_name: "string", 
+	      		courses: [ 
+	          		course:
+	          		{
+	            		name:"nameOfCourse",
+	            		schedule_name: "nameOfSchedule",
+	            		time:"hh:mm am/pm",
+	            		days:"MTWThF",
+	            		building_id:"acronym", 
+	            		room:"roomNum" 
+	          		},
+	          		... , 
+	          		course:{ ... } 
+	          	], 
+	        },
+	        schedule2: { ... },
+	        ...
+      	]
     }
 	
-
+// deprecated, getSavedSchedules() now does what this needed to
 loadSchedule()
 	{
 	  username: "string",
@@ -82,7 +102,17 @@ saveSchedule()
 	{
 	  username:"username",
 	  schedule_name: "name",
-	  courses: [{name:"nameOfCourse",time:"hh:mm am/pm",days:"MTWThF",building_id:"acronym", room:"roomNum" }, ... , course:{ ... } ]
+	  courses: [
+		  course:{
+		  	name:"nameOfCourse",
+		  	time:"hh:mm am/pm", 
+		  	days:"MTWThF",
+		  	building_id:"acronym", 
+		  	room:"roomNum" 
+		  }, 
+		  ... , 
+		  course:{ ... } 
+	  ]
 	}
 	returns "failed" or "success"
 

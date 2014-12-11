@@ -1,1 +1,1 @@
-{u'endPlace': u'BNSN', u'startPlace': u'CB'}
+{u'endPlace': u'SFH', u'startPlace': u'SHC'}

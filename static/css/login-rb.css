@@ -1,0 +1,32 @@
+/* these are the css properties for the route bar, and the new route box */
+.row#newroute {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#newroute { /* the blue bar that contains the buttons */
+    background-color: darkblue;
+    color: #cc6600;
+    font-size: 150%;
+    text-align: center;
+    width: 100%;
+    height: 60px;
+    margin-top: -5px;
+    position: absolute;
+    left: 0px;
+}
+
+.newroute-group { /* the route button and the clear button */
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#routeboxbuttons {
+    padding: 10px;
+}
+
+
+
+

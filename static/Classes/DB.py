@@ -1,5 +1,6 @@
 import math
 import json
+import hashlib
 from Query import Query
 from Building import Building
 from Coordinate import Coordinate
@@ -50,12 +51,12 @@ class DB:
         for start_coord in start_coords:
             for end_coord in end_coords:
                 x1 = float(start_coord.latitude)
-                x2 = float(start_coord.longitude)
-                y1 = float(end_coord.latitude)
+                y1 = float(start_coord.longitude)
+                x2 = float(end_coord.latitude)
                 y2 = float(end_coord.longitude)
                 
                 distance = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-                
+                                
                 if distance < least:
                     least = distance
                     best_start = start_coord
@@ -101,6 +102,9 @@ class DB:
         
         saved_schedules = []
         for schedule in schedules:
+            schedule.courses = []
+            for course in Course.getAllCoursesForSchedule(schedule.id):
+                schedule.courses.append(course.__dict__)
             saved_schedules.append(schedule.__dict__)
         
         return saved_schedules
@@ -144,20 +148,23 @@ class DB:
         user = User()
         user.loadFromID(username)
         
-        if user.password == password:
+        if user.password == str(hash(password)):
             return True
         else:
             return False
     
     @staticmethod        
     def createUser(username, password):
+        print "I'm Here!"
         user = User()
         user.loadFromID(username)
+        print user
         if user.in_DB:
             return False
         user.username = username
-        user.password = password
+        user.password = str(hash(password))
         user.save()
+        print "Saved User"
         return True
     
     
