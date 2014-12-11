@@ -216,24 +216,9 @@ h3 {
 }  
 */
 
-#campus a,
-#campus a:hover,
-#campus a:active,
-#campus a:focus {
-    text-decoration: none;
-    color: black;
-    text-overflow: ellipsis
-}
-
 #campus .row {
     margin-top: 3px;
     margin-bottom: 3px;
-}
-
-#campus .glyphicon {
-    color :#cc6600;
-    font-size: 120%; 
-    padding-top: 3px
 }
 
 .btn-default,
@@ -379,7 +364,19 @@ select {
 
 .campus-link {
     text-align:left;
-    padding-left:50px
+    padding-top: 3px;
+    padding-left:50px;
+}
+
+.campus-link a,
+.campus-link a:active,
+.campus-link a:visited {
+    color: #cc6600;
+    font-size: 120%;
+}
+
+.campus-link a:hover {
+    color: darkblue;
 }
 
 .dropdown {
