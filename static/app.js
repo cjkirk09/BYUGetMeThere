@@ -128,7 +128,7 @@
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
-                                $scope.date.todaysDayOfWeek = $scope.todayDayOfTheWeek();
+                                $scope.time.todaysDayOfWeek = $scope.todayDayOfTheWeek();
                                 $scope.userInfo.schedules = $scope.initializeSchedules();
                             }
                             else {
@@ -165,7 +165,7 @@
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.password = "";
-                                $scope.date.todaysDayOfWeek = $scope.todayDayOfTheWeek();
+                                $scope.time.todaysDayOfWeek = $scope.todayDayOfTheWeek();
                                 $scope.userInfo.schedules = $scope.getSavedSchedules();
                             }
                         });	
@@ -431,7 +431,8 @@
                 },
                 todayDayOfTheWeek: function() // used for scheduling
                 {
-                	var day = daysOfWeek[new Date().getDay()];
+                	var day = $scope.time.daysOfWeek[new Date().getDay()];
+                	console.log(day);
                 	return day;
                 }
 			});
