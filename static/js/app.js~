@@ -17,15 +17,7 @@ function (app) {
 					errorMessage: "",
                     currentUser: false,
                     currentUsername: "",
-                    schedules: [
-						{name: "Sunday", courses: []},
-						{name: "Monday", courses: []},
-						{name: "Tuesday", courses: []},
-						{name: "Wednesday", courses: []},
-						{name: "Thursday", courses: []},
-						{name: "Friday", courses: []},
-						{name: "Saturday", courses: []}
-					]
+                    schedules: []
 				},
 				routeInfo: {
                     boxOpen: false,
@@ -136,7 +128,6 @@ function (app) {
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
-                                $scope.userInfo.schedules = $scope.initializeSchedules();
                             }
                             else {
                                 $scope.userInfo.errorMessage = "Sorry, that username is taken";
@@ -220,9 +211,6 @@ function (app) {
 						$scope.routeInfo.errorMessage = "Please enter an ending point";	
 					}
 					else{
-                        // set selected building so the building info button will work right
-                        $scope.buildingInfo.selected = $scope.routeInfo.endPoint;
-
 						//convert the entered info to the building abbreviations and check that they are valid
 						if($scope.validRoute()){
 							if($scope.routeInfo.lastStartPoint !=$scope.routeInfo.startPoint || 
@@ -261,7 +249,7 @@ function (app) {
 									    $scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
                                                                 longitude: pathInfo.endCoord.longitude};
                                         $scope.floorplans.list = pathInfo.floorPlans;
-                                        $scope.getBuildingInfo();
+                                        $scope.getBuildingInfo($scope.routeInfo.endPoint);
 							       }
 							       });
 							    
@@ -283,19 +271,20 @@ function (app) {
 					//$scope.routeInfo.errorMessage = "";		
 					// $scope.routeInfo.errorMessage = "I couldn't get the route yet";
 				},
-                getBuildingInfo: function() 
+                getBuildingInfo: function(selected) 
                 {
-                    var searchedBuilding = $scope.buildingInfo.selected;
-                    $scope.buildingInfo.echo_search = searchedBuilding;
+                    $scope.buildingInfo.selected = selected;
+                    $scope.buildingInfo.echo_search = selected;
                     // get building info from server 
-                    infoService.getBuilding(searchedBuilding).then(function(building){
+                    infoService.getBuilding(selected).then(function(building){
                         $scope.buildingInfo.name = building.name;
                         $scope.buildingInfo.phone = building.phone_number;
-                        $scope.buildingInfo.hours = building.hours;   
+                        $scope.buildingInfo.hours = building.hours; 
+                        if ($scope.buildingInfo.hours == "") {
+                            $scope.buildingInfo.hours = "Sorry. Hours for this building are unavailable."
+                        }  
                     });
-                    if ($scope.buildingInfo.hours = "N/A") {
-                        $scope.buildingInfo.hours = "Sorry. Hours for this building are unavailable."
-                    }
+                    
                 },
                 nextFloor: function () //advance floor plan pic to the next floor
                 {
@@ -368,28 +357,26 @@ function (app) {
 
 					$scope.newcourse.errorMessage = "";
 
+					// parse the days of the week into a string
+					var dayString = "";
+					for (i in $scope.newcourse.days) 
+						if ($scope.newcourse.days[i] == true) 
+							dayString += $scope.time.daysAbbrev[i];
+
                 	// parse the add course popup
                 	for (day in $scope.newcourse.days)
                 	{
-    					// parse the days of the week into a string
-    					var dayString = "";
-    					for (i in $scope.newcourse.days) 
-    						if ($scope.newcourse.days[i] == true) 
-    							dayString += $scope.time.daysAbbrev[i];
-
                 		// if the user indicated the course is on this day, add it to that day's schedule
                 		if ($scope.newcourse.days[day] == true)
                 		{
                 			var s;
                 			// find the schedule for that day
-                			var added = false;
                 			for (schedule in $scope.userInfo.schedules)
                 			{
                 				if ($scope.userInfo.schedules[schedule].name === $scope.time.daysOfWeek[day])
                 				{
-                					s = $scope.userInfo.schedules[schedule];
 	                				// add the course to the schedule
-	                				var course = {
+	                				$scope.userInfo.schedules[schedule].push({
 	                					name: $scope.newcourse.name,
 	                					hour: $scope.newcourse.hour,
 	                					minute: $scope.newcourse.minute,
@@ -397,21 +384,7 @@ function (app) {
 	                					days: dayString,
 	                					building_id: $scope.newcourse.building_id,
 	                					room: $scope.newcourse.room
-	                				}
-	                				s.push(course);
-	                				// add the course to the schedule
-	                				var course = {
-	                					name: $scope.newcourse.name,
-	                					hour: $scope.newcourse.hour,
-	                					minute: $scope.newcourse.minute,
-	                					ampm: $scope.newcourse.ampm,
-	                					days: dayString,
-	                					building_id: $scope.newcourse.building_id,
-	                					room: $scope.newcourse.room
-	                				}
-	                				s.push(course);
-	                				$scope.userInfo.schedules[schedule] = s;
-                					added = true;
+	                				});
                 				}
                 			}
                 		}
@@ -463,6 +436,7 @@ function (app) {
 							$scope.buildings.buildingList[$scope.buildings.buildingList.length] = b;
 						}
 					});
+			$scope.userInfo.schedules = $scope.initializeSchedules();
 		}
 	]);
 

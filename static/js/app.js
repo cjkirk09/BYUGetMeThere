@@ -17,7 +17,7 @@ function (app) {
 					errorMessage: "",
                     currentUser: false,
                     currentUsername: "",
-                    schedules: function(){ return $scope.initializeSchedules(); }
+                    schedules: []
 				},
 				routeInfo: {
                     boxOpen: false,
@@ -357,28 +357,26 @@ function (app) {
 
 					$scope.newcourse.errorMessage = "";
 
+					// parse the days of the week into a string
+					var dayString = "";
+					for (i in $scope.newcourse.days) 
+						if ($scope.newcourse.days[i] == true) 
+							dayString += $scope.time.daysAbbrev[i];
+
                 	// parse the add course popup
                 	for (day in $scope.newcourse.days)
                 	{
-    					// parse the days of the week into a string
-    					var dayString = "";
-    					for (i in $scope.newcourse.days) 
-    						if ($scope.newcourse.days[i] == true) 
-    							dayString += $scope.time.daysAbbrev[i];
-
                 		// if the user indicated the course is on this day, add it to that day's schedule
                 		if ($scope.newcourse.days[day] == true)
                 		{
                 			var s;
                 			// find the schedule for that day
-                			var added = false;
                 			for (schedule in $scope.userInfo.schedules)
                 			{
                 				if ($scope.userInfo.schedules[schedule].name === $scope.time.daysOfWeek[day])
                 				{
-                					s = $scope.userInfo.schedules[schedule];
 	                				// add the course to the schedule
-	                				var course = {
+	                				$scope.userInfo.schedules[schedule].courses.push({
 	                					name: $scope.newcourse.name,
 	                					hour: $scope.newcourse.hour,
 	                					minute: $scope.newcourse.minute,
@@ -386,21 +384,7 @@ function (app) {
 	                					days: dayString,
 	                					building_id: $scope.newcourse.building_id,
 	                					room: $scope.newcourse.room
-	                				}
-	                				s.push(course);
-	                				// add the course to the schedule
-	                				var course = {
-	                					name: $scope.newcourse.name,
-	                					hour: $scope.newcourse.hour,
-	                					minute: $scope.newcourse.minute,
-	                					ampm: $scope.newcourse.ampm,
-	                					days: dayString,
-	                					building_id: $scope.newcourse.building_id,
-	                					room: $scope.newcourse.room
-	                				}
-	                				s.push(course);
-	                				$scope.userInfo.schedules[schedule] = s;
-                					added = true;
+	                				});
                 				}
                 			}
                 		}
@@ -452,6 +436,7 @@ function (app) {
 							$scope.buildings.buildingList[$scope.buildings.buildingList.length] = b;
 						}
 					});
+			$scope.userInfo.schedules = $scope.initializeSchedules();
 		}
 	]);
 
