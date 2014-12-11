@@ -41,11 +41,10 @@ class Parser(object):
 		
 	def getCustomPathJSON(self,requestAsJson):
 		try:
-			toReturn = DB.getCustomPath(40.249145, -111.649238,requestAsJson['endPlace'])
+			toReturn = DB.getCustomPath(requestAsJson['endPlace'])
 		except Exception, e:
 			toReturn = Parser.error(str(e))
 
-		toReturn['building_id'] = 'currentLocation'
 		return json.dumps(toReturn)
 
 	def loginJSON(self,requestAsJson):
