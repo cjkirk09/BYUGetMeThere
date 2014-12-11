@@ -1,0 +1,260 @@
+body {
+    background-color: #e6e6e6; /* gray */
+    font-family: 'Dosis';
+    font-weight: 300;
+    width: 100%;
+    padding: 0px;
+/*    overflow: hidden;*/
+}
+
+h3 {
+    color: darkblue;
+    font-weight: 400;
+    font-size: 25pt;
+    text-align: center;
+}
+
+/*menu bar */
+#menubar {
+    background-color:#e6e6e6;
+    color: #cc6600;
+    padding: 5px;
+    width: 100%;
+    height: 55px;
+}
+
+#menubtn {
+    padding-top: 5px;
+    padding-left: 20px;
+}
+
+#menubtn a { /*glyphicon*/
+    color: #808080;
+    font-size: 150%;
+    text-decoration: none;
+}
+
+#logo {
+	 text-align: center;
+}
+
+#logo img { 
+	 height: 45px;
+	 width: 45px;
+}
+
+/*options page*/
+#optionspage { 
+    background-color: darkblue;
+    font-size: 20pt;
+    width: 90vw;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+}
+
+#optionslist a {
+    color: #e6e6e6;
+    text-decoration: none;
+}
+
+#optionslist a:hover {
+    color: #cc6600;
+}
+
+#optionslogo {
+	text-align: right;
+	position: absolute;
+	bottom: 2%;
+	right: 5%;
+}
+
+#optionslogo img {
+	height: auto;
+	width: 33vh;
+}
+
+#login {
+    cursor: pointer;
+	text-align: right;
+    float: right;
+    font-size: 150%;
+    text-decoration: none;
+    color: #cc6600;
+    padding-top: 5px;
+    padding-right: 25px;
+    height: 45px;
+/*    margin: 1px;*/
+}
+
+#login:hover {
+    color: darkblue;
+}
+
+.popup {
+    font-size: 14pt;
+    background-color: darkblue;
+    color: #e6e6e6;
+    width: 80%; 
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 75px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
+    z-index: 1000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    text-align: center;
+    border-radius: 25px;
+}
+
+.error {
+    color: red;
+    font-weight: 400;
+}
+
+#loginpage input,
+#routebox input,
+#newclasspage input,
+#buildingsearch {
+    margin: 3px;
+    width: 100%;
+    background-color: rgba(255,255,255,.3);
+    border-color: rgba(255,255,255,.3);
+    color: #e6e6e6;
+    font-weight: 400;
+    font-size: 14pt;
+}
+
+#newclasspage input[type='checkbox'] {
+    width: 5%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.newclassrow {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#buildingsearch {
+    margin: 0px;
+}
+
+#class {
+    font-size: 14pt;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+/*building list*/
+
+.row#buildinglist {
+    margin-left: 0px;
+    margin-right: 0px;
+    position: absolute;
+    left: 0;
+}
+
+#buildinglist {
+    width: 100%;
+    height: 60px;
+    background-color: darkblue;
+}
+
+.section {
+    height: 100vh;
+    width: 100vw;
+    float: left;
+    padding-top: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/*bootstrap override*/
+.container {
+    height: 75vh;
+    width: 90vw;
+    margin-bottom: 10%;
+}
+
+#campus .row {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+#campus ul {
+    overflow-y: scroll;
+    height: 300%;
+}
+
+#aboutpic {
+    width: 15vh;
+    height: auto;
+}
+
+select {
+    width: 100%;
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+    border-radius: 25px;
+    margin: 3px;
+    color: black;
+    font-size: 13pt;
+}
+
+.maplabels {
+     color: red;
+     background-color: white;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     font-weight: bold;
+     text-align: center;
+     border: 2px solid black;
+     white-space: nowrap;
+}
+
+.campus-info {
+    text-align:right;
+    padding-right:0;
+    font-size:120%;
+}
+
+.campus-link {
+    text-align:left;
+    padding-top: 3px;
+    padding-left:50px;
+}
+
+.campus-link a,
+.campus-link a:active,
+.campus-link a:visited {
+    color: #cc6600;
+    font-size: 120%;
+}
+
+.campus-link a:hover {
+    color: darkblue;
+}
+
+.building-search {
+    height: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+#email,
+#email:active,
+#email:visited {
+    color: darkblue;
+    text-decoration: none;
+}
+
+#email:hover {
+    color: #cc6600;
+    text-decoration: none;
+}

@@ -1,0 +1,47 @@
+/* This is the css for the map, the map buttons, and the floor plan */
+
+.map-group { /* button group for the map */
+    width: 100%;
+}
+
+.row#mapbuttons {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+#mapbuttons {
+    width: 100%;
+    position: absolute;
+    left: 1%;
+    top: 90%;
+}
+
+#map,
+.mapcontainer,
+.floorplan-container {
+    border: 5px;
+    border-top-style: none;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-bottom-style: solid;
+    border-color: #cc6600;
+    padding-bottom: 10px;
+}
+
+.mapcontainer {
+    height: 80vh;
+    margin-top: 55px;
+}
+
+.floorplan-container {
+    border-top-style: solid;
+    padding-right: 0;
+    padding-left: 0;
+    padding-bottom: 0;
+    height: 70vh;
+}
+
+.floorplan-container {
+    -webkit-overflow-scrolling: touch;
+    overflow: scroll;
+}
