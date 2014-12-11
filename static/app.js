@@ -46,20 +46,25 @@
 	                currentFloor: 0
 	            },
 
+	            // this is where the data is stored from the schedule popup
 	            newcourse: {
 	            	name: "",
-	            	hour: "Hour",
-	            	minute: "Minute",
-	            	ampm: "AM/PM",
+// <<<<<<< Updated upstream
+// 	            	hour: "Hour",
+// 	            	minute: "Minute",
+// 	            	ampm: "AM/PM",
+// 	            	days: [false, false, false, false, false, false, false],
+// 	            	building_id: "Building",
+// 	            	room: ""
+// =======
+	            	hour: "",
+	            	minute: "",
+	            	ampm: "",
 	            	days: [false, false, false, false, false, false, false],
-	            	building_id: "Building",
-	            	room: ""
+	            	building_id: "",
+	            	room: "",
+	            	errorMessage: ""
 	            },
-
-				schedule: {
-					name: "",
-					courses: [] // a list of courses that are in this schedule
-				},
 
 				time: {
 					hoursList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -295,19 +300,72 @@
                 	var username = $scope.userInfo.currentUsername;
                 	infoService.loadSchedule(username).then(function(success) {
                 		// save the user's schedule
+                		// if the user doesn't have a schedule for a day of the week, add a blank schedule as placeholder
+                		console.log(success);
                 	});
                 },
-                addCourse: function () // add a course to the current schedule
+                addCourse: function () // add a course to the user's schedule(s)
                 {
+            		// ensure the user filled in all the boxes - 
+            		// if even one field is missing OR if they haven't selected any days, 
+            		// give an error and don't add the course
+            		var allboxesfilled = true;
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.name != "");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.hour != "");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.minute != "");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.ampm != "");
+            		var dayselected = false;
+            		for (i in $scope.newcourse.days) dayselected = dayselected || ($scope.newcourse.days[i]==true);
+            		allboxesfilled = allboxesfilled && dayselected;
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.building_id != "");
+            		allboxesfilled = allboxesfilled && ($scope.newcourse.room != "");
+            		if (!allboxesfilled)
+            		{
+            			// error - all fields are required!
+            			$scope.newcourse.errorMessage = "All fields are required.";
+            			console.log("All fields are required to add a course.");
+            			return;
+            		}
+
                 	// parse the add course popup
-
                 	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
-                	for (day in daysOfWeek)
+                	var daysAbbrev = {0: "M", 1: "T", 2: "W", 3: "Th", 4: "F", 5: "Sa", 6: "Su"};
+                	for (day in $scope.newcourse.days[day])
                 	{
-                		// if the user indicated the course is on this day, add it to that day's schedule
-                		if ($scope.course.days[day])
-                		{
+    					// parse the days of the week into a string
+    					var dayString = "";
+    					for (i in $scope.newcourse.days) 
+    						if ($scope.newcourse.days[i] == true) 
+    							dayString += daysAbbrev[i];
 
+                		// if the user indicated the course is on this day, add it to that day's schedule
+                		if ($scope.newcourse.days[day] == true)
+                		{
+                			var s;
+                			// find the schedule for that day
+                			var added = false;
+                			for (schedule in $scope.userInfo.schedules)
+                			{
+                				if ($scope.userInfo.schedules[schedule].name === daysOfWeek[day])
+                				{
+                					s = $scope.userInfo.schedules[schedule];
+
+	                				// add the course to the schedule
+	                				var course = {
+	                					name: $scope.newcourse.name,
+	                					hour: $scope.newcourse.hour,
+	                					minute: $scope.newcourse.minute,
+	                					ampm: $scope.newcourse.ampm,
+	                					days: dayString,
+	                					building_id: $scope.newcourse.building_id,
+	                					room: $scope.newcourse.room
+	                				}
+	                				s.push(course);
+
+	                				$scope.userInfo.schedules[schedule] = s;
+                					added = true;
+                				}
+                			}
                 		}
                 	}
                 },
