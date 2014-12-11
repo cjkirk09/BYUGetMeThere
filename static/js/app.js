@@ -369,7 +369,6 @@
                 		// if the user indicated the course is on this day, add it to that day's schedule
                 		if ($scope.newcourse.days[day] == true)
                 		{
-                			var s;
                 			// find the schedule for that day
                 			for (schedule in $scope.userInfo.schedules)
                 			{
@@ -389,18 +388,19 @@
                 			}
                 		}
                 	}
+
+					$scope.newcourse.errorMessage = "Class added.";
                 },
                 saveSchedule: function () // send user-created schedule to server
                 {
                 	var userName = $scope.userInfo.currentUsername;
-                	var courses = [];
                 	// get schedule, convert it into data
-                	for (day in $scope.time.daysOfWeek)
+                	for (schedule in $scope.userInfo.schedules)
                 	{
 	                	data = {
 	                		username:userName, 
 	                		schedule_name: $scope.time.daysOfWeek[day],
-	                		courses: []
+	                		courses: $scope.userInfo.schedules[schedule].courses
 	                	};
 	                	// send to server
 	                	infoService.saveSchedule(data).then(function(success) {
@@ -443,21 +443,21 @@
 		return {
 			getPath: function(stringPath)
 			{
-				return $http.post('http://104.236.182.126/getPath',stringPath)
+				return $http.post('http://byugetmethere.com/getPath',stringPath)
 					.then(function(response) {
 						return response.data;
 					});
 			},
 			getCustomPath: function(endPoint)
 			{
-				return $http.post('http://104.236.182.126/getCustomPath',endPoint)
+				return $http.post('http://byugetmethere.com/getCustomPath',endPoint)
 					.then(function(response) {
 						return response.data;
 					});
 			},
             getBuilding: function(searchedBuilding)
             {
-                return $http.get('http://104.236.182.126/getBuildingInfo/'+searchedBuilding)
+                return $http.get('http://byugetmethere.com/getBuildingInfo/'+searchedBuilding)
                     .then(function(response) {
                         return response.data;    
                     });
@@ -465,14 +465,14 @@
 
             verifyUser: function(userString)
             {
-                return $http.post('http://104.236.182.126/login',userString)
+                return $http.post('http://byugetmethere.com/login',userString)
                     .then(function(response) {
                         return response.data;
                     });
             },
             createUser: function(userString)
             {
-                return $http.post('http://104.236.182.126/register',userString)
+                return $http.post('http://byugetmethere.com/register',userString)
                     .then(function(response) {
                         return response.data;
                     });
@@ -480,7 +480,7 @@
 
 			getAllBuildings: function()
 			{
-				return $http.get('http://104.236.182.126/getAllBuildings')
+				return $http.get('http://byugetmethere.com/getAllBuildings')
 					.then(function(response) {
 						return response.data;
 					});
@@ -488,7 +488,7 @@
 
 			saveSchedule: function(userString)
 			{
-				return $http.get('http://104.236.182.126/saveSchedule',userString)
+				return $http.get('http://byugetmethere.com/saveSchedule',userString)
 					.then(function(response) {
 						return response.data;
 					});
@@ -496,7 +496,7 @@
 
 			getSavedSchedules: function(userString)
 			{
-				return $http.get('http://104.236.182.126/getSavedSchedules',userString)
+				return $http.get('http://byugetmethere.com/getSavedSchedules',userString)
 					.then(function(response) {
 						return response.data;
 					});
@@ -506,4 +506,5 @@
 	}]);
 
 })(angular.module('ByuGetMeThereApp', []));
+
 

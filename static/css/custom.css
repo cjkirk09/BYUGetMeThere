@@ -112,7 +112,7 @@ h3 {
     cursor: pointer;
 	text-align: right;
     float: right;
-    font-size: 150%;
+    font-size: 125%;
     text-decoration: none;
     color: #cc6600;
     padding-top: 5px;
@@ -232,7 +232,7 @@ select {
 .campus-info {
     text-align:right;
     padding-right:0;
-    font-size:120%;
+    font-size:100%;
 }
 
 .campus-link {
@@ -245,7 +245,7 @@ select {
 .campus-link a:active,
 .campus-link a:visited {
     color: #cc6600;
-    font-size: 120%;
+    font-size: 100%;
 }
 
 .campus-link a:hover {

@@ -34,8 +34,10 @@
         </div>
         <div class='col-xs-4' id='logo'><img src="/static/images/logo.png"></div>
         <!-- login option -->
-        <div ng-click='toggleLogin()' onclick='closeRouteBox()' ng-if='!userInfo.currentUser' class='col-xs-4' id='login'>Sign in</div>
-        <div ng-click='logout()' ng-if='userInfo.currentUser' class='col-xs-4' id='login'>Logout</div>
+        <div class='col-xs-4' style='padding-top:3px'>
+            <div ng-click='toggleLogin()' onclick='closeRouteBox()' ng-if='!userInfo.currentUser' id='login'>Login</div>
+            <div ng-click='logout()' ng-if='userInfo.currentUser' id='login'>Logout</div>
+        </div>
     </div> 
 </div> <!-- end of top menu bar -->
 
@@ -62,7 +64,7 @@
     <div class='row' id='loginbuttons'>
         <div class='col-xs-12'>
             <div class='buttongroup login-group'>
-                <button type='button' class='btn btn-login' ng-click='toggleLogin()'>Cancel</button>
+                <button type='button' class='btn btn-login' ng-click='toggleLogin()'>Close</button>
                 <button type='button' class='btn btn-login' ng-click="register()">Register</button>
                 <button type='button' class='btn btn-login' ng-click="login()">Login</button>
             </div>    

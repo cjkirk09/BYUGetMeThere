@@ -1,4 +1,4 @@
-/* the map marker icon */
+.btn-/* the map marker icon */
 .btn-mapmarker,
 .btn-mapmarker:active,
 .btn-mapmarker:focus { 
@@ -32,7 +32,10 @@
 .btn-newroute:focus,
 .btn-route:hover,
 .btn-route:active,
-.btn-route:focus {
+.btn-route:focus,
+.btn-login:hover,
+.btn-login:active,
+.btn-login:focus {
     background-color: darkblue;
     border-color: darkblue;
     color: #e6e6e6;
@@ -84,6 +87,7 @@
 .btn-floor:hover {
     background-color: #cc6600;
     border-color: #cc6600;
+    color: #e6e6e6;
 }
 
 .btn-map:disabled,
@@ -164,6 +168,13 @@
     padding-bottom: 0px;
 }
 
+
+.btn-newclass:hover {
+    background-color: darkblue;
+    border: darkblue;
+    color: #e6e6e6;
+}
+
 /* the plus and minus buttons */
 .btn-rmclass,
 .btn-rmclass:active,
@@ -193,7 +204,7 @@
 .btn-schedule:active,
 .btn-schedule:focus {
     height: 45px;
-    width: 50%;
+    width: 60%;
     margin: 5px;
     background-color: darkblue;
     border-color: darkblue;
@@ -206,6 +217,7 @@
 .btn-schedule:hover {
     background-color: #cc6600;
     border-color: #cc6600;
+    color: #e6e6e6;
 }
 
 /* the ok button for the remove class warning */

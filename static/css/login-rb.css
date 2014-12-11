@@ -23,7 +23,8 @@
     margin-bottom: 5px;
 }
 
-#routeboxbuttons {
+#routeboxbuttons,
+#loginbuttons {
     padding: 10px;
 }
 
