@@ -415,6 +415,8 @@
                 	$scope.newcourse.minute = "Minute";
                 	$scope.newcourse.ampm = "AM/PM";
                 	$scope.newcourse.days = [false, false, false, false, false, false, false];
+                	$scope.newcourse.room = "Room #"
+                	$scope.newcourse.building = "Building"
                 },
                 removeCourse: function () // called when the user pushes the - button
                 {

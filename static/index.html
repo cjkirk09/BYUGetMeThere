@@ -269,8 +269,23 @@
         </div>
     </div>
     <div class='container'>
-        <h3>Enter Your Schedule</h3>
-         <div class='row'>
+        <h3>Your Schedule</h3>
+        <div class='row'>
+            <div class='col-xs-2'>
+                <button class='btn' type='button' ng-click='showPrevSchedule()'>
+                    <span class="glyphicon glyphicons-chevron-left"></span>
+                </button>
+            </div>
+            <div class='col-xs-8'>
+                $(Monday)
+            </div>
+            <div class='col-xs-2'>
+                <button class='btn' type='button' ng-click='showNextSchedule()'>
+                    <span class="glyphicon glyphicons-chevron-right"></span>
+                </button>
+            </div>
+        </div>
+        <div class='row'>
             <div class='col-xs-2' style='text-align:center'>
                 <button class='btn btn-rmclass' type='button' ng-click='toggleOkDialog()'>
                     <span class="glyphicon glyphicon-minus-sign"></span>
