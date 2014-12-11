@@ -121,7 +121,24 @@
             toggleRouteBox();
             scope.$apply();
             var path = scope.routeInfo.path;
-            var start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
+            var start;
+            if( path[0] == "currentLocation" ){
+				if(navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                      start = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+		           }, function() {handleNoGeolocation(true);});
+			   }
+			   else{
+				   handleNoGeolocation(false);
+				   clearRoute();
+				   return;
+			   }
+			   //findMyLocation();
+			   //return;
+			}        
+            else{
+                start = new google.maps.LatLng(path[0].latitude, path[0].longitude);
+            }
             var end = new google.maps.LatLng(path[path.length-1].latitude, path[path.length-1].longitude);
             var waypts = [];
             if( path.length >2 ){

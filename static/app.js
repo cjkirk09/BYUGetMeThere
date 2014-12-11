@@ -173,6 +173,9 @@
 							endGood = true;
 						}
 					}
+					if( $scope.routeInfo.startPoint == "currentLocation" ){
+						startGood = true;
+					}
 					if( !startGood){
 						$scope.routeInfo.errorMessage = "Please enter a valid starting point";
 					}
@@ -201,27 +204,48 @@
 						if($scope.validRoute()){
 							if($scope.routeInfo.lastStartPoint !=$scope.routeInfo.startPoint || 
 								$scope.routeInfo.endPoint != $scope.routeInfo.lastEndPoint){
-							var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };
+							
 	
-							infoService.getPath(stringPath).then(function(pathInfo){
-								if( pathInfo.error){
-									$scope.routeInfo.errorMessage= pathInfo.error;							
-								}
-							   else{
-									$scope.routeInfo.errorMessage= "";
+							    if( $scope.routeInfo.startPoint == "currentLocation" ){
+								    infoService.getCustomPath({endPlace: $scope.routeInfo.endPoint}).then( function(pathInfo){
+									  if( pathInfo.error){
+									    $scope.routeInfo.errorMessage= pathInfo.error;							
+								      }
+							          else{
+									    $scope.routeInfo.errorMessage= "";
 
-									$scope.routeInfo.path = [];
-									$scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude,
-                                                                longitude:pathInfo.startCoord.longitude};
-									$scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
+									    $scope.routeInfo.path = [];
+									    $scope.routeInfo.path[0] = "currentLocation";
+									    $scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
                                                                 longitude: pathInfo.endCoord.longitude};
-                                    $scope.floorplans.list = pathInfo.floorPlans;
-                                    $scope.getBuildingInfo();
+                                        $scope.floorplans.list = pathInfo.floorPlans;
+                                        $scope.getBuildingInfo();
+							          }	
+									});
+							    }
+							    else{
+                                  var stringPath = { startPlace: $scope.routeInfo.startPoint, endPlace: $scope.routeInfo.endPoint };
+							      infoService.getPath(stringPath).then(function(pathInfo){
+								    if( pathInfo.error){
+									    $scope.routeInfo.errorMessage= pathInfo.error;							
+								    }
+							        else{
+									    $scope.routeInfo.errorMessage= "";
+
+									    $scope.routeInfo.path = [];
+									    $scope.routeInfo.path[0] = {latitude:pathInfo.startCoord.latitude,
+                                                                longitude:pathInfo.startCoord.longitude};
+									    $scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
+                                                                longitude: pathInfo.endCoord.longitude};
+                                        $scope.floorplans.list = pathInfo.floorPlans;
+                                        $scope.getBuildingInfo();
+							       }
+							       });
+							    
 							   }
-							});
-							$scope.routeInfo.lastStartPoint = $scope.routeInfo.startPoint;
-							$scope.routeInfo.lastEndPoint = $scope.routeInfo.endPoint;
-							}
+							    $scope.routeInfo.lastStartPoint = $scope.routeInfo.startPoint;
+							    $scope.routeInfo.lastEndPoint = $scope.routeInfo.endPoint;
+						   }
 						}
 						else{
 							$scope.routeInfo.errorMessage = "Please enter valid points";	
@@ -321,6 +345,13 @@
 			getPath: function(stringPath)
 			{
 				return $http.post('http://104.236.182.126/getPath',stringPath)
+					.then(function(response) {
+						return response.data;
+					});
+			},
+			getCustomPath: function(endPoint)
+			{
+				return $http.post('http://104.236.182.126/getCustomPath',endPoint)
 					.then(function(response) {
 						return response.data;
 					});

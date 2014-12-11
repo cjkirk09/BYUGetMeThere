@@ -28,7 +28,7 @@ def getPath():
 	#return request
 	return myParser.getPathJSON(request.get_json())
 
-@app.route("/getCustomPath")
+@app.route("/getCustomPath", methods=['GET','POST'])
 def getCustomPath():
 	myParser = Parser()
 	return myParser.getCustomPathJSON(request.get_json())
