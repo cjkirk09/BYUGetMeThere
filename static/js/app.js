@@ -287,6 +287,9 @@
                         $scope.buildingInfo.phone = building.phone_number;
                         $scope.buildingInfo.hours = building.hours;   
                     });
+                    if ($scope.buildingInfo.hours = "N/A") {
+                        $scope.buildingInfo.hours = "Sorry. Hours for this building are unavailable."
+                    }
                 },
                 nextFloor: function () //advance floor plan pic to the next floor
                 {
