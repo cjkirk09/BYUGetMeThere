@@ -48,11 +48,11 @@
 
 	            newcourse: {
 	            	name: "",
-	            	hour: 0,
-	            	minute: "",
-	            	ampm: "",
+	            	hour: "Hour",
+	            	minute: "Minute",
+	            	ampm: "AM/PM",
 	            	days: [false, false, false, false, false, false, false],
-	            	building_id: "",
+	            	building_id: "Building",
 	            	room: ""
 	            },
 

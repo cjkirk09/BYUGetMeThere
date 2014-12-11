@@ -121,6 +121,7 @@ h3 {
 
 #loginpage input,
 #routebox input,
+#newclasspage input,
 #buildingsearch {
     margin: 3px;
     width: 100%;
@@ -129,6 +130,14 @@ h3 {
     color: #e6e6e6;
     font-weight: 400;
     font-size: 14pt;
+}
+#newclasspage input[type='checkbox'] {
+    width: 5%;
+}
+
+.newclassrow {
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #buildingsearch {

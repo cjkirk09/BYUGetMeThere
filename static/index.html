@@ -341,6 +341,82 @@
 </div>
 
 <div class='section' id='schedule'>
+     <!-- add course page -->
+    <div class='popup' id='newclasspage' ng-if='state.courseDialogOpen'>
+        
+        <div class='row error' ng-if='newcourse.errorMessage!=""'>
+            <div class='col-xs-12'>
+                <p>{{newcourse.errorMessage}}</p>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-xs-12'>
+                <p>Enter a new class here</p>
+            </div>
+        </div>
+        
+        <div class='row newclassrow'>
+            <div class='col-xs-12'>
+                <input class='form-control' type='text' ng-model='newcourse.name' placeholder="Course Name">
+            </div>
+        </div> <!-- end of course name input -->
+
+        <div class='row newclassrow'>
+              <div class='col-xs-4'>
+                <select ng-model='newcourse.hour'>
+                    <option disabled>Hour</option>
+                    <option ng-repeat='hour in time.hoursList' value='{{hour}}'>{{hour}}</option>
+                </select>
+              </div>
+              <div class='col-xs-4'>
+                <select ng-model='newcourse.minute'>
+                    <option disabled>Minute</option>
+                    <option ng-repeat='minute in time.minutesList' value='{{minute}}'>{{minute}}</option>
+                </select>
+              </div>
+              <div class='col-xs-4'>
+                <select ng-model='newcourse.ampm'>
+                    <option disabled>AM/PM</option>
+                    <option ng-repeat='ampm in time.ampm' value='{{ampm}}'>{{ampm}}</option>
+                </select>
+              </div>
+        </div> <!-- end of time input -->
+
+        <div class='row newclassrow'>
+            <div class='col-xs-12'><div id='daysbuttons'>
+                M: <input type="checkbox" class="day" ng-model='newcourse.days[0]'></input>
+                Tu:<input type="checkbox" class="day" ng-model='newcourse.days[1]'></input>
+                W: <input type="checkbox" class="day" ng-model='newcourse.days[2]'></input>
+                Th:<input type="checkbox" class="day" ng-model='newcourse.days[3]'></input>
+                F: <input type="checkbox" class="day" ng-model='newcourse.days[4]'></input>
+                Sa:<input type="checkbox" class="day" ng-model='newcourse.days[5]'></input>
+                Su:<input type="checkbox" class="day" ng-model='newcourse.days[6]'></input>
+            </div></div>
+        </div> <!-- end of days of the week input -->
+
+        <div class='row newclassrow'>
+            <div class='col-xs-4'>
+                <input class='form-control' type='text' ng-model='newcourse.room' placeholder="rm#" />
+            </div>
+            <div class='col-xs-8' style='margin-top:5px'>
+                <select ng-model='newcourse.building_id'>
+                    <option disabled>Building</option>
+                    <option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>{{building.id}} - {{building.name}}</option>
+                </select>
+            </div>
+        </div> <!-- end of location -->
+
+        <div class='row newclassrow' id='newcoursebuttons'>
+            <div class='col-xs-12' style='text-align:center'>
+                <div class='buttongroup'>
+                    <button type='button' class='btn btn-route' ng-click="toggleCourseDialog()">Cancel</button>
+                    <button type='button' class='btn btn-route' ng-click="addCourse()">Add Course</button>
+                    <button type='button' class='btn btn-route' ng-click="clearTentativeCourse()">Clear</button>
+                </div>
+            </div>
+        </div> <!-- end of route box buttons -->
+    </div> <!-- end of new course popup -->
+    
     <div class='container'>
         <h3>Enter Your Schedule</h3>
          <div class='row' id='scheduleItem'>
@@ -367,62 +443,6 @@
             <button type='button' class='col-xs-9 btn btn-info btn-lg'>Map Schedule</button>
         </div>
     </div>
-
-    <!-- add course page -->
-    <div class='popup' id='newscheduleitempage' ng-if='state.courseDialogOpen'>
-
-        <div id='newcoursename'>
-            <div class='row'>
-                <div class='col-xs-12'><input class='form-control' type='text' ng-model='newcourse.name' placeholder="Course Name" /></div>
-            </div>
-        </div> <!-- end of course name input -->
-
-        <div id='newstarttime'>
-            <div class='row'>
-                  <div class='col-xs-4'><select ng-model='newcourse.hour'><option ng-repeat='hour in time.hoursList' value='{{hour}}'>{{hour}}</option></select>
-                  </div>
-                  <div class='col-xs-4'><select ng-model='newcourse.minute'><option ng-repeat='minute in time.minutesList' value='{{minute}}'>{{minute}}</option></select>
-                  </div>
-                  <div class='col-xs-4'><select ng-model='newcourse.ampm'><option ng-repeat='ampm in time.ampm' value='{{ampm}}'>{{ampm}}</option></select>
-                  </div>
-            </div>
-        </div> <!-- end of time input -->
-
-        <div id='newdays'>
-            <div class='row'>
-                <div class='col-xs-12'><div id='daysbuttons'>
-                    M: <input type="checkbox" class="day Monday" ng-model='newcourse.days[0]'></input>
-                    Tu:<input type="checkbox" class="day Tuesday" ng-model='newcourse.days[1]'></input>
-                    W: <input type="checkbox" class="day Wednesday" ng-model='newcourse.days[2]'></input>
-                    Th:<input type="checkbox" class="day Thursday" ng-model='newcourse.days[3]'></input>
-                    F: <input type="checkbox" class="day Friday" ng-model='newcourse.days[4]'></input>
-                    Sa:<input type="checkbox" class="day Saturday" ng-model='newcourse.days[5]'></input>
-                    Su:<input type="checkbox" class="day Sunday" ng-model='newcourse.days[6]'></input>
-                </div></div>
-            </div>
-        </div> <!-- end of days of the week input -->
-
-        <div id='newlocation'>
-            <div class='row'>
-                <div class='col-xs-4'><input class='form-control' type='text' ng-model='newcourse.room' placeholder="rm#" /></div>
-                <div class='col-xs-8'><select ng-model='newcourse.building_id'><option ng-repeat='building in buildings.buildingList' value='{{building.id}}'>{{building.id}} - {{building.name}}</option></select></div>
-            </div>
-        </div><!-- end of location -->
-
-        <div class='row' id='newcourseerror' ng-if='userInfo.errorMessage!=""'>
-            <p>{{userInfo.errorMessage}}</p>
-        </div>
-
-        <div class='row' id='newcoursebuttons'>
-            <div class='col-xs-12' style='text-align:center'>
-                <div class='buttongroup'>
-                    <button type='button' class='btn btn-route' ng-click="toggleCourseDialog()">Cancel</button>
-                    <button type='button' class='btn btn-route' ng-click="addCourse()">Add Course</button>
-                    <button type='button' class='btn btn-route' ng-click="clearTentativeCourse()">Clear</button>
-                </div>
-            </div>
-        </div> <!-- end of route box buttons -->
-    </div> <!-- end of new course popup -->
 </div>
 
 <div class='section' id='campus'>
