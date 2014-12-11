@@ -53,7 +53,7 @@
 	            	hour: "Hour",
 	            	minute: "Minute",
 	            	ampm: "AM/PM",
-	            	//     Su 		M 	   T      W      Th     F      Sa
+	            	//     Su 		M 	   Tu     W      Th     F      Sa
 	            	days: [false, false, false, false, false, false, false],
 	            	building_id: "Building",
 	            	room: ""
@@ -64,7 +64,7 @@
 					minutesList: [00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
 					ampm: ['am', 'pm'],
                 	daysOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                	daysAbbrev: ["Su", "M", "T", "W", "Th", "F", "Sa"],
+                	daysAbbrev: ["Su", "M", "Tu", "W", "Th", "F", "Sa"],
 					todaysDayOfWeek: "not set yet"
 				},
  
