@@ -302,15 +302,15 @@
         </div>
         <div class='row'>
             <div class='col-xs-12' style='text-align:center'>
-                <button type='button' class='btn btn-schedule'>
+                <button type='button' class='btn btn-schedule' ng-click='newSchedule()'>
                     New Schedule</button>
             </div>
             <div class='col-xs-12' style='text-align:center'>
-                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule'>
+                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule' ng-click='loadSchedules()'>
                     Load Schedule</button>
             </div>
             <div class='col-xs-12' style='text-align:center'>
-                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule'>
+                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule' ng-click='saveSchedule()'>
                     Save Schedule</button>
             </div>
             <div class='col-xs-12' style='text-align:center'>

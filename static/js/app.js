@@ -315,6 +315,15 @@
                 	}
                 	return schedules;
                 },
+                loadSchedules: function () // load schedules into client
+                {
+                	// clear out user's tentative schedule
+                	// $scope.userInfo.schedules = $scope.initializeSchedules();
+
+                	// put user's schedule into the client
+                	var data = $scope.getSavedSchedules();
+            		$scope.userInfo.schedules = data.schedules;
+                },
                 getSavedSchedules: function () // get user's schedule from server
                 {
                 	var data = {username: $scope.userInfo.currentUsername};
