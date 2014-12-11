@@ -8,7 +8,8 @@
 					menuOpen: false,
 					loginOpen: false,
 					routeBoxOpen: false,
-					courseDialogOpen: false
+					courseDialogOpen: false,
+                    minusClicked: false
 				},
 				userInfo: {
 					username: "",
@@ -30,7 +31,7 @@
 
                 buildingInfo: {
                     echo_search: "",
-                    selected: "Building",
+                    selected:'Select Building',
                     name: "BUILDING NAME",
                     phone: "801-555-1234",
                     hours: "12:00am-12:00pm"
@@ -89,6 +90,13 @@
 					$scope.state.routeBoxOpen = !$scope.state.routeBoxOpen;
 					$scope.state.courseDialogOpen = false;
 				},
+                toggleOkDialog: function()
+                {
+                    $scope.state.menuOpen = false;
+					$scope.state.loginOpen = false;
+					$scope.state.routeBoxOpen = false;
+					$scope.state.minusClicked = !$scope.state.minusClicked;
+                },
 				toggleCourseDialog: function()
 				{
 					$scope.state.menuOpen = false;
@@ -369,7 +377,6 @@
                 				if ($scope.userInfo.schedules[schedule].name === $scope.time.daysOfWeek[day])
                 				{
                 					s = $scope.userInfo.schedules[schedule];
-
 	                				// add the course to the schedule
 	                				var course = {
 	                					name: $scope.newcourse.name,
@@ -381,7 +388,17 @@
 	                					room: $scope.newcourse.room
 	                				}
 	                				s.push(course);
-
+	                				// add the course to the schedule
+	                				var course = {
+	                					name: $scope.newcourse.name,
+	                					hour: $scope.newcourse.hour,
+	                					minute: $scope.newcourse.minute,
+	                					ampm: $scope.newcourse.ampm,
+	                					days: dayString,
+	                					building_id: $scope.newcourse.building_id,
+	                					room: $scope.newcourse.room
+	                				}
+	                				s.push(course);
 	                				$scope.userInfo.schedules[schedule] = s;
                 					added = true;
                 				}
@@ -419,7 +436,7 @@
                 },
                 removeCourse: function () // called when the user pushes the - button
                 {
-                	
+                	$scope.toggleOkDialog(); // close the warning message	
                 },
                 todayDayOfTheWeek: function() // used for scheduling
                 {
@@ -427,10 +444,6 @@
                 	console.log(day);
                 	return day;
                 }
-            
-					
-				
-
 			});
 			infoService.getAllBuildings().then(function(buildingData){
 						for ( building in buildingData ){
