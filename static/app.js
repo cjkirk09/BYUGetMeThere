@@ -286,9 +286,15 @@
 	                	})
                 	}
                 },
-                addScheduleItem: function () // called when the user pushes the + button
+                clearTentativeCourse: function () // clear button in new course
                 {
-                	// $scope
+                	$scope.scheduleItem.name = "";
+                	$scope.scheduleItem.hour = "";
+                	$scope.scheduleItem.minute = "";
+                	$scope.scheduleItem.ampm = "";
+                	$scope.scheduleItem.days = [false, false, false, false, false, false, false];
+                	$scope.scheduleItem.building_id = "";
+                	$scope.scheduleItem.room = "";
                 },
                 removeScheduleItem: function () // called when the user pushes the - button
                 {
