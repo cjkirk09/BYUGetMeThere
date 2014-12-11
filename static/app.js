@@ -52,6 +52,7 @@
 	            	hour: "Hour",
 	            	minute: "Minute",
 	            	ampm: "AM/PM",
+	            	//     Su 		M 	   T      W      Th     F      Sa
 	            	days: [false, false, false, false, false, false, false],
 	            	building_id: "Building",
 	            	room: ""
@@ -60,7 +61,10 @@
 				time: {
 					hoursList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 					minutesList: [00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
-					ampm: ['am', 'pm']
+					ampm: ['am', 'pm'],
+                	daysOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                	daysAbbrev: ["Su", "M", "T", "W", "Th", "F", "Sa"],
+					todaysDayOfWeek: "not set yet"
 				},
  
 				toggleMenu: function()
@@ -116,7 +120,8 @@
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
-                                $scope.userInfo.schedules = initializeSchedules();
+                                $scope.date.todaysDayOfWeek = $scope.todayDayOfTheWeek();
+                                $scope.userInfo.schedules = $scope.initializeSchedules();
                             }
                             else {
                                 $scope.userInfo.errorMessage = "Sorry, that username is taken";
@@ -152,7 +157,8 @@
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.password = "";
-                                $scope.userInfo.schedules = getSavedSchedules();
+                                $scope.date.todaysDayOfWeek = $scope.todayDayOfTheWeek();
+                                $scope.userInfo.schedules = $scope.getSavedSchedules();
                             }
                         });	
                         // let the user close the login screen so they can see success/failure
@@ -292,13 +298,12 @@
                 	// empty out the user's schedules array
                 	// create 7 new schedules, one for each day of the week
                 	// they should be named appropriately and have an empty courses array
-                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
                 	var schedules = [];
-                	for (int i = 0; i < 7; i++)
+                	for (var i = 0; i < 7; i++)
                 	{
                 		var newSchedule = {
-                			name = daysOfWeek[i];
-                			courses = [];
+                			name: $scope.time.daysOfWeek[i],
+                			courses: []
                 		};
                 		schedules.push(newSchedule);
                 	}
@@ -306,12 +311,19 @@
                 },
                 getSavedSchedules: function () // get user's schedule from server
                 {
-                	var username = $scope.userInfo.currentUsername;
-                	infoService.loadSchedule(username).then(function(success) {
+                	var data = {username: $scope.userInfo.currentUsername};
+                	infoService.getSavedSchedules(data).then(function(success) {
                 		// save the user's schedule
                 		// if the user doesn't have a schedule for a day of the week, add a blank schedule as placeholder
-                		console.log(success);
-                		return success;
+                		if (success.error === "'NoneType' object has no attribute '__getitem__'")
+                		{
+                			return $scope.initializeSchedules();
+                		}
+                		else
+                		{
+                			console.log(success);
+                			return success;
+                		}
                 	});
                 },
                 addCourse: function () // add a course to the user's schedule(s)
@@ -338,15 +350,13 @@
             		}
 
                 	// parse the add course popup
-                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
-                	var daysAbbrev = {0: "M", 1: "T", 2: "W", 3: "Th", 4: "F", 5: "Sa", 6: "Su"};
                 	for (day in $scope.newcourse.days)
                 	{
     					// parse the days of the week into a string
     					var dayString = "";
     					for (i in $scope.newcourse.days) 
     						if ($scope.newcourse.days[i] == true) 
-    							dayString += daysAbbrev[i];
+    							dayString += $scope.time.daysAbbrev[i];
 
                 		// if the user indicated the course is on this day, add it to that day's schedule
                 		if ($scope.newcourse.days[day] == true)
@@ -356,7 +366,7 @@
                 			var added = false;
                 			for (schedule in $scope.userInfo.schedules)
                 			{
-                				if ($scope.userInfo.schedules[schedule].name === daysOfWeek[day])
+                				if ($scope.userInfo.schedules[schedule].name === $scope.time.daysOfWeek[day])
                 				{
                 					s = $scope.userInfo.schedules[schedule];
 
@@ -382,14 +392,13 @@
                 saveSchedule: function () // send user-created schedule to server
                 {
                 	var userName = $scope.userInfo.currentUsername;
-                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
                 	var courses = [];
                 	// get schedule, convert it into data
-                	for (day in daysOfWeek)
+                	for (day in $scope.time.daysOfWeek)
                 	{
 	                	data = {
 	                		username:userName, 
-	                		schedule_name:daysOfWeek[day],
+	                		schedule_name: $scope.time.daysOfWeek[day],
 	                		courses: []
 	                	};
 	                	// send to server
@@ -411,6 +420,11 @@
                 removeCourse: function () // called when the user pushes the - button
                 {
                 	
+                },
+                todayDayOfTheWeek: function() // used for scheduling
+                {
+                	var day = daysOfWeek[new Date().getDay()];
+                	return day;
                 }
             
 					
