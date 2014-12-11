@@ -8,14 +8,15 @@
 					menuOpen: false,
 					loginOpen: false,
 					routeBoxOpen: false,
-					newScheduleItemOpen: false
+					courseDialogOpen: false
 				},
 				userInfo: {
 					username: "",
 					password: "",
 					errorMessage: "",
                     currentUser: false,
-                    currentUsername: ""
+                    currentUsername: "",
+                    schedules: []
 				},
 				routeInfo: {
                     boxOpen: false,
@@ -45,9 +46,9 @@
 	                currentFloor: 0
 	            },
 
-	            scheduleItem: {
+	            newcourse: {
 	            	name: "",
-	            	hour: "",
+	            	hour: 0,
 	            	minute: "",
 	            	ampm: "",
 	            	days: [false, false, false, false, false, false, false],
@@ -55,26 +56,30 @@
 	            	room: ""
 	            },
 
-                 schedule: {
-                 	list: [],
-                 	hoursList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                 	minutesList: ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
-                 	ampm: ['am', 'pm']
-                 },
+				schedule: {
+					name: "",
+					courses: [] // a list of courses that are in this schedule
+				},
+
+				time: {
+					hoursList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+					minutesList: [00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+					ampm: ['am', 'pm']
+				},
  
 				toggleMenu: function()
 				{
 					$scope.state.menuOpen = !$scope.state.menuOpen;	
 					$scope.state.loginOpen = false;
 					$scope.state.routeBoxOpen = false;
-					$scope.state.newScheduleItemOpen = false;
+					$scope.state.courseDialogOpen = false;
 				},
 				toggleLogin: function()
 				{
 					$scope.state.menuOpen = false;
 					$scope.state.loginOpen = !$scope.state.loginOpen;
 					$scope.state.routeBoxOpen = false;
-					$scope.state.newScheduleItemOpen = false;
+					$scope.state.courseDialogOpen = false;
 				},
 				toggleRouteBox: function(obj)
 				{
@@ -82,14 +87,14 @@
 					$scope.state.menuOpen = false;
 					$scope.state.loginOpen = false;
 					$scope.state.routeBoxOpen = !$scope.state.routeBoxOpen;
-					$scope.state.newScheduleItemOpen = false;
+					$scope.state.courseDialogOpen = false;
 				},
-				toggleNewScheduleItem: function()
+				toggleCourseDialog: function()
 				{
 					$scope.state.menuOpen = false;
 					$scope.state.loginOpen = false;
 					$scope.state.routeBoxOpen = false;
-					$scope.state.newScheduleItemOpen = !$scope.state.newScheduleItemOpen;
+					$scope.state.courseDialogOpen = !$scope.state.courseDialogOpen;
 				},
 
 				register: function()
@@ -268,10 +273,25 @@
                 		// save the user's schedule
                 	});
                 },
+                addCourse: function () // add a course to the current schedule
+                {
+                	// parse the add course popup
+
+                	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
+                	for (day in daysOfWeek)
+                	{
+                		// if the user indicated the course is on this day, add it to that day's schedule
+                		if ($scope.course.days[day])
+                		{
+
+                		}
+                	}
+                },
                 saveSchedule: function () // send user-created schedule to server
                 {
                 	var userName = $scope.userInfo.currentUsername;
                 	var daysOfWeek = {0: "Monday", 1: "Tuesday", 2: "Wednesday", 3: "Thursday", 4: "Friday", 5: "Saturday", 6: "Sunday"};
+                	var courses = [];
                 	// get schedule, convert it into data
                 	for (day in daysOfWeek)
                 	{
@@ -288,15 +308,15 @@
                 },
                 clearTentativeCourse: function () // clear button in new course
                 {
-                	$scope.scheduleItem.name = "";
-                	$scope.scheduleItem.hour = "";
-                	$scope.scheduleItem.minute = "";
-                	$scope.scheduleItem.ampm = "";
-                	$scope.scheduleItem.days = [false, false, false, false, false, false, false];
-                	$scope.scheduleItem.building_id = "";
-                	$scope.scheduleItem.room = "";
+                	$scope.newcourse.name = "";
+                	$scope.newcourse.hour = "";
+                	$scope.newcourse.minute = "";
+                	$scope.newcourse.ampm = "";
+                	$scope.newcourse.days = [false, false, false, false, false, false, false];
+                	$scope.newcourse.building_id = "";
+                	$scope.newcourse.room = "";
                 },
-                removeScheduleItem: function () // called when the user pushes the - button
+                removeCourse: function () // called when the user pushes the - button
                 {
                 	
                 }
