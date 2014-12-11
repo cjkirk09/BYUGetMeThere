@@ -133,11 +133,13 @@ h3 {
 }
 #newclasspage input[type='checkbox'] {
     width: 5%;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .newclassrow {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 #buildingsearch {
@@ -161,22 +163,6 @@ h3 {
 
 #class>div.col-xs-2 {
     text-align: right;
-}
-
-#rmclass,
-#addclass {
-    background-color: #e6e6e6;
-    font-size: 100%;
-}
-
-#rmclass:hover,
-#addclass:hover,
-#rmclass:active,
-#addclass:active,
-#rmclass:focus,
-#addclass:focus {
-    background-color: #e6e6e6;
-    border-color: #e6e6e6;
 }
 
 .buttongroup {
@@ -223,11 +209,13 @@ h3 {
     margin-bottom: 10%;
 }
 
+/*
 .btn {
-    margin-bottom: 5px;.popup
+    margin-bottom: 5px;
     border-radius: 25px;
     font-weight: 200;
 }  
+*/
 
 #campus a,
 #campus a:hover,
@@ -288,6 +276,7 @@ select {
     width: 100%;
     background-color: #e6e6e6;
     border-color: #e6e6e6;
+    border-radius: 25px;
     margin: 3px;
     color: black;
     font-size: 13pt;
@@ -302,4 +291,83 @@ select {
      text-align: center;
      border: 2px solid black;
      white-space: nowrap;
-   }
+}
+
+.btn-newclass {
+    background-color: #cc6600;
+    border-color: #cc6600;
+    color: #e6e6e6;
+    width: 120px;
+    height: 30px;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 10px;
+    font-size: 13pt;
+    font-weight: 200;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.btn-rmclass,
+.btn-rmclass:active,
+.btn-rmclass:focus,
+.btn-addclass,
+.btn-addclass:active,
+.btn-addclass:focus {
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+    color: #cc6600;
+    font-size: 125%;
+    height: 50px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-radius: 25px;
+}
+
+.btn-rmclass:hover,
+.btn-addclass:hover {
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+    color: darkblue;
+}
+
+.btn-schedule,
+.btn-schedule:active,
+.btn-schedule:focus {
+    height: 45px;
+    width: 50%;
+    margin: 5px;
+    background-color: darkblue;
+    border-color: darkblue;
+    border-radius: 25px;
+    color: #e6e6e6;
+    font-size: 13pt;
+    font-weight: 200;
+}
+
+.btn-schedule:hover {
+    background-color: #cc6600;
+    border-color: #cc6600;
+}
+
+.btn-ok,
+.btn-ok:active,
+.btn-ok:focus {
+    background-color: #cc6600;
+    border-color: #cc6600;
+    color: #e6e6e6;
+    border-radius: 10px;
+    width: 50px;
+    font-size: 13pt;
+    font-weight: 200;
+    height: 40px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.btn-ok:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+}

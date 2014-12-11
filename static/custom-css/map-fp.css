@@ -36,9 +36,10 @@
     border-color: #cc6600;
 }
 
-.btn-map:disabled {
-    background-color: #4D4DAE;
-    border-color: #4D4DAE;
+.btn-map:disabled,
+.btn-schedule:disabled {
+    background-color: #4d4dae;
+    border-color: #4d4dae;
     color: darkblue;
 }
 

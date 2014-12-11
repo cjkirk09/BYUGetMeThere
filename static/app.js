@@ -8,7 +8,8 @@
 					menuOpen: false,
 					loginOpen: false,
 					routeBoxOpen: false,
-					courseDialogOpen: false
+					courseDialogOpen: false,
+                    minusClicked: false
 				},
 				userInfo: {
 					username: "",
@@ -30,7 +31,7 @@
 
                 buildingInfo: {
                     echo_search: "",
-                    selected: "Building",
+                    selected:'Select Building',
                     name: "BUILDING NAME",
                     phone: "801-555-1234",
                     hours: "12:00am-12:00pm"
@@ -89,6 +90,13 @@
 					$scope.state.routeBoxOpen = !$scope.state.routeBoxOpen;
 					$scope.state.courseDialogOpen = false;
 				},
+                toggleOkDialog: function()
+                {
+                    $scope.state.menuOpen = false;
+					$scope.state.loginOpen = false;
+					$scope.state.routeBoxOpen = false;
+					$scope.state.minusClicked = !$scope.state.minusClicked;
+                },
 				toggleCourseDialog: function()
 				{
 					$scope.state.menuOpen = false;
@@ -342,12 +350,8 @@
                 },
                 removeCourse: function () // called when the user pushes the - button
                 {
-                	
+                	$scope.toggleOkDialog(); // close the warning message
                 }
-            
-					
-				
-
 			});
 			infoService.getAllBuildings().then(function(buildingData){
 						for ( building in buildingData ){
