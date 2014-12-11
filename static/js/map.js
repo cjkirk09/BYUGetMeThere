@@ -1,5 +1,6 @@
 
-        var byu = new google.maps.LatLng(40.248770, -111.649273);
+       var byu = new google.maps.LatLng(40.248770, -111.649273);
+       var myLocation;
        var map;
        var positionmarker;
        var startmarker;
@@ -22,6 +23,7 @@
   
           map=new google.maps.Map(document.getElementById('map'),mapProp);
           directionsDisplay.setMap(map);
+          getMyCoords(null, true);
        }
 
        // Try HTML5 geolocation
@@ -34,7 +36,7 @@
           navigator.geolocation.getCurrentPosition(function(position) {
              var pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
              //console.log("I found the user's position: " + pos);
-
+             myLocation = pos;
              positionmarker = new MarkerWithLabel({
                  map:map,
                  draggable:false,
@@ -93,6 +95,23 @@
 			 endmarker.close();
 		 }
      }
+     
+     function getMyCoords(scope,initial){
+		 var isCurrentLocation;
+		 if(scope == null){
+			 isCurrentLocation = false;
+		 }
+		 else{
+			 isCurrentLocation = scope.routeInfo.startPoint == "currentLocation";
+		 }
+		 if(isCurrentLocation || initial){ //initial is a bool to tell where this is the initial finding of my location
+			if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                   myLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+		        });
+			}        
+		 }
+	 }
 
      function getRoute(scope){
          // set selected buildings
@@ -104,18 +123,7 @@
             var path = scope.routeInfo.path;
             var start = null;
             if( path[0] == "currentLocation" ){
-				if(navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                      start = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-		           }, function() {handleNoGeolocation(true);});
-			   }
-			   else{
-				   handleNoGeolocation(false);
-				   clearRoute();
-				   return;
-			   }
-			   //findMyLocation();
-			   //return;
+				start = myLocation;
 			}        
             else{
                 start = new google.maps.LatLng(path[0].latitude, path[0].longitude);

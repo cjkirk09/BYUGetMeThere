@@ -135,7 +135,7 @@
                     <button type='button' class='btn btn-route' ng-click="toggleRouteBox()"
                             onclick="toggleRouteBox()">Cancel</button>
                     <button type='button' class='btn btn-route'
-                        onclick="getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
+                        onclick="getMyCoords(angular.element(document.getElementById('controller')).scope(),false), getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
                     <button type='button' class='btn btn-route' onclick="clearRoute()">Clear</button>
                 </div>
             </div>
@@ -248,7 +248,7 @@
         <div class='row newclassrow'>
             <div class='col-xs-12' style='text-align:center'>
                 <div class='buttongroup'>
-                    <button type='button' class='btn btn-newclass' ng-click="toggleCourseDialog()">Cancel</button>
+                    <button type='button' class='btn btn-newclass' ng-click="toggleCourseDialog()">Close</button>
                     <button type='button' class='btn btn-newclass' ng-click="addCourse()">Add Course</button>
                     <button type='button' class='btn btn-newclass' ng-click="clearTentativeCourse()">Clear</button>
                 </div>
