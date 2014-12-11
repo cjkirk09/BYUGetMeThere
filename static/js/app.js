@@ -394,14 +394,13 @@
                 saveSchedule: function () // send user-created schedule to server
                 {
                 	var userName = $scope.userInfo.currentUsername;
-                	var courses = [];
                 	// get schedule, convert it into data
-                	for (day in $scope.time.daysOfWeek)
+                	for (schedule in $scope.userInfo.schedules)
                 	{
 	                	data = {
 	                		username:userName, 
 	                		schedule_name: $scope.time.daysOfWeek[day],
-	                		courses: []
+	                		courses: $scope.userInfo.schedules[schedule].courses
 	                	};
 	                	// send to server
 	                	infoService.saveSchedule(data).then(function(success) {
