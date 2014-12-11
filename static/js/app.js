@@ -327,7 +327,7 @@
                 		}
                 		else
                 		{
-                			console.log(success);
+                			console.log("Return value from server/getSavedSchedules(): " + success);
                 			return success;
                 		}
                 	});
@@ -351,7 +351,7 @@
             		{
             			// error - all fields are required!
             			$scope.newcourse.errorMessage = "All fields are required.";
-            			console.log("All fields are required to add a course.");
+            			console.log("addCourse failed; All fields are required to add a course.");
             			return;
             		}
 
@@ -424,7 +424,7 @@
                 getDayOfWeek: function() // used for scheduling
                 {
                 	var day = $scope.time.daysOfWeek[new Date().getDay()];
-                	console.log(day);
+                	console.log("Today is " + day + ".");
                 	return day;
                 }
 			});
