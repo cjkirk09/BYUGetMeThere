@@ -1,1 +1,1 @@
-{u'endPlace': u'JRCB', u'startPlace': u'CTB'}
+{u'endPlace': u'JRCB', u'startPlace': u'CTB'}2014-12-12 01:01:35.6491872014-12-12 01:02:13.551519
