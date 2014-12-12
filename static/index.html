@@ -32,7 +32,7 @@
                 <span class='glyphicon glyphicon-align-justify'></span>
             </a>
         </div>
-        <div class='col-xs-4' id='logo'><img src="/static/images/logo.png"></div>
+        <div class='col-xs-4' id='logo'><a href='#controller'><img src="/static/images/logo.png"></a></div>
         <!-- login option -->
         <div class='col-xs-4' style='padding-top:3px'>
             <div ng-click='toggleLogin()' onclick='closeRouteBox()' ng-if='!userInfo.currentUser' id='login'>Login</div>
@@ -43,11 +43,11 @@
 
 <!-- login page -->
 <div class='popup' ng-if='state.loginOpen' id='loginpage'>
-    <div class='row' ng-if='userInfo.errorMessage!=""'>
+    <div class='row error' ng-if='userInfo.errorMessage!=""'>
         <div class='col-xs-12'><p>{{userInfo.errorMessage}}</p></div>
     </div>
     <div class='row' ng-if='userInfo.errorMessage==""'>
-        <div class='col-xs-12'><p>Welcome to BYU Get Me There!</p></div>
+        <div class='col-xs-12'><p>{{userInfo.welcome}}</p></div>
     </div>
     <div id='logininput'>
         <div class='row'>
@@ -78,6 +78,7 @@
         <ul class='list-unstyled' id='optionslist'>
             <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
             <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
+            <li><a ng-click='toggleMenu()' ng-if='routeInfo.lastEndPoint!=""' href='#floorplan'>Floor Plan</a></li>
             <li><a ng-click='toggleMenu()' href='#campus'>Campus Links</a></li>
             <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
             <li><a ng-click='toggleMenu()' href='#about'>About Us</a></li>
@@ -183,7 +184,6 @@
 <div class='section' id='schedule'>
      <!-- add course page -->
     <div class='popup' id='newclasspage' ng-if='state.courseDialogOpen'>
-        
         <div class='row error' ng-if='newcourse.errorMessage!=""'>
             <div class='col-xs-12'>
                 <p>{{newcourse.errorMessage}}</p>
@@ -270,33 +270,29 @@
     </div>
     <div class='container'>
         <h3>Your Schedule</h3>
-        <div class='row'>
-            <div class='col-xs-2' style='text-align:center'>
-                <button class='btn btn-rmclass' type='button' ng-click='showPrevSchedule()'>
-                    <span class="glyphicon glyphicons-arrow-left"></span>
-                </button>
+        <div class='row' id='schedulenavbuttons'>
+            <div class='col-xs-4' style='text-align:center'>
+                <button class='btn btn-floor' type='button' ng-click='showPrevSchedule()'>Previous Day</button>
             </div>
-            <div class='col-xs-8' style='text-align:center'>
+            <div class='col-xs-4' style='text-align:center'>
                 $(Monday)
             </div>
-            <div class='col-xs-2'style='text-align:center'>
-                <button class='btn btn-rmclass' type='button' ng-click='showNextSchedule()'>
-                    <span class="glyphicon glyphicons-arrow-right"></span>
-                </button>
+            <div class='col-xs-4'style='text-align:center'>
+                <button class='btn btn-floor' type='button' ng-click='showNextSchedule()'>Next Day</button>
             </div>
         </div>
-        <div class='row'>
+        <div class='row' ng-repeat='class in classes'>
             <div class='col-xs-2' style='text-align:center'>
                 <button class='btn btn-rmclass' type='button' ng-click='toggleOkDialog()'>
                     <span class="glyphicon glyphicon-minus-sign"></span>
                 </button>
             </div>
-            <div class='col-xs-10'>$(name) - $(building_id) $(room)<br>$(days) - $(time)</div>  
+            <div class='col-xs-10'>{{class.name}} - {{class.days}}<br>{{class.hours}} - {{class.building}}</div>  
         </div>
         <div class='row'>
-            <div class='col-xs-2' style='text-align:center'>
+            <div class='col-xs-12' style='text-align:center'>
                 <button class='btn btn-addclass' type='button' ng-click='toggleCourseDialog()'>
-                    <span class='glyphicon glyphicon-plus-sign'></span>
+                    <span class='glyphicon glyphicon-plus-sign'></span> Add Class
                 </button>
             </div>
         </div>
@@ -306,7 +302,7 @@
                     New Schedule</button>
             </div>
             <div class='col-xs-12' style='text-align:center'>
-                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule' ng-click='loadSchedules()'>
+                <button type='button' ng-disabled='!userInfo.currentUser' class='btn btn-schedule' ng-click='getSavedSchedules()'>
                     Load Schedule</button>
             </div>
             <div class='col-xs-12' style='text-align:center'>
@@ -531,7 +527,7 @@
             </p>
         </div> <!-- end of about us paragraph -->
         <div class='row' style='text-align:center'><b>Contact us at:  </b><a id='email' href='mailto:webteam@ByuGetMeThere.com'>webteam@ByuGetMeThere.com</a></div><br>
-        <div class='row' style='text-align:center'>
+        <div class='row' style='text-align:center;margin-bottom:30px'>
             <div class='col-md-1'></div>
             <div class='col-md-2'>
                 <img id='aboutpic' src='/static/images/blaine.jpg'>
@@ -554,6 +550,10 @@
                 <p><b>Eric Romrell</b><br>Database Doctor</p>
             </div>
             <div class='col-md-1'></div>
+        </div>
+        <div class='row' style='text-align:center;padding-bottom:30px'>
+                <b>Click <a id='email' href='https://github.com/cjkirk09/BYUGetMeThere'>here</a> to view our GitHub repository.<br>
+                <b>We also have a GitHubWiki <a id='email' href='https://github.com/cjkirk09/BYUGetMeThere/wiki/Final-Report'>here</a>.
         </div>
     </div>
 </div>
