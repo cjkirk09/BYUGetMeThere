@@ -339,41 +339,31 @@
 							var newschedules = [];
 							for (schedule in allschedules)
 							{
-								var newname = schedule.schedule_name;
+								var newname = allschedules[schedule].schedule_name;
 								var newcourses = [];
-								var courses = schedule.courses;
+								var courses = allschedules[schedule].courses;
 								for(course in courses)
 								{
-									var h = time.split(':')[0];
-									var m = time.split(' ').split(':')[1];
-									var ampm = time.split(' ')[1]
+									var h = courses[course].time.split(':')[0];
+									var m = courses[course].time.split(' ')[0].split(':')[1];
+									var ampm = courses[course].time.split(' ')[1];
 									newcourses.push({
-										name: course.name;
-										hour: TODO;
-										minute: TODO;
-										ampm: TODO;
-										days: TODO;
-										building_id = course.building_id;
-										room = course.room;
-										time = course.time;
-	            newcourse: {
-	            	name: "",
-	            	hour: "Hour",
-	            	minute: "Minute",
-	            	ampm: "AM/PM",
-	            	//     Su 		M 	   Tu     W      Th     F      Sa
-	            	days: [false, false, false, false, false, false, false],
-	            	building_id: "Building",
-	            	room: "",
-					time: "hh:mm am/pm"
-	            },
+										name: courses[course].name,
+										hour: h,
+										minute: m,
+										ampm: ampm,
+										days: courses[course].days,
+										building_id: courses[course].building_id,
+										room: courses[course].room,
+										time: courses[course].time
 									});
 								}
 								newschedules.push({
-									
+									name: newname,
+									courses: newcourses
 								});
 							}
-							$scope.userInfo.schedules = allschedules.schedules;
+							$scope.userInfo.schedules = newschedules;
                 		}
                 	});
                 },
