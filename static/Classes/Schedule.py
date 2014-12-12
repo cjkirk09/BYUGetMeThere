@@ -45,7 +45,11 @@ class Schedule:
         for result in results:
             schedule = Schedule()
             schedules.append(schedule.loadFromResult(result))
-        return schedules    
+        return schedules  
+        
+    def deleteCourses(self):
+        SQL = "delete from BYU.COURSES where SCHEDULE_ID = '" + str(self.id) + "'"
+        Query.execute(SQL)
         
     def save(self):
         if self.in_DB:

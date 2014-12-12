@@ -123,7 +123,12 @@ class DB:
     def saveSchedule(username, schedule_name, courses):
         schedule = Schedule()
         schedule.loadFromAll(username, schedule_name)
-        schedule.save()
+        #If the schedule is not in the database, add it. If it is, delete it's current courses
+        if schedule.in_DB == False:
+            schedule.save()
+        
+        schedule.deleteCourses()
+            
         for json_course in courses:
             course = Course()
             course.loadFromAll(json_course['name'], schedule.id, json_course['time'], json_course['days'], json_course['building_id'], json_course['room'])
