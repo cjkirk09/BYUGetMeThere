@@ -60,6 +60,10 @@ class Parser(object):
 		return toReturn
 
 	def getSavedSchedulesJSON(self,requestAsJson):
+		f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+		#f.write(str(datetime.datetime.now()) + str(e))
+		f.write(str(requestAsJson))
+		f.close()			
 		try:
 			toReturn = DB.getSavedSchedules(requestAsJson['username'])
 		except Exception, e:

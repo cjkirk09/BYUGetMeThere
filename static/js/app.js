@@ -327,7 +327,7 @@
                 		// save the user's schedule
                 		// if the user doesn't have a schedule for a day of the week, add a blank schedule as placeholder
                 		console.log("Return value from server/getSavedSchedules(): " + JSON.stringify(allschedules));
-                		if (allschedules.error === "'NoneType' object has no attribute '__getitem__'")
+                		if (allschedules.error || !allschedules[0])
                 		{
 							// the user has no schedule on the server, so
                 			// keep the user's schedule as-is
@@ -336,6 +336,43 @@
                 		else
                 		{
 							// discard the user's unsaved schedule & write the saved schedule to the client
+							var newschedules = [];
+							for (schedule in allschedules)
+							{
+								var newname = schedule.schedule_name;
+								var newcourses = [];
+								var courses = schedule.courses;
+								for(course in courses)
+								{
+									var h = time.split(':')[0];
+									var m = time.split(' ').split(':')[1];
+									var ampm = time.split(' ')[1]
+									newcourses.push({
+										name: course.name;
+										hour: TODO;
+										minute: TODO;
+										ampm: TODO;
+										days: TODO;
+										building_id = course.building_id;
+										room = course.room;
+										time = course.time;
+	            newcourse: {
+	            	name: "",
+	            	hour: "Hour",
+	            	minute: "Minute",
+	            	ampm: "AM/PM",
+	            	//     Su 		M 	   Tu     W      Th     F      Sa
+	            	days: [false, false, false, false, false, false, false],
+	            	building_id: "Building",
+	            	room: "",
+					time: "hh:mm am/pm"
+	            },
+									});
+								}
+								newschedules.push({
+									
+								});
+							}
 							$scope.userInfo.schedules = allschedules.schedules;
                 		}
                 	});
@@ -518,7 +555,8 @@
 
 			getSavedSchedules: function(userString)
 			{
-				return $http.get('http://byugetmethere.com/getSavedSchedules',userString)
+				console.log(JSON.stringify(userString));
+				return $http.post('http://byugetmethere.com/getSavedSchedules',userString)
 					.then(function(response) {
 						return response.data;
 					});
