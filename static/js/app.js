@@ -61,13 +61,16 @@
 					time: "hh:mm am/pm"
 	            },
 
-				time: {
+				time: { // time and misc data for scheduling
 					hoursList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 					minutesList: ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
 					ampm: ['am', 'pm'],
                 	daysOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 	daysAbbrev: ["Su", "M", "Tu", "W", "Th", "F", "Sa"],
-					currentDayOfWeek: function(){ return $scope.getDayOfWeek(); }
+					currentDayOfWeek: function(){ return $scope.getDayOfWeek(); },
+					// vv this is the index to reference in userInfo.schedules[currentScheduleIndex]
+					currentScheduleIndex: 0, //function(){ return $scope.getCurrentScheduleIndex(); },
+                    courseRemoveIndex: 0
 				},
  
 				toggleMenu: function()
@@ -92,8 +95,9 @@
 					$scope.state.routeBoxOpen = !$scope.state.routeBoxOpen;
 					$scope.state.courseDialogOpen = false;
 				},
-                toggleOkDialog: function()
+                toggleOkDialog: function(index)
                 {
+                    $scope.time.courseRemoveIndex = index;
                     $scope.state.menuOpen = false;
 					$scope.state.loginOpen = false;
 					$scope.state.routeBoxOpen = false;
@@ -178,6 +182,8 @@
                 logout: function()
                 {
                     $scope.userInfo.currentUser = false;
+                    $scope.userInfo.username = "";
+                    $scope.userInfo.welcome = "Welcome to BYU Get Me There!";
                 },
 				validRoute: function(){
 					var startGood = false;
@@ -442,7 +448,7 @@
 	                	};
 	                	// send to server
 	                	infoService.saveSchedule(data).then(function(success) {
-	                		if (success == "True") console.log("Schedule saved.");
+	                		if (success === "True") console.log("Schedule saved.");
 	                		else console.warn("Schedule NOT saved.");
 	                	});
                 	}
@@ -459,16 +465,65 @@
                 },
                 removeCourse: function () // called when the user pushes the - button
                 {
-                	$scope.toggleOkDialog(); // close the warning message	
+                	$scope.toggleOkDialog($scope.time.courseRemoveIndex); // close the warning message	
                 },
                 showPrevSchedule: function ()
                 {
-                	console.log("TODO: SHOW PREV SCHEDULE");
+                	var currentShownDayOfWeek = $scope.userInfo.schedules[$scope.time.currentScheduleIndex].name;
+					for (var day = 0; day < $scope.time.daysOfWeek.length; day++)
+					{
+						if (currentShownDayOfWeek === $scope.time.daysOfWeek[day])
+						{
+							var prevIndex = ((day-1)+7) % 7;
+							var prevName = $scope.time.daysOfWeek[prevIndex];
+							
+							for (schedule in $scope.userInfo.schedules)
+							{
+								if (prevName === $scope.userInfo.schedules[schedule].name)
+								{
+									$scope.time.currentScheduleIndex = schedule;
+									break;
+								}
+							}
+							
+							break;
+						}
+					}
                 },
                 showNextSchedule: function ()
                 {
-                	console.log("TODO: SHOW NEXT SCHEDULE");
+                	var currentShownDayOfWeek = $scope.userInfo.schedules[$scope.time.currentScheduleIndex].name;
+					for (var day = 0; day < $scope.time.daysOfWeek.length; day++)
+					{
+						if (currentShownDayOfWeek === $scope.time.daysOfWeek[day])
+						{
+							var nextIndex = (day+1) % 7;
+							var nextName = $scope.time.daysOfWeek[nextIndex];
+							
+							for (schedule in $scope.userInfo.schedules)
+							{
+								if (nextName === $scope.userInfo.schedules[schedule].name)
+								{
+									$scope.time.currentScheduleIndex = schedule;
+									break;
+								}
+							}
+							
+							break;
+						}
+					}
                 },
+				//getCurrentScheduleIndex: function ()
+				//{
+				//	var today = $scope.time.currentDayOfWeek;
+				//	for (schedule in $scope.userInfo.schedules)
+				//	{
+				//		if ($scope.userInfo.schedules[schedule].name == today)
+				//		{
+				//			$scope.time.currentScheduleIndex = schedule;
+				//		}
+				//	}
+				//},
                 getDayOfWeek: function() // used for scheduling
                 {
                 	var day = $scope.time.daysOfWeek[new Date().getDay()];
