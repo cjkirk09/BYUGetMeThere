@@ -12,6 +12,7 @@ h3 {
     font-weight: 700;
     font-size: 25pt;
     text-align: center;
+    padding-bottom: 15px;
 }
 
 .section {
@@ -66,6 +67,10 @@ h3 {
     color: #808080;
     font-size: 200%;
     text-decoration: none;
+}
+
+#menubtn a:hover {
+    color: darkblue;
 }
 
 #logo {
@@ -214,6 +219,11 @@ select {
     margin: 3px;
     color: black;
     font-size: 13pt;
+}
+
+#schedulenavbuttons {
+    margin-top: 15px;
+    margin-bottom: 30px;
 }
 
 .maplabels {

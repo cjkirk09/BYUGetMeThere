@@ -114,7 +114,7 @@ saveSchedule()
 		  course:{ ... } 
 	  ]
 	}
-	returns "failed" or "success"
+	returns "False" or "True"
 
 getBuildingInfo()
     {

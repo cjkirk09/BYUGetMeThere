@@ -33,7 +33,7 @@ def getCustomPath():
 	myParser = Parser()
 	return myParser.getCustomPathJSON(request.get_json())
 
-@app.route("/getSavedSchedules")
+@app.route("/getSavedSchedules",  methods=['GET','POST'])
 def getSavedSchedules():
 	myParser = Parser()
 	return myParser.getSavedSchedulesJSON(request.get_json())
@@ -60,7 +60,7 @@ def login():
 def getMapKey():
 	#returns mapKey: "key"
 	return "map key"
-@app.route("/saveSchedule")
+@app.route("/saveSchedule",  methods=['GET','POST'])
 def saveSchedule():
 	myParser = Parser()
 	return myParser.saveSchedule(request.get_json())

@@ -15,9 +15,10 @@
 					username: "",
 					password: "",
 					errorMessage: "",
+                    welcome: "Welcome to BYU Get Me There!",
                     currentUser: false,
                     currentUsername: "",
-                    schedules: function(){ return $scope.initializeSchedules(); }
+                    schedules: []
 				},
 				routeInfo: {
                     boxOpen: false,
@@ -56,12 +57,13 @@
 	            	//     Su 		M 	   Tu     W      Th     F      Sa
 	            	days: [false, false, false, false, false, false, false],
 	            	building_id: "Building",
-	            	room: ""
+	            	room: "",
+					time: "hh:mm am/pm"
 	            },
 
 				time: {
 					hoursList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-					minutesList: [00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+					minutesList: ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
 					ampm: ['am', 'pm'],
                 	daysOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 	daysAbbrev: ["Su", "M", "Tu", "W", "Th", "F", "Sa"],
@@ -124,7 +126,7 @@
                         infoService.createUser(userString).then(function(success) {
                             //$scope.userInfo.errorMessage = success;
                             if (success == "True") {
-                                $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
+                                $scope.userInfo.welcome = "Welcome " + $scope.userInfo.username + "!";
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.password = "";
@@ -157,13 +159,16 @@
                         var userString = { username: $scope.userInfo.username, password: $scope.userInfo.password };
 //                        $scope.userInfo.errorMessage = userString;
                         infoService.verifyUser(userString).then(function(success) {
-                            $scope.userInfo.errorMessage = success;
+                            //$scope.userInfo.errorMessage = success;
                             if (success == "true") {
-                                $scope.userInfo.errorMessage = "Welcome " + $scope.userInfo.username;
+                                $scope.userInfo.welcome = "Welcome " + $scope.userInfo.username + "!";
                                 $scope.userInfo.currentUser = true;
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.password = "";
-                                $scope.userInfo.schedules = $scope.getSavedSchedules();
+                                $scope.getSavedSchedules();
+                            }
+                            else {
+                                $scope.userInfo.errorMessage = "Sorry, incorrect username and/or password";
                             }
                         });	
                         // let the user close the login screen so they can see success/failure
@@ -230,7 +235,7 @@
 									    $scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
                                                                 longitude: pathInfo.endCoord.longitude};
                                         $scope.floorplans.list = pathInfo.floorPlans;
-                                        $scope.getBuildingInfo();
+                                        $scope.getBuildingInfo($scope.routeInfo.endPoint);
 							          }	
 									});
 							    }
@@ -315,32 +320,52 @@
                 	}
                 	return schedules;
                 },
-                loadSchedules: function () // load schedules into client
-                {
-                	// clear out user's tentative schedule
-                	// $scope.userInfo.schedules = $scope.initializeSchedules();
-
-                	// put user's schedule into the client
-                	var data = $scope.getSavedSchedules();
-            		$scope.userInfo.schedules = data.schedules;
-                },
                 getSavedSchedules: function () // get user's schedule from server
                 {
                 	var data = {username: $scope.userInfo.currentUsername};
-                	var ret = infoService.getSavedSchedules(data).then(function(success) {
+                	infoService.getSavedSchedules(data).then(function(allschedules) {
                 		// save the user's schedule
                 		// if the user doesn't have a schedule for a day of the week, add a blank schedule as placeholder
-                		if (success.error === "'NoneType' object has no attribute '__getitem__'")
+                		console.log("Return value from server/getSavedSchedules(): " + JSON.stringify(allschedules));
+                		if (allschedules.error || !allschedules[0])
                 		{
-                			return $scope.initializeSchedules();
+							// the user has no schedule on the server, so
+                			// keep the user's schedule as-is
+							console.log("No schedule saved on server.");
                 		}
                 		else
                 		{
-                			console.log("Return value from server/getSavedSchedules(): " + success);
-                			return success;
+							// discard the user's unsaved schedule & write the saved schedule to the client
+							var newschedules = [];
+							for (schedule in allschedules)
+							{
+								var newname = allschedules[schedule].schedule_name;
+								var newcourses = [];
+								var courses = allschedules[schedule].courses;
+								for(course in courses)
+								{
+									var h = courses[course].time.split(':')[0];
+									var m = courses[course].time.split(' ')[0].split(':')[1];
+									var ampm = courses[course].time.split(' ')[1];
+									newcourses.push({
+										name: courses[course].name,
+										hour: h,
+										minute: m,
+										ampm: ampm,
+										days: courses[course].days,
+										building_id: courses[course].building_id,
+										room: courses[course].room,
+										time: courses[course].time
+									});
+								}
+								newschedules.push({
+									name: newname,
+									courses: newcourses
+								});
+							}
+							$scope.userInfo.schedules = newschedules;
                 		}
                 	});
-                	return ret;
                 },
                 addCourse: function () // add a course to the user's schedule(s)
                 {
@@ -385,6 +410,8 @@
                 				if ($scope.userInfo.schedules[schedule].name === $scope.time.daysOfWeek[day])
                 				{
 	                				// add the course to the schedule
+									// manually fill in the "time" field
+									var t = $scope.newcourse.hour + ":" + $scope.newcourse.minute + " " + $scope.newcourse.ampm;
 	                				$scope.userInfo.schedules[schedule].courses.push({
 	                					name: $scope.newcourse.name,
 	                					hour: $scope.newcourse.hour,
@@ -392,7 +419,8 @@
 	                					ampm: $scope.newcourse.ampm,
 	                					days: dayString,
 	                					building_id: $scope.newcourse.building_id,
-	                					room: $scope.newcourse.room
+	                					room: $scope.newcourse.room,
+										time: t
 	                				});
                 				}
                 			}
@@ -407,15 +435,16 @@
                 	// get schedule, convert it into data
                 	for (schedule in $scope.userInfo.schedules)
                 	{
-	                	data = {
+	                	var data = {
 	                		username:userName, 
-	                		schedule_name: $scope.time.daysOfWeek[day],
+	                		schedule_name: $scope.userInfo.schedules[schedule].name,
 	                		courses: $scope.userInfo.schedules[schedule].courses
 	                	};
 	                	// send to server
 	                	infoService.saveSchedule(data).then(function(success) {
-	                		// check for errors
-	                	})
+	                		if (success == "True") console.log("Schedule saved.");
+	                		else console.warn("Schedule NOT saved.");
+	                	});
                 	}
                 },
                 clearTentativeCourse: function () // clear button in new course
@@ -508,7 +537,7 @@
 
 			saveSchedule: function(userString)
 			{
-				return $http.get('http://byugetmethere.com/saveSchedule',userString)
+				return $http.post('http://byugetmethere.com/saveSchedule',userString)
 					.then(function(response) {
 						return response.data;
 					});
@@ -516,7 +545,8 @@
 
 			getSavedSchedules: function(userString)
 			{
-				return $http.get('http://byugetmethere.com/getSavedSchedules',userString)
+				console.log(JSON.stringify(userString));
+				return $http.post('http://byugetmethere.com/getSavedSchedules',userString)
 					.then(function(response) {
 						return response.data;
 					});
