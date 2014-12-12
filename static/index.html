@@ -155,7 +155,7 @@
                         ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('building')">Building Info</button>
                 <button type='button' class='btn btn-map' 
                         ng-disabled='routeInfo.lastEndPoint==""' onclick="goTo('floorplan')">Floor Plan</button>
-                <button type='button' class='btn btn-map' ng-disabled='!userInfo.currentUser'>Save Route</button>
+                <button type='button' class='btn btn-map' disabled>Save Route</button>
             </div>
         </div>
     </div> <!-- end of map buttons -->
@@ -274,20 +274,23 @@
             <div class='col-xs-4' style='text-align:center'>
                 <button class='btn btn-floor' type='button' ng-click='showPrevSchedule()'>Previous Day</button>
             </div>
-            <div class='col-xs-4' style='text-align:center'>
-                $(Monday)
+            <div class='col-xs-4' style='text-align:center;font-size:150%'>
+                {{userInfo.schedules[time.currentScheduleIndex].name}}
             </div>
             <div class='col-xs-4'style='text-align:center'>
                 <button class='btn btn-floor' type='button' ng-click='showNextSchedule()'>Next Day</button>
             </div>
         </div>
-        <div class='row' ng-repeat='class in classes'>
+        <div class='row' ng-repeat='class in userInfo.schedules[time.currentScheduleIndex].courses'>
             <div class='col-xs-2' style='text-align:center'>
-                <button class='btn btn-rmclass' type='button' ng-click='toggleOkDialog()'>
+                <button class='btn btn-rmclass' type='button' ng-click='toggleOkDialog($index)'>
                     <span class="glyphicon glyphicon-minus-sign"></span>
                 </button>
             </div>
-            <div class='col-xs-10'>{{class.name}} - {{class.days}}<br>{{class.hours}} - {{class.building}}</div>  
+            <div class='col-xs-10' style='text-align:left'>
+                {{class.name}} - {{class.days}} - {{class.time}}
+                <br>{{class.room}} {{class.building_id}}
+            </div>  
         </div>
         <div class='row'>
             <div class='col-xs-12' style='text-align:center'>
