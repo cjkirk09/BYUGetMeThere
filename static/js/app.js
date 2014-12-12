@@ -297,7 +297,7 @@
                 },
                 newSchedule: function () // same thing as hitting every minus button
                 {
-                	$scope.userInfo.schedules = initializeSchedules();
+                	$scope.userInfo.schedules = $scope.initializeSchedules();
                 },
                 initializeSchedules: function () // set up the days of the week schedules
                 {
@@ -327,7 +327,7 @@
                 getSavedSchedules: function () // get user's schedule from server
                 {
                 	var data = {username: $scope.userInfo.currentUsername};
-                	infoService.getSavedSchedules(data).then(function(success) {
+                	var ret = infoService.getSavedSchedules(data).then(function(success) {
                 		// save the user's schedule
                 		// if the user doesn't have a schedule for a day of the week, add a blank schedule as placeholder
                 		if (success.error === "'NoneType' object has no attribute '__getitem__'")
@@ -340,6 +340,7 @@
                 			return success;
                 		}
                 	});
+                	return ret;
                 },
                 addCourse: function () // add a course to the user's schedule(s)
                 {
