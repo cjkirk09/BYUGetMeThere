@@ -8,7 +8,7 @@
     background-color: darkblue;
     border-color: darkblue;
     color: #cc6600;
-    font-size: 150%;
+    font-size: 100%;
 }
 
 .btn-mapmarker:hover {
@@ -58,7 +58,7 @@
     margin-left: 2px;
     margin-right: 2px;
     border-radius: 10px;
-    font-size: 15pt;
+    font-size: 100%;
     font-weight: 400;
     padding-top: 0px;
     padding-bottom: 0px;
@@ -102,7 +102,7 @@
 .btn-floor:focus {
     width: 100%;
     height: 40px;
-    font-size: 13pt;
+    font-size: 125%;
     background-color: darkblue;
     border-color: darkblue;
     border-radius: 25px;
@@ -153,7 +153,9 @@
 }
 
 /* the buttons for the new class popup */
-.btn-newclass {
+.btn-newclass,
+.btn-newclass:active,
+.btn-newclass:focus {
     background-color: #cc6600;
     border-color: #cc6600;
     color: #e6e6e6;

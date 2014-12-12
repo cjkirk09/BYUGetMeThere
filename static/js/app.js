@@ -476,11 +476,14 @@
                 	$scope.newcourse.ampm = "AM/PM";
                 	$scope.newcourse.days = [false, false, false, false, false, false, false];
                 	$scope.newcourse.room = "";
-                	$scope.newcourse.building = "Building";
+                	$scope.newcourse.building_id = "Building";
                 },
                 removeCourse: function () // called when the user pushes the - button
                 {
-                	$scope.toggleOkDialog($scope.time.courseRemoveIndex); // close the warning message	
+					$scope.toggleOkDialog($scope.time.courseRemoveIndex); // close the warning message	
+					var indexToRemove = $scope.time.courseRemoveIndex;
+					var scheduleIndex = $scope.time.currentScheduleIndex;
+					$scope.userInfo.schedules[scheduleIndex].courses.splice(indexToRemove, 1);
                 },
                 showPrevSchedule: function ()
                 {
