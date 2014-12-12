@@ -77,7 +77,7 @@
     <div id='options'>
         <ul class='list-unstyled' id='optionslist'>
             <li><a ng-click='toggleMenu()' href='#directions'>Get Directions</a></li>
-            <li><a ng-click='toggleMenu()' href='#schedule'>Map Schedule</a></li>
+            <li><a ng-click='toggleMenu()' href='#schedule'>Enter Class Schedule</a></li>
             <li><a ng-click='toggleMenu()' ng-if='routeInfo.lastEndPoint!=""' href='#floorplan'>Floor Plan</a></li>
             <li><a ng-click='toggleMenu()' href='#campus'>Campus Links</a></li>
             <li><a ng-click='toggleMenu()' href='#building'>Building Info</a ></li>
@@ -91,16 +91,16 @@
 <div class='section' id='directions'>
     <!-- new route menu -->
     <div class='row' id='newroute'>
-        <div class='col-xs-4' style='text-align:left'>
+        <div class='col-xs-2' style='text-align:center'>
             <button class='btn btn-mapmarker' type='button' onclick="findMyLocation()">
                 <span class='glyphicon glyphicon-map-marker'></span>
             </button>
         </div>
-        <div class='col-xs-8' style='text-align:right'>
+        <div class='col-xs-10' style='text-align:right'>
             <div class='buttongroup newroute-group'>
                 <button class='btn btn-newroute route' type='button' ng-click="toggleRouteBox()"
-                        onclick="toggleRouteBox()">Route</button>
-                <button type='button' class='btn btn-newroute clear' onclick="clearRoute()">Clear</button> 
+                        onclick="toggleRouteBox()">New Route</button>
+                <button type='button' class='btn btn-newroute clear' onclick="clearRoute()">Clear Map</button> 
             </div>
         </div>
     </div> <!-- end of new route menu -->
@@ -139,7 +139,7 @@
                             onclick="toggleRouteBox()">Cancel</button>
                     <button type='button' class='btn btn-route'
                         onclick="getMyCoords(angular.element(document.getElementById('controller')).scope(),false), getRoute(angular.element(document.getElementById('controller')).scope())">Get Route</button>
-                    <button type='button' class='btn btn-route' onclick="clearRoute()">Clear</button>
+                    <button type='button' class='btn btn-route' onclick="clearRoute()">Clear Map</button>
                 </div>
             </div>
         </div> <!-- end of route box buttons -->
@@ -169,7 +169,7 @@
             <button type='button' class='btn btn-floor' ng-click='previousFloor()'>Previous Floor</button>
         </div>
         <div class='col-xs-4' style='text-align:center'>
-            <button type='button' class='btn btn-floor' onclick='goTo("map")'>Back to Map</button>
+            <button type='button' class='btn btn-floor' onclick='goTo("directions")'>Back to Map</button>
         </div>
         <div class='col-xs-4' style='text-align:right' >
             <button type='button' class='btn btn-floor' ng-click='nextFloor()'>Next Floor</button>
@@ -268,6 +268,16 @@
             </div>
         </div>
     </div>
+    <div class='popup' ng-if='time.scheduleSaved!=""'>
+        <div class='row'>
+            <div class='col-xs-9' style='margin-top:5px'>
+                {{time.scheduleSaved}}
+            </div>
+            <div class='col-xs-3'>
+                <button class='btn btn-ok' type='button' ng-click='toggleScheduleSavedDialog()'>Ok</button>
+            </div>
+        </div>
+    </div>
     <div class='container'>
         <h3>Your Schedule</h3>
         <div class='row' id='schedulenavbuttons'>
@@ -313,7 +323,7 @@
                     Save Schedule</button>
             </div>
             <div class='col-xs-12' style='text-align:center'>
-                <button type='button' class='btn btn-schedule'>
+                <button type='button' class='btn btn-schedule' disabled>
                     Map Schedule</button>
             </div>
         </div>
@@ -556,7 +566,7 @@
         </div>
         <div class='row' style='text-align:center;padding-bottom:30px'>
                 <b>Click <a id='email' href='https://github.com/cjkirk09/BYUGetMeThere'>here</a> to view our GitHub repository.<br>
-                <b>We also have a GitHubWiki <a id='email' href='https://github.com/cjkirk09/BYUGetMeThere/wiki/Final-Report'>here</a>.
+                <b>We also have a GitHub Wiki <a id='email' href='https://github.com/cjkirk09/BYUGetMeThere/wiki/Final-Report'>here</a> that contains more information about our site.
         </div>
     </div>
 </div>

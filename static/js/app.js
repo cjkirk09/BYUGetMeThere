@@ -9,7 +9,8 @@
 					loginOpen: false,
 					routeBoxOpen: false,
 					courseDialogOpen: false,
-                    minusClicked: false
+                    minusClicked: false,
+                    
 				},
 				userInfo: {
 					username: "",
@@ -69,8 +70,9 @@
                 	daysAbbrev: ["Su", "M", "Tu", "W", "Th", "F", "Sa"],
 					currentDayOfWeek: function(){ return $scope.getDayOfWeek(); },
 					// vv this is the index to reference in userInfo.schedules[currentScheduleIndex]
-					currentScheduleIndex: 0, //function(){ return $scope.getCurrentScheduleIndex(); },
-                    courseRemoveIndex: 0
+					currentScheduleIndex: 1, 
+                    courseRemoveIndex: 0,
+					scheduleSaved: ""
 				},
  
 				toggleMenu: function()
@@ -109,6 +111,10 @@
 					$scope.state.loginOpen = false;
 					$scope.state.routeBoxOpen = false;
 					$scope.state.courseDialogOpen = !$scope.state.courseDialogOpen;
+				},
+				toggleScheduleSavedDialog: function()
+				{
+					$scope.time.scheduleSaved = "";
 				},
 
 				register: function()
@@ -403,6 +409,8 @@
 					for (i in $scope.newcourse.days) 
 						if ($scope.newcourse.days[i] == true) 
 							dayString += $scope.time.daysAbbrev[i];
+					// manually fill in the "time" field
+					var t = $scope.newcourse.hour + ":" + $scope.newcourse.minute + " " + $scope.newcourse.ampm;
 
                 	// parse the add course popup
                 	for (day in $scope.newcourse.days)
@@ -416,8 +424,6 @@
                 				if ($scope.userInfo.schedules[schedule].name === $scope.time.daysOfWeek[day])
                 				{
 	                				// add the course to the schedule
-									// manually fill in the "time" field
-									var t = $scope.newcourse.hour + ":" + $scope.newcourse.minute + " " + $scope.newcourse.ampm;
 	                				$scope.userInfo.schedules[schedule].courses.push({
 	                					name: $scope.newcourse.name,
 	                					hour: $scope.newcourse.hour,
@@ -428,6 +434,7 @@
 	                					room: $scope.newcourse.room,
 										time: t
 	                				});
+	                				break;
                 				}
                 			}
                 		}
@@ -448,8 +455,16 @@
 	                	};
 	                	// send to server
 	                	infoService.saveSchedule(data).then(function(success) {
-	                		if (success === "True") console.log("Schedule saved.");
-	                		else console.warn("Schedule NOT saved.");
+	                		if (success === "True") 
+	                		{
+								$scope.time.scheduleSaved = "Schedule saved!";
+								console.log("Schedule saved.");
+							}
+	                		else 
+	                		{
+								$scope.time.scheduleSaved = "Something went wrong. Please wait a minute & try again :)";
+								console.warn("Schedule NOT saved.");
+							}
 	                	});
                 	}
                 },
