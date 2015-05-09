@@ -13,7 +13,9 @@
           //directionsDisplay.setSuppressMarkers(true);
           var mapProp = {
              center:byu,
-             zoom:15,
+             zoom:16,
+             minZoom:14,
+             maxZoom:20,
              mapTypeId: google.maps.MapTypeId.ROADMAP,
              zoomControlOptions:{
                 style: google.maps.ZoomControlStyle.DEFAULT,
@@ -24,6 +26,38 @@
           map=new google.maps.Map(document.getElementById('map'),mapProp);
           directionsDisplay.setMap(map);
           getMyCoords(null, true);
+          
+           // bounds of the desired area
+          var allowedBounds = new google.maps.LatLngBounds(
+             new google.maps.LatLng(40.242973, -111.663233),
+             new google.maps.LatLng(40.266010, -111.638085)
+          );
+          var boundLimits = {
+              maxLat : allowedBounds.getNorthEast().lat(),
+              maxLng : allowedBounds.getNorthEast().lng(),
+              minLat : allowedBounds.getSouthWest().lat(),
+              minLng : allowedBounds.getSouthWest().lng()
+          };
+
+          var lastValidCenter = map.getCenter();
+          var newLat, newLng;
+          google.maps.event.addListener(map, 'center_changed', function() {
+              center = map.getCenter();
+              if (allowedBounds.contains(center)) {
+                  // still within valid bounds, so save the last valid position
+                  lastValidCenter = map.getCenter();
+                  return;
+              }
+              newLat = lastValidCenter.lat();
+              newLng = lastValidCenter.lng();
+              if(center.lng() > boundLimits.minLng && center.lng() < boundLimits.maxLng){
+                  newLng = center.lng();
+              }
+              if(center.lat() > boundLimits.minLat && center.lat() < boundLimits.maxLat){
+                  newLat = center.lat();
+              }
+              map.panTo(new google.maps.LatLng(newLat, newLng));
+          });
        }
 
        // Try HTML5 geolocation
