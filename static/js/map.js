@@ -210,6 +210,19 @@
          function goTo(id){
             window.scroll(0,findPos(document.getElementById(id)));
         }
+        function drawFloorPlan()
+        {
+//            window.alert("in drawFloorPlan");
+            var canvas = document.getElementById('floorplan-canvas');
+            var context = canvas.getContext('2d');
+            var img = document.getElementById('floorplan-img');
+            var w = img.width;
+            var h = img.height;
+//            canvas.width = 100;
+//            canvas.height = 65;
+//            window.alert(w)
+            context.drawImage(img,0,0,width=100,height=65);
+        }
         
         function findPos(obj) {
             var curtop = 0;

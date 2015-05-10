@@ -192,7 +192,7 @@ h3 {
 /*bootstrap override*/
 .container {
     height: 75vh;
-    width: 90vw;
+/*    width: 90vw;*/
     margin-bottom: 10%;
 }
 

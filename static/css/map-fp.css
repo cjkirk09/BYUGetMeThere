@@ -35,13 +35,13 @@
 
 .floorplan-container {
     border-top-style: solid;
-    padding-right: 0;
-    padding-left: 0;
+    padding-right: 10;
+    padding-left: 10;
     padding-bottom: 0;
     height: 70vh;
 }
 
 .floorplan-container {
-    -webkit-overflow-scrolling: touch;
+/*    -webkit-overflow-scrolling: touch;*/
     overflow: scroll;
 }

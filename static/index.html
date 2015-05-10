@@ -161,24 +161,44 @@
     </div> <!-- end of map buttons -->
 </div> <!-- end of directions section -->
 
-<div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>
-<!-- <div class='section' id='floorplan'> -->
+<!--<div ng-if='routeInfo.lastEndPoint!=""' class='section' id='floorplan'>-->
+ <div class='section' id='floorplan'> 
     <h3>Floor Plan: {{buildingInfo.selected}} {{floorplans.currentFloor+1}}</h3>
-    <div class='row' style='margin-bottom:10px'>
-        <div class='col-xs-4' style='text-align:left'>
+    <div class='row'>
+        <div class='col-xs-3' style='text-align:left'>
             <button type='button' class='btn btn-floor' ng-click='previousFloor()'>Previous Floor</button>
         </div>
-        <div class='col-xs-4' style='text-align:center'>
+        <div class='col-xs-3' style='text-align:center'>
             <button type='button' class='btn btn-floor' onclick='goTo("directions")'>Back to Map</button>
         </div>
-        <div class='col-xs-4' style='text-align:right' >
+        <div class='col-xs-3' style='text-align:right' >
             <button type='button' class='btn btn-floor' ng-click='nextFloor()'>Next Floor</button>
         </div>
+        <div class='col-xs-3' style='text-align:right' >
+            <button type='button' class='btn btn-floor' onclick='drawFloorPlan()'>Load</button>
+        </div>
     </div>
-    <div class='container floorplan-container'>   
-        <img content='user-scalable=yes, min-scale=0.5, max-scale=2' src='{{floorplans.list[floorplans.currentFloor]}}'
+     <img style='display:none' id='floorplan-img' src='FloorPlans/ASB/asb-1d.png'
              alt='Sorry. Floor plans for this building are unavailable.'>
+<!--
+    <img style='visibility:collapse' id='floorplan-img' src='{{floorplans.list[floorplans.currentFloor]}}'
+             alt='Sorry. Floor plans for this building are unavailable.'>
+-->
+     <canvas id='floorplan-canvas' class='col-xs-12' style='border:1px solid'></canvas>
+     
+<!--
+    <div class='container floorplan-container'> 
+        <div class='row' style='margin-top:10px'>
+            <div class='col-xs-4' style='padding-left:10px,text-align:left'>
+                <button type='button' class='btn btn-floor' ng-click='zoomIn()'>Zoom In</button>
+            </div>
+            <div class='col-xs-4'></div>
+            <div class='col-xs-4' style='padding-right:10px,text-align:right'>
+                <button type='button' class='btn btn-floor' ng-click='zoomOut()'>Zoom Out</button>
+            </div>
+        </div>
     </div>
+-->
 </div>
 
 <div class='section' id='schedule'>
