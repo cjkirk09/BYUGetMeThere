@@ -210,20 +210,18 @@
          function goTo(id){
             window.scroll(0,findPos(document.getElementById(id)));
         }
-        function drawFloorPlan()
+        function zoomIn()
         {
-//            window.alert("in drawFloorPlan");
-            var canvas = document.getElementById('floorplan-canvas');
-            var context = canvas.getContext('2d');
             var img = document.getElementById('floorplan-img');
-            var w = img.width;
-            var h = img.height;
-//            canvas.width = 100;
-//            canvas.height = 65;
-//            window.alert(w)
-            context.drawImage(img,0,0,width=100,height=100);
+            img.height = img.height * 1.5;
+            img.width = auto
         }
-        
+        function zoomOut()
+        {
+            var img = document.getElementById('floorplan-img');
+            img.height = img.height / 1.5;
+            img.width = auto
+        }
         function findPos(obj) {
             var curtop = 0;
             if (obj.offsetParent) {
@@ -233,7 +231,6 @@
             return [curtop];
             }
         }
-        
         function toggleRouteBox() {
             document.getElementById("routebox").style.visibility = "visible";
             if(document.getElementById("routebox").style.display == "none" ) {

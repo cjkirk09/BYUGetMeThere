@@ -188,28 +188,6 @@
         </div>
         <img height=100% id='floorplan-img' onclick='drag()' src='{{floorplans.list[floorplans.currentFloor]}}'
              alt='Sorry. Floor plans for this building are unavailable.'>
-        <script>
-            document.getElementById('floorplan-img').addEventListener('click', drag);
-             
-            function zoomIn()
-             {
-                 var img = document.getElementById('floorplan-img');
-                 img.height = img.height * 1.5;
-                 img.width = auto
-             }
-            
-             function zoomOut()
-             {
-                 var img = document.getElementById('floorplan-img');
-                 img.height = img.height / 1.5;
-                 img.width = auto
-             }
-
-            function drag()
-            {
-                window.alert('drag');
-            }
-        </script>
      </div> <!-- end of floorplan container -->
 </div> <!-- end of floorplan section -->
 
