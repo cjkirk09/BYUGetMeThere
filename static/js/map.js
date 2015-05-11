@@ -221,7 +221,7 @@
 //            canvas.width = 100;
 //            canvas.height = 65;
 //            window.alert(w)
-            context.drawImage(img,0,0,width=100,height=65);
+            context.drawImage(img,0,0,width=100,height=100);
         }
         
         function findPos(obj) {
