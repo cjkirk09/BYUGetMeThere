@@ -6,19 +6,32 @@ from flask import send_from_directory
 import json
 
 import sys
-sys.path.insert(0, '/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/')
+sys.path.insert(0, '/var/www/BYUGetMeThere/BYUGetMeThere/static/Classes/')
 
 from parser import Parser
 
 app = Flask(__name__)
 
+
+@app.route("/getCount")
+def getCount():
+	f = open('/var/www/BYUGetMeThere/BYUGetMeThere/static/count.txt','r')
+	return str(f.read())
+
 @app.route("/favicon.ico")
 def favIcon():
-	return send_from_directory("/var/www/BYUGetMeThereTest/BYUGetMeThere/static","favicon.ico")
+	return send_from_directory("/var/www/BYUGetMeThere/BYUGetMeThere/static","favicon.ico")
 
 @app.route("/")
 def index():
-	return send_from_directory("/var/www/BYUGetMeThereTest/BYUGetMeThere/static","index.html")
+	g = open('/var/www/BYUGetMeThere/BYUGetMeThere/static/count.txt','r')
+	count = g.read()
+	count1 = int(count)
+	g.close()
+	g = open('/var/www/BYUGetMeThere/BYUGetMeThere/static/count.txt','w')
+	g.write(str(count1+1))
+	g.close()
+	return send_from_directory("/var/www/BYUGetMeThere/BYUGetMeThere/static","index.html")
 @app.route("/static/<path:thePath>")
 def getFiles(thePath):
 	return send_from_directory('/static/',thePath)

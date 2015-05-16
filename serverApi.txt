@@ -38,28 +38,15 @@ getSavedSchedules()
 	}
 	return
     {
-      	schedules: [
-	      	schedule1:
-	      	{
-	      		id: int, 
-	      		username: "string", 
-	      		schedule_name: "string", 
-	      		courses: [ 
-	          		course:
-	          		{
-	            		name:"nameOfCourse",
-	            		schedule_name: "nameOfSchedule",
-	            		time:"hh:mm am/pm",
-	            		days:"MTWThF",
-	            		building_id:"acronym", 
-	            		room:"roomNum" 
-	          		},
-	          		... , 
-	          		course:{ ... } 
-	          	], 
-	        },
-	        schedule2: { ... },
-	        ...
+      	courses: [ 
+          {
+            name:"nameOfCourse",
+            user_id: "user_id",
+            time:"UTC-time",
+            day:"MTWThF",
+            building_id:"acronym", 
+            room:"roomNum" 
+          }
       	]
     }
 	
@@ -80,7 +67,7 @@ loadSchedule()
             name:"nameOfCourse",
             schedule_name: "nameOfSchedule",
             time:"hh:mm am/pm",
-            days:"MTWThF",
+            day:"MTWThF",
             building_id:"acronym", 
             room:"roomNum" 
           },
@@ -101,12 +88,12 @@ getAllBuildings()
 saveSchedule()
 	{
 	  username:"username",
-	  schedule_name: "name",
+	  day_of_week: "day",
 	  courses: [
 		  course:{
 		  	name:"nameOfCourse",
 		  	time:"hh:mm am/pm", 
-		  	days:"MTWThF",
+		  	day:"MTWThF",
 		  	building_id:"acronym", 
 		  	room:"roomNum" 
 		  }, 

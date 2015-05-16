@@ -1,6 +1,7 @@
 import math
 import json
 import hashlib
+import uuid
 from Query import Query
 from Building import Building
 from Coordinate import Coordinate
@@ -98,40 +99,42 @@ class DB:
     
     @staticmethod
     def getSavedSchedules(username):
-        schedules = Schedule.getAllForUser(username)
+        #schedules = Schedule.getAllForUser(username)
         
-        saved_schedules = []
-        for schedule in schedules:
-            schedule.courses = []
-            for course in Course.getAllCoursesForSchedule(schedule.id):
-                schedule.courses.append(course.__dict__)
-            saved_schedules.append(schedule.__dict__)
+        saved_schedules = Course.getAllCoursesForUserName(username)
+
+ #       for schedule in schedules:
+ #           schedule.courses = []
+ #           for course in Course.getAllCoursesForSchedule(schedule.id):
+ #               schedule.courses.append(course.__dict__)
+ #           saved_schedules.append(schedule.__dict__)
         
         return saved_schedules
         
-    @staticmethod
+#    @staticmethod
     def loadSchedule(username, schedule_name):
-        schedule = Schedule()
-        schedule.loadFromAll(username, schedule_name)
+         return "" 
+#        schedule = Schedule()
+#        schedule.loadFromAll(username, schedule_name)
         
-        schedule.courses = []
-        for course in Course.getAllCoursesForSchedule(schedule.id):
-            schedule.courses.append(course.__dict__)
-        return schedule.__dict__
+#        schedule.courses = []
+#        for course in Course.getAllCoursesForSchedule(schedule.id):
+#            schedule.courses.append(course.__dict__)
+#        return schedule.__dict__
         
     @staticmethod
-    def saveSchedule(username, schedule_name, courses):
-        schedule = Schedule()
-        schedule.loadFromAll(username, schedule_name)
+    def saveSchedule(username, day_Of_Week, courses):
+        #schedule = Schedule()
+        #schedule.loadFromAll(username, schedule_name)
         #If the schedule is not in the database, add it. If it is, delete it's current courses
-        if schedule.in_DB == False:
-            schedule.save()
+       # if schedule.in_DB == False:
+        #    schedule.save()
         
-        schedule.deleteCourses()
+        Course.deleteCoursesForDay(day_Of_Week)
             
         for json_course in courses:
             course = Course()
-            course.loadFromAll(json_course['name'], schedule.id, json_course['time'], json_course['days'], json_course['building_id'], json_course['room'])
+            course.loadFromAll(json_course['name'], json_course['username'], json_course['time'], json_course['day'], json_course['building_id'], json_course['room'])
             course.save()
         return True
             
@@ -152,8 +155,8 @@ class DB:
     def verifyUser(username, password):
         user = User()
         user.loadFromID(username)
-        
-        if user.password == str(hash(password)):
+
+        if user.password == str(hash(password + user.salt)):
             return True
         else:
             return False
@@ -165,11 +168,13 @@ class DB:
         user.loadFromID(username)
         print user
         if user.in_DB:
+            print "User in DB"
             return False
+        print "not in db"
         user.username = username
-        user.password = str(hash(password))
+        user.salt = str(uuid.uuid4())
+        user.password = str(hash(password + user.salt))
         user.save()
-        print "Saved User"
         return True
     
     

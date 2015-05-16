@@ -24,7 +24,7 @@ class Parser(object):
 			toReturn = Parser.error(str(requestAsJson))
 			return json.dumps(toReturn)
 
-		f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'w')
+		f = open ("/var/www/BYUGetMeThere/BYUGetMeThere/static/Classes/out.txt",'w')
 		#f.write(str(e))
 		f.write(str(requestAsJson))			
 				
@@ -60,7 +60,7 @@ class Parser(object):
 		return toReturn
 
 	def getSavedSchedulesJSON(self,requestAsJson):
-		f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+		f = open ("/var/www/BYUGetMeThere/BYUGetMeThere/static/Classes/out.txt",'a')
 		#f.write(str(datetime.datetime.now()) + str(e))
 		f.write(str(requestAsJson))
 		f.close()			
@@ -108,12 +108,12 @@ class Parser(object):
 	
 	def saveSchedule(self,requestAsJson):
 		try:
-			if(DB.saveSchedule(requestAsJson['username'],requestAsJson['schedule_name'],requestAsJson['courses'])):
+			if(DB.saveSchedule(requestAsJson['username'],requestAsJson['day_of_week'],requestAsJson['courses'])):
 				toReturn = "True"
 			else:
 				toReturn = "False"
 		except Exception, e:
-			f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+			f = open ("/var/www/BYUGetMeThere/BYUGetMeThere/static/Classes/out.txt",'a')
 			f.write(str(datetime.datetime.now()) + str(e))
 			#f.write(str(requestAsJson))
 			f.close()	
@@ -127,7 +127,7 @@ class Parser(object):
 		except Exception, e:
 			toReturn = Parser.error(str(e))
 
-		f = open ("/var/www/BYUGetMeThereTest/BYUGetMeThere/static/Classes/out.txt",'a')
+		f = open ("/var/www/BYUGetMeThere/BYUGetMeThere/static/Classes/out.txt",'a')
 		f.write(str(datetime.datetime.now()))
 		#f.write(str(requestAsJson))
 		f.close()	
