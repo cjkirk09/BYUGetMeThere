@@ -247,6 +247,7 @@
 									    $scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
                                                                 longitude: pathInfo.endCoord.longitude};
                                         $scope.floorplans.list = pathInfo.floorPlans;
+//                                        $scope.drawFloorPlan()
                                         $scope.getBuildingInfo($scope.routeInfo.endPoint);
 							          }	
 									});
@@ -266,6 +267,7 @@
 									    $scope.routeInfo.path[1] = {latitude:pathInfo.endCoord.latitude,
                                                                 longitude: pathInfo.endCoord.longitude};
                                         $scope.floorplans.list = pathInfo.floorPlans;
+//                                        $scope.drawFloorPlan()
                                         $scope.getBuildingInfo($scope.routeInfo.endPoint);
 							       }
 							       });
@@ -303,6 +305,10 @@
                     });
                     
                 },
+//                drawFloorPlan: function()
+//                {
+//                    var canvas = 
+//                },
                 nextFloor: function () //advance floor plan pic to the next floor
                 {
                     $scope.floorplans.currentFloor = ($scope.floorplans.currentFloor+1) % $scope.floorplans.list.length;
