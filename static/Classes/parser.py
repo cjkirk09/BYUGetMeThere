@@ -1,7 +1,9 @@
 import json
 import datetime
+import urllib2
 
 from DB import DB
+from Directions import Directions
 
 
 class Parser(object):
@@ -40,8 +42,13 @@ class Parser(object):
 		#db = fakeDB()
 		
 	def getCustomPathJSON(self,requestAsJson):
-		try:
-			toReturn = DB.getCustomPath(40.249145, -111.649238,requestAsJson['endPlace'])
+		try:			#   enter the curr loc from json here
+			if requestAsJson.get('startLocation'):
+				latidude = requestAsJson['startLocation']['latitude']
+				longitude = requestAsJson['startLocation']['longitude']
+				toReturn = DB.getCustomPath(latidude, longitude ,requestAsJson['endPlace'])
+			else:
+				toReturn = DB.getCustomPath(40.249145, -111.649238,requestAsJson['endPlace'])
 		except Exception, e:
 			toReturn = Parser.error(str(e))
 
@@ -133,5 +140,29 @@ class Parser(object):
 		f.close()	
 		
 		return json.dumps(toReturn)
+
+	def getDirections(self, requestAsJson):
+		try:	
+			#requestAsJson = json.loads(requestAsJson1)	
+			if requestAsJson.get('startLocation'):
+				latidude = requestAsJson['startLocation']['latitude']
+				longitude = requestAsJson['startLocation']['longitude']		
+				dbInfo = DB.getCustomPath(latidude, longitude ,requestAsJson['endPlace'])
+			else:			
+				startPlace = str(requestAsJson['startPlace'])
+				endPlace = str(requestAsJson['endPlace'])
+				dbInfo = DB.getPath(startPlace,endPlace)
+			#return json.dumps(dbInfo)
+			startLat = str(dbInfo["startCoord"]["latitude"])
+			startLong = str(dbInfo["startCoord"]["longitude"])
+			endLat = str(dbInfo["endCoord"]["latitude"])
+			endLong = str(dbInfo["endCoord"]["longitude"])
+			
+			return urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key=AIzaSyBdaqzXvjV2lJxazwqmEEaOhNSa0wEw1fc").read()
+			#direction = Directions(google.__dict__,dbInfo)
+			#return json.dumps(google)
+		except Exception, e:	
+			toReturn = Parser.error(str(e))
+			return json.dumps(toReturn)
 
 

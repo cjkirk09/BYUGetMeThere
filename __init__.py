@@ -95,6 +95,11 @@ def user(input):
 def getAllBuildings():
 	myParser = Parser()
 	return myParser.getAllBuildings()
+@app.route("/getDirections", methods=['GET','POST'])
+def getDirections():
+	myParser = Parser()
+	return myParser.getDirections(request.get_json())	
+
 	
 if __name__ == "__main__":
 	app.run()
