@@ -1,8 +1,8 @@
 
 class Directions:
-	def __init__(self):
-		self.googleJson = ""
-		self.buildingInfo = ""
+	def __init__(self, google, building):
+		self.googleJson = google
+		self.buildingInfo = building
 
 	def loadAll(self, google, info):
 		self.googleJson = google

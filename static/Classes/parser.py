@@ -158,11 +158,11 @@ class Parser(object):
 			endLat = str(dbInfo["endCoord"]["latitude"])
 			endLong = str(dbInfo["endCoord"]["longitude"])
 			
-			return urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key=AIzaSyBdaqzXvjV2lJxazwqmEEaOhNSa0wEw1fc").read()
-			#direction = Directions(google.__dict__,dbInfo)
-			#return json.dumps(google)
+			google = urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key=AIzaSyBjVVJDVCS91hH69IYr6cmr1g1lcJX-FJM").read()
+			direction = Directions(json.loads(google),dbInfo)
+			return json.dumps(direction.__dict__)
 		except Exception, e:	
 			toReturn = Parser.error(str(e))
-			return json.dumps(toReturn)
+			return json.dumps("ERROR: " + str(toReturn))
 
 
