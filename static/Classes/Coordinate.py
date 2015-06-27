@@ -9,7 +9,7 @@ class Coordinate:
         self.in_DB = False
         
     def loadFromID(self, id):
-        result = Query.getOneResult("select * from BYU.COORDINATES where ID = " + str(id))
+        result = Query.getOneResult("select * from BYUDev.COORDINATES where ID = " + str(id))
         if result is None:
             return
         return self.loadFromResult(result)
@@ -32,7 +32,7 @@ class Coordinate:
     @staticmethod    
     def getAllCoordinates():
         coordinates = []
-        results = Query.getAllResults("select * from BYU.COORDINATES")
+        results = Query.getAllResults("select * from BYUDev.COORDINATES")
         for result in results:
             coordinate = Coordinate()
             coordinates.append(coordinate.loadFromResult(result))
@@ -41,7 +41,7 @@ class Coordinate:
     @staticmethod    
     def getAllForBuilding(building_id):
         coordinates = []
-        results = Query.getAllResults("select * from BYU.COORDINATES where BUILDING_ID = '" + building_id + "'")
+        results = Query.getAllResults("select * from BYUDev.COORDINATES where BUILDING_ID = '" + building_id + "'")
         for result in results:
             coordinate = Coordinate()
             coordinates.append(coordinate.loadFromResult(result))
@@ -50,11 +50,11 @@ class Coordinate:
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYU.COORDINATES set BUILDING_ID = '" + self.building_id + "', LATITUDE = '" + self.latitude + "', LONGITUDE = '" + self.longitude + "' where ID = '" + self.id + "'"
+            SQL = "update BYUDev.COORDINATES set BUILDING_ID = '" + self.building_id + "', LATITUDE = '" + self.latitude + "', LONGITUDE = '" + self.longitude + "' where ID = '" + self.id + "'"
             Query.execute(SQL)
         else:
             #insert
-            SQL = "insert into BYU.COORDINATES (BUILDING_ID, LATITUDE, LONGITUDE) values('" + self.building_id + "', '" + self.latitude + "', '" + self.longitude + "')"
+            SQL = "insert into BYUDev.COORDINATES (BUILDING_ID, LATITUDE, LONGITUDE) values('" + self.building_id + "', '" + self.latitude + "', '" + self.longitude + "')"
             Query.execute(SQL)
             
             #get the new ID and save it to the object

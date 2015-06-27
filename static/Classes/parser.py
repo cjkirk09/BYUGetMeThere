@@ -105,7 +105,7 @@ class Parser(object):
 	def createUser(self,requestAsJson):
 		try:
 			if(DB.createUser(requestAsJson['username'],requestAsJson['password'])):
-				toReturn = "True"
+				toReturn = "True1"
 			else:
 				toReturn = "False"
 		except Exception, e:

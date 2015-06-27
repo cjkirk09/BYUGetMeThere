@@ -9,7 +9,7 @@ class Floor:
         self.in_DB = False
         
     def loadFromID(self, id):
-        result = Query.getOneResult("select * from BYU.FLOORS where ID = " + str(id))
+        result = Query.getOneResult("select * from BYUDev.FLOORS where ID = " + str(id))
         if result is None:
             return
         return self.loadFromResult(result)
@@ -31,7 +31,7 @@ class Floor:
     @staticmethod    
     def getAllFloors():
         floors = []
-        results = Query.getAllResults("select * from BYU.FLOORS")
+        results = Query.getAllResults("select * from BYUDev.FLOORS")
         for result in results:
             floor = Floor()
             floors.append(floor.loadFromResult(result))
@@ -40,7 +40,7 @@ class Floor:
     @staticmethod    
     def getAllForBuilding(building_id):
         floors = []
-        results = Query.getAllResults("select * from BYU.FLOORS where BUILDING_ID = '" + building_id + "'")
+        results = Query.getAllResults("select * from BYUDev.FLOORS where BUILDING_ID = '" + building_id + "'")
         for result in results:
             floor = Floor()
             floors.append(floor.loadFromResult(result))
@@ -49,15 +49,15 @@ class Floor:
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYU.FLOORS set BUILDING_ID = '" + self.building_id + "', FLOOR_NUMBER = " + str(self.floor_number) + ", FLOOR_MAP = '" + self.floor_map + "' where ID = " + str(self.id)
+            SQL = "update BYUDev.FLOORS set BUILDING_ID = '" + self.building_id + "', FLOOR_NUMBER = " + str(self.floor_number) + ", FLOOR_MAP = '" + self.floor_map + "' where ID = " + str(self.id)
             Query.execute(SQL)
         else:
             #insert
-            SQL = "insert into BYU.FLOORS (BUILDING_ID, FLOOR_NUMBER, FLOOR_MAP) values('" + self.building_id + "', " + str(self.floor_number) + ", '" + self.floor_map + "')"
+            SQL = "insert into BYUDev.FLOORS (BUILDING_ID, FLOOR_NUMBER, FLOOR_MAP) values('" + self.building_id + "', " + str(self.floor_number) + ", '" + self.floor_map + "')"
             Query.execute(SQL)
             
             #get the new ID and save it to the object
-            SQL = "select * from BYU.FLOORS order by ID desc"
+            SQL = "select * from BYUDev.FLOORS order by ID desc"
             result = Query.getOneResult(SQL)
             self.id = result[0]
             self.in_DB = True

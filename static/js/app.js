@@ -135,7 +135,7 @@
                         var userString = { username: $scope.userInfo.username, password: $scope.userInfo.password };
                         infoService.createUser(userString).then(function(success) {
                             //$scope.userInfo.errorMessage = success;
-                            if (success == "True") {
+                            if (success == "True1") {
                                 $scope.userInfo.welcome = "Welcome " + $scope.userInfo.username + "!";
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;

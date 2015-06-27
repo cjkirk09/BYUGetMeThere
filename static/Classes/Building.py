@@ -9,7 +9,7 @@ class Building:
         self.in_DB = False
         
     def loadFromID(self, id):
-        result = Query.getOneResult("select * from BYU.BUILDINGS where ID = '" + id + "'")
+        result = Query.getOneResult("select * from BYUDev.BUILDINGS where ID = '" + id + "'")
         if result is None:
             return
         self.loadFromResult(result)
@@ -33,7 +33,7 @@ class Building:
     @staticmethod    
     def getAllBuildings():
         buildings = []
-        results = Query.getAllResults("select * from BYU.BUILDINGS")
+        results = Query.getAllResults("select * from BYUDev.BUILDINGS")
         for result in results:
             building = Building()
             buildings.append(building.loadFromResult(result))
@@ -42,10 +42,10 @@ class Building:
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYU.BUILDINGS set NAME = '" + self.name + "', PHONE_NUMBER = '" + self.phone_number + "', HOURS = '" + self.hours + "' where ID = '" + self.id + "'"
+            SQL = "update BYUDev.BUILDINGS set NAME = '" + self.name + "', PHONE_NUMBER = '" + self.phone_number + "', HOURS = '" + self.hours + "' where ID = '" + self.id + "'"
         else:
             #insert
-            SQL = "insert into BYU.BUILDINGS (ID, NAME, PHONE_NUMBER, HOURS) values('" + self.id + "', '" + self.name + "', '" + self.phone_number + "', '" + self.hours + "')"
+            SQL = "insert into BYUDev.BUILDINGS (ID, NAME, PHONE_NUMBER, HOURS) values('" + self.id + "', '" + self.name + "', '" + self.phone_number + "', '" + self.hours + "')"
         Query.execute(SQL)
         self.in_DB = True
         
