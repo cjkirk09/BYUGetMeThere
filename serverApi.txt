@@ -114,7 +114,112 @@ getBuildingInfo()
       phone_number: "phone_number"
       hours: "hours"
       floorPlans: [...]
+
     }
+
+getDirections()
+    {
+	startLocation:{latitude:number, longitude:number} OR
+ 	startPlace:building_id  //(Use one or the other. If both are sent then startLocation is the default).
+	endPlace:building_id
+    }
+	
+    returns
+    {
+	buildingInfo: 
+	{
+	    buildingInfo:{
+		phone_number: "number", hours: "string", in_db: bool, id:acronym, name:name_of_building
+	    },
+	    endCoord: {
+      		latitude: "number",
+      		building_id: "acronym",
+	        in_DB: true,
+	        id: db_id,
+	        longitude: "number"
+    	   },
+    	   floorPlans: [
+      		... (url to floor map)
+   	   ],
+	    startCoord: {
+	      latitude: "number",
+      		building_id: "acronym",
+	        in_DB: true,
+	        id: db_id,
+	        longitude: "number"
+    	   }
+	}
+	googleJson:
+	{
+	  "status": "OK",
+	  "routes": [ {
+	    "summary": "",
+	    "legs": [ {
+	      "steps": [ {
+		"travel_mode": "WALKING",
+		"start_location": {
+		  "lat": number,
+		  "lng": number
+		},
+		"end_location": {
+		  "lat": number,
+		  "lng": number
+		},
+		"polyline": {
+		  "points": "string"
+		},
+		"duration": {
+		  "value": number,
+		  "text": "string"
+		},
+		"html_instructions": "string",
+		"distance": {
+		  "value": number,
+		  "text": "string"
+		}
+	      },
+	      ...
+	      ... additional steps of this leg
+	    ...
+	    ... additional legs of this route
+	      "duration": {
+		"value": number,
+		"text": "string"
+	      },
+	      "distance": {
+		"value": number,
+		"text": "string"
+	      },
+	      "start_location": {
+		"lat": number,
+		"lng": number
+	      },
+	      "end_location": {
+		"lat": number,
+		"lng": number
+	      },
+	      "start_address": "string",
+	      "end_address": "string"
+	    } ],
+	    "copyrights": "Map data ©2010 Google, Sanborn",
+	    "overview_polyline": {
+	      "points": "string"
+	    },
+	    "warnings": [ ],
+	    "waypoint_order": [  ],
+	    "bounds": {
+	      "southwest": {
+		"lat": number,
+		"lng": number
+	      },
+	      "northeast": {
+		"lat": number,
+		"lng": number
+	      }
+	    }
+	  } ]
+	}
+    } 
 
 verifyUser()
     {

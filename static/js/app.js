@@ -296,9 +296,9 @@
                     $scope.buildingInfo.echo_search = selected;
                     // get building info from server 
                     infoService.getBuilding(selected).then(function(building){
-                        $scope.buildingInfo.name = building.name;
-                        $scope.buildingInfo.phone = building.phone_number;
-                        $scope.buildingInfo.hours = building.hours; 
+                        $scope.buildingInfo.name = building.buildingInfo.name;
+                        $scope.buildingInfo.phone = building.buildingInfo.phone_number;
+                        $scope.buildingInfo.hours = building.buildingInfo.hours; 
                         if ($scope.buildingInfo.hours == "") {
                             $scope.buildingInfo.hours = "Sorry. Hours for this building are unavailable."
                         }  

@@ -10,6 +10,7 @@ from Floor import Floor
 from Path import Path
 from Schedule import Schedule
 from User import User
+from BuildingWithFloors import BuildingWithFloor
 
 class DB:
     @staticmethod
@@ -142,7 +143,15 @@ class DB:
     def getBuildingInfo(building_id):
         building = Building()
         building.loadFromID(building_id)
-        return building.__dict__
+	#Find all floor plans for our end place
+        floorPlans = []
+        floors = Floor.getAllForBuilding(building_id)
+        for floor in floors:
+            floorPlans.append(floor.floor_map)
+        buildingInfo = BuildingWithFloor()
+        buildingInfo.loadUp(building.__dict__, floorPlans)
+
+        return buildingInfo.__dict__
     
     @staticmethod    
     def getAllBuildings():

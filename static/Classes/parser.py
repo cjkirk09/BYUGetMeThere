@@ -157,13 +157,13 @@ class Parser(object):
 			startLong = str(dbInfo["startCoord"]["longitude"])
 			endLat = str(dbInfo["endCoord"]["latitude"])
 			endLong = str(dbInfo["endCoord"]["longitude"])
-			
 			google = urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key="+api_key).read()
 			direction = Directions(json.loads(google),dbInfo)
 			#print json.dumps(direction.__dict__)
+
 			return json.dumps(direction.__dict__)
 		except Exception, e:	
 			toReturn = Parser.error(str(e))
-			return json.dumps(toReturn)
+			return json.dumps("ERROR: " + str(toReturn))
 
 
