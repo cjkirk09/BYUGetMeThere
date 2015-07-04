@@ -8,7 +8,7 @@ class User:
         self.in_DB = False
         
     def loadFromID(self, username):
-        result = Query.getOneResult("select * from BYUDev.USERS where USERNAME = '" + username + "'")
+        result = Query.getOneResult("select * from " + Query.getDBName() + ".USERS where USERNAME = '" + username + "'")
         if result is None:
             return User()
         self.loadFromResult(result)
@@ -29,7 +29,7 @@ class User:
     @staticmethod    
     def getAllUsers():
         users = {}
-        results = Query.getAllResults("select * from BYUDev.USERS")
+        results = Query.getAllResults("select * from " + Query.getDBName() + ".USERS")
         for result in results:
             user = User()
             users.add(user.loadFromResult(result))
@@ -38,10 +38,10 @@ class User:
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYUDev.USERS set PASSWORD = '" + self.password + "' where USERNAME = '" + self.username + "'"
+            SQL = "update " + Query.getDBName() + ".USERS set PASSWORD = '" + self.password + "' where USERNAME = '" + self.username + "'"
         else:
             #insert
-            SQL = "insert into BYUDev.USERS (USERNAME, PASSWORD, SALT) values('" + self.username + "', '" + self.password + "', '" + self.salt + "')"
+            SQL = "insert into " + Query.getDBName() + ".USERS (USERNAME, PASSWORD, SALT) values('" + self.username + "', '" + self.password + "', '" + self.salt + "')"
             self.in_DB = True
         Query.execute(SQL)
         

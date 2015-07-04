@@ -19,7 +19,7 @@ class Parser(object):
 
 		#myJson = requestAsJson #json.loads(request) #converts JSON to dict
 		try:	
-			#requestAsJson = json.loads(requestAsJson1)	flask
+			#requestAsJson = json.loads(requestAsJson1)
 			startPlace = str(requestAsJson['startPlace'])
 			endPlace = str(requestAsJson['endPlace'])
 		except Exception, e:	

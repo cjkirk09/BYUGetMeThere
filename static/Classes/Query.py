@@ -2,7 +2,7 @@ import MySQLdb
 
 class Query:
     def __init__(self):
-        self.db = MySQLdb.connect(host="localhost", user="root", passwd="google41", db="BYUDev")
+        self.db = MySQLdb.connect(host="localhost", user="root", passwd="google41", db=Query.getDBName())
         self.cur = self.db.cursor()
 
     @staticmethod
@@ -23,3 +23,6 @@ class Query:
         query.cur.execute(SQL)
         query.db.commit()
 
+    @staticmethod
+    def getDBName():
+        return "BYUDev"
