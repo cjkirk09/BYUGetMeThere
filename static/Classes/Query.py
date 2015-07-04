@@ -25,4 +25,4 @@ class Query:
 
     @staticmethod
     def getDBName():
-        return "BYUDev"
+        return "BYU"
