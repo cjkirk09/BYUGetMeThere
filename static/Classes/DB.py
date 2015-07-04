@@ -29,10 +29,10 @@ class DB:
         (startCoord, endCoord) = DB.getClosestCoords(start_coordinates, end_coordinates)
         
         #Find all floor plans for our end place
-        floorPlans = []
-        floors = Floor.getAllForBuilding(end_place)
-        for floor in floors:
-            floorPlans.append(floor.floor_map)
+        #floorPlans = []
+        #floors = Floor.getAllForBuilding(end_place)
+        #for floor in floors:
+        #    floorPlans.append(floor.floor_map)
         
         #Get building information for our end place
         building = Building()
@@ -42,7 +42,7 @@ class DB:
         path = Path()
         path.startCoord = startCoord.__dict__
         path.endCoord = endCoord.__dict__
-        path.floorPlans = floorPlans
+        path.floorPlans = building.floorPlans
         path.buildingInfo = building.__dict__
         
         return path.__dict__
@@ -80,10 +80,10 @@ class DB:
         (startCoord, endCoord) = DB.getClosestCoords([startCoord], end_coordinates)
         
         #Find all floor plans for our end place
-        floorPlans = []
-        floors = Floor.getAllForBuilding(end_place)
-        for floor in floors:
-            floorPlans.append(floor.floor_map)
+        #floorPlans = []
+        #floors = Floor.getAllForBuilding(end_place)
+        #for floor in floors:
+        #    floorPlans.append(floor.floor_map)
         
         #Get building information for our end place
         building = Building()
@@ -93,7 +93,7 @@ class DB:
         path = Path()
         path.startCoord = startCoord.__dict__
         path.endCoord = endCoord.__dict__
-        path.floorPlans = floorPlans
+        path.floorPlans = building.floorPlans
         path.buildingInfo = building.__dict__
 
         return path.__dict__

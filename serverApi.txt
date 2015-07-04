@@ -109,13 +109,12 @@ getBuildingInfo()
     }
     
     returns {
-      buildingInfo:{
-	      building_id: "building_id"
-	      name: "name"
-	      phone_number: "phone_number"
-	      hours: "hours"
-	      }
-      floorPlans:[...]
+      building_id: "building_id"
+      name: "name"
+      phone_number: "phone_number"
+      hours: "hours"
+      floorPlans: [...]
+
     }
 
 getDirections()

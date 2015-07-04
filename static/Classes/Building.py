@@ -1,4 +1,5 @@
 from Query import Query
+from Floor import Floor
 
 class Building:
     def __init__(self):
@@ -7,14 +8,20 @@ class Building:
         self.phone_number = ""
         self.hours = "N/A"
         self.in_DB = False
+        self.floorPlans = []
         
     def loadFromID(self, id):
-        result = Query.getOneResult("select * from BYU.BUILDINGS where ID = '" + id + "'")
+        result = Query.getOneResult("select * from " + Query.getDBName() +".BUILDINGS where ID = '" + id + "'")
         if result is None:
             return
         self.loadFromResult(result)
+        #floorPlans = []
+        floors = Floor.getAllForBuilding(id)
+        for floor in floors:
+            self.floorPlans.append(floor.floor_map)
         return self
         
+#doenst appear to be used ever
     def loadFromAll(self, id, name, phone_number, hours):
         self.id = id
         self.name = name
@@ -33,7 +40,7 @@ class Building:
     @staticmethod    
     def getAllBuildings():
         buildings = []
-        results = Query.getAllResults("select * from BYU.BUILDINGS")
+        results = Query.getAllResults("select * from " + Query.getDBName() + ".BUILDINGS")
         for result in results:
             building = Building()
             buildings.append(building.loadFromResult(result))
@@ -42,10 +49,10 @@ class Building:
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYU.BUILDINGS set NAME = '" + self.name + "', PHONE_NUMBER = '" + self.phone_number + "', HOURS = '" + self.hours + "' where ID = '" + self.id + "'"
+            SQL = "update " + Query.getDBName() + ".BUILDINGS set NAME = '" + self.name + "', PHONE_NUMBER = '" + self.phone_number + "', HOURS = '" + self.hours + "' where ID = '" + self.id + "'"
         else:
             #insert
-            SQL = "insert into BYU.BUILDINGS (ID, NAME, PHONE_NUMBER, HOURS) values('" + self.id + "', '" + self.name + "', '" + self.phone_number + "', '" + self.hours + "')"
+            SQL = "insert into " + Query.getDBName() + ".BUILDINGS (ID, NAME, PHONE_NUMBER, HOURS) values('" + self.id + "', '" + self.name + "', '" + self.phone_number + "', '" + self.hours + "')"
         Query.execute(SQL)
         self.in_DB = True
         

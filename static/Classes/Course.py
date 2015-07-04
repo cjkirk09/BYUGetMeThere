@@ -13,7 +13,7 @@ class Course:
         
     def loadFromID(self, id):
         print self.id
-        result = Query.getOneResult("select * from BYU.COURSES where ID = " + str(id))
+        result = Query.getOneResult("select * from " + Query.getDBName() + ".COURSES where ID = " + str(id))
         if result is None:
             return
         self.loadFromResult(result)
@@ -42,7 +42,7 @@ class Course:
     @staticmethod    
     def getAllCourses():
         courses = []
-        results = Query.getAllResults("select * from BYU.COURSES")
+        results = Query.getAllResults("select * from " + Query.getDBName() + ".COURSES")
         for result in results:
             course = Course()
             courses.append(course.loadFromResult(result))
@@ -51,7 +51,7 @@ class Course:
     @staticmethod
     def getAllCoursesForUserName(user_id):
         courses = []
-        results = Query.getAllResults("select * from BYU.COURSES where user_id = " + str(user_id))
+        results = Query.getAllResults("select * from " + Query.getDBName() + ".COURSES where user_id = " + str(user_id))
         for result in results:
             course = Course()
             courses.append(course.loadFromResult(result))
@@ -60,15 +60,15 @@ class Course:
     def save(self):
         if self.in_DB:
             #update
-            SQL = "update BYU.COURSES set NAME = '" + self.name + "', user_id = " + str(self.user_id) + ", TIME = '" + self.time + "', DAYS = '" + self.days + "', BUILDING_ID = '" + self.building_id + "', ROOM = '" + self.room + "' where ID = " + str(self.id)
+            SQL = "update " + Query.getDBName() + ".COURSES set NAME = '" + self.name + "', user_id = " + str(self.user_id) + ", TIME = '" + self.time + "', DAYS = '" + self.days + "', BUILDING_ID = '" + self.building_id + "', ROOM = '" + self.room + "' where ID = " + str(self.id)
             Query.execute(SQL)
         else:
             #insert
-            SQL = "insert into BYU.COURSES (NAME, user_id, TIME, DAYS, BUILDING_ID, ROOM) values('" + self.name + "', " + str(self.user_id) + ", '" + self.time + "', '" + self.days + "', '" + self.building_id + "', '" + self.room + "')"
+            SQL = "insert into " + Query.getDBName() + ".COURSES (NAME, user_id, TIME, DAYS, BUILDING_ID, ROOM) values('" + self.name + "', " + str(self.user_id) + ", '" + self.time + "', '" + self.days + "', '" + self.building_id + "', '" + self.room + "')"
             Query.execute(SQL)
             
             #get the new ID and save it to the object
-            SQL = "select * from BYU.COURSES order by ID desc"
+            SQL = "select * from " + Query.getDBName() + ".COURSES order by ID desc"
             result = Query.getOneResult(SQL)
             self.id = result[0]
             self.in_DB = True

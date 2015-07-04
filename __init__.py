@@ -6,7 +6,7 @@ from flask import send_from_directory
 import json
 
 import sys
-sys.path.insert(0, '/var/www/BYUGetMeThere/BYUGetMeThere/static/Classes/')
+sys.path.insert(0, '/var/www/BYUGetMeThereExperimental/BYUGetMeThere/static/Classes/')
 
 from parser import Parser
 
@@ -15,23 +15,23 @@ app = Flask(__name__)
 
 @app.route("/getCount")
 def getCount():
-	f = open('/var/www/BYUGetMeThere/BYUGetMeThere/static/count.txt','r')
+	f = open('/var/www/BYUGetMeThereExperimental/BYUGetMeThere/static/count.txt','r')
 	return str(f.read())
 
 @app.route("/favicon.ico")
 def favIcon():
-	return send_from_directory("/var/www/BYUGetMeThere/BYUGetMeThere/static","favicon.ico")
+	return send_from_directory("/var/www/BYUGetMeThereExperimental/BYUGetMeThere/static","favicon.ico")
 
 @app.route("/")
 def index():
-	g = open('/var/www/BYUGetMeThere/BYUGetMeThere/static/count.txt','r')
+	g = open('/var/www/BYUGetMeThereExperimental/BYUGetMeThere/static/count.txt','r')
 	count = g.read()
 	count1 = int(count)
 	g.close()
-	g = open('/var/www/BYUGetMeThere/BYUGetMeThere/static/count.txt','w')
+	g = open('/var/www/BYUGetMeThereExperimental/BYUGetMeThere/static/count.txt','w')
 	g.write(str(count1+1))
 	g.close()
-	return send_from_directory("/var/www/BYUGetMeThere/BYUGetMeThere/static","index.html")
+	return send_from_directory("/var/www/BYUGetMeThereExperimental/BYUGetMeThere/static","index.html")
 @app.route("/static/<path:thePath>")
 def getFiles(thePath):
 	return send_from_directory('/static/',thePath)
@@ -98,7 +98,11 @@ def getAllBuildings():
 @app.route("/getDirections", methods=['GET','POST'])
 def getDirections():
 	myParser = Parser()
-	return myParser.getDirections(request.get_json())	
+	return myParser.getDirections(request.get_json(), app.config["API_KEY"])
+
+@app.route("/test")
+def getTest():
+	return 	"test"
 
 	
 if __name__ == "__main__":

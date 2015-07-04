@@ -135,7 +135,7 @@
                         var userString = { username: $scope.userInfo.username, password: $scope.userInfo.password };
                         infoService.createUser(userString).then(function(success) {
                             //$scope.userInfo.errorMessage = success;
-                            if (success == "True") {
+                            if (success == "True1") {
                                 $scope.userInfo.welcome = "Welcome " + $scope.userInfo.username + "!";
                                 $scope.userInfo.currentUsername = $scope.userInfo.username;
                                 $scope.userInfo.currentUser = true;
@@ -571,21 +571,21 @@
 		return {
 			getPath: function(stringPath)
 			{
-				return $http.post('http://byugetmethere.com/getPath',stringPath)
+				return $http.post('http://byugetmethere.com:8080/getPath',stringPath)
 					.then(function(response) {
 						return response.data;
 					});
 			},
 			getCustomPath: function(endPoint)
 			{
-				return $http.post('http://byugetmethere.com/getCustomPath',endPoint)
+				return $http.post('http://byugetmethere.com:8080/getCustomPath',endPoint)
 					.then(function(response) {
 						return response.data;
 					});
 			},
             getBuilding: function(searchedBuilding)
             {
-                return $http.get('http://byugetmethere.com/getBuildingInfo/'+searchedBuilding)
+                return $http.get('http://byugetmethere.com:8080/getBuildingInfo/'+searchedBuilding)
                     .then(function(response) {
                         return response.data;    
                     });
@@ -593,14 +593,14 @@
 
             verifyUser: function(userString)
             {
-                return $http.post('http://byugetmethere.com/login',userString)
+                return $http.post('http://byugetmethere.com:8080/login',userString)
                     .then(function(response) {
                         return response.data;
                     });
             },
             createUser: function(userString)
             {
-                return $http.post('http://byugetmethere.com/register',userString)
+                return $http.post('http://byugetmethere.com:8080/register',userString)
                     .then(function(response) {
                         return response.data;
                     });
@@ -608,7 +608,7 @@
 
 			getAllBuildings: function()
 			{
-				return $http.get('http://byugetmethere.com/getAllBuildings')
+				return $http.get('http://byugetmethere.com:8080/getAllBuildings')
 					.then(function(response) {
 						return response.data;
 					});
@@ -616,7 +616,7 @@
 
 			saveSchedule: function(userString)
 			{
-				return $http.post('http://byugetmethere.com/saveSchedule',userString)
+				return $http.post('http://byugetmethere.com:8080/saveSchedule',userString)
 					.then(function(response) {
 						return response.data;
 					});
@@ -625,7 +625,7 @@
 			getSavedSchedules: function(userString)
 			{
 				console.log(JSON.stringify(userString));
-				return $http.post('http://byugetmethere.com/getSavedSchedules',userString)
+				return $http.post('http://byugetmethere.com:8080/getSavedSchedules',userString)
 					.then(function(response) {
 						return response.data;
 					});
