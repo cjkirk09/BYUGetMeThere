@@ -113,6 +113,7 @@ getBuildingInfo()
       name: "name"
       phone_number: "phone_number"
       hours: "hours"
+      floorPlans: [...]
     }
 
 verifyUser()

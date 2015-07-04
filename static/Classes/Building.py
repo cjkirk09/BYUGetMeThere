@@ -1,4 +1,5 @@
 from Query import Query
+from Floor import Floor
 
 class Building:
     def __init__(self):
@@ -7,14 +8,20 @@ class Building:
         self.phone_number = ""
         self.hours = "N/A"
         self.in_DB = False
+        self.floorPlans = []
         
     def loadFromID(self, id):
         result = Query.getOneResult("select * from BYUDev.BUILDINGS where ID = '" + id + "'")
         if result is None:
             return
         self.loadFromResult(result)
+        #floorPlans = []
+        floors = Floor.getAllForBuilding(id)
+        for floor in floors:
+            self.floorPlans.append(floor.floor_map)
         return self
         
+#doenst appear to be used ever
     def loadFromAll(self, id, name, phone_number, hours):
         self.id = id
         self.name = name

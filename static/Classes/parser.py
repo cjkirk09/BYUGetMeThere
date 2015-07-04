@@ -19,7 +19,7 @@ class Parser(object):
 
 		#myJson = requestAsJson #json.loads(request) #converts JSON to dict
 		try:	
-			#requestAsJson = json.loads(requestAsJson1)	
+			#requestAsJson = json.loads(requestAsJson1)	flask
 			startPlace = str(requestAsJson['startPlace'])
 			endPlace = str(requestAsJson['endPlace'])
 		except Exception, e:	
@@ -158,9 +158,10 @@ class Parser(object):
 			endLat = str(dbInfo["endCoord"]["latitude"])
 			endLong = str(dbInfo["endCoord"]["longitude"])
 			
-			return urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key=AIzaSyBdaqzXvjV2lJxazwqmEEaOhNSa0wEw1fc").read()
-			#direction = Directions(google.__dict__,dbInfo)
-			#return json.dumps(google)
+			google = urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key=AIzaSyBjVVJDVCS91hH69IYr6cmr1g1lcJX-FJM").read()
+			direction = Directions(json.loads(google),dbInfo)
+			#print json.dumps(direction.__dict__)
+			return json.dumps(direction.__dict__)
 		except Exception, e:	
 			toReturn = Parser.error(str(e))
 			return json.dumps(toReturn)
