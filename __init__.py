@@ -98,7 +98,11 @@ def getAllBuildings():
 @app.route("/getDirections", methods=['GET','POST'])
 def getDirections():
 	myParser = Parser()
-	return myParser.getDirections(request.get_json())	
+	return myParser.getDirections(request.get_json(), app.config["API_KEY"])
+
+@app.route("/test")
+def getTest():
+	return 	"test"
 
 	
 if __name__ == "__main__":

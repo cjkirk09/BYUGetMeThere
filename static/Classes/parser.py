@@ -141,7 +141,7 @@ class Parser(object):
 		
 		return json.dumps(toReturn)
 
-	def getDirections(self, requestAsJson):
+	def getDirections(self, requestAsJson, api_key):
 		try:	
 			#requestAsJson = json.loads(requestAsJson1)	
 			if requestAsJson.get('startLocation'):
@@ -158,7 +158,7 @@ class Parser(object):
 			endLat = str(dbInfo["endCoord"]["latitude"])
 			endLong = str(dbInfo["endCoord"]["longitude"])
 			
-			google = urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key=AIzaSyBjVVJDVCS91hH69IYr6cmr1g1lcJX-FJM").read()
+			google = urllib2.urlopen("https://maps.googleapis.com/maps/api/directions/json?origin="+startLat+","+startLong+"&destination="+endLat+","+endLong+"&mode=walking&key="+api_key).read()
 			direction = Directions(json.loads(google),dbInfo)
 			#print json.dumps(direction.__dict__)
 			return json.dumps(direction.__dict__)
