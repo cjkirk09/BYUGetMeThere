@@ -124,19 +124,19 @@ class DB:
 #        return schedule.__dict__
         
     @staticmethod
-    def saveSchedule(username, day_Of_Week, courses):
+    def saveSchedule(username, courses):
         #schedule = Schedule()
         #schedule.loadFromAll(username, schedule_name)
         #If the schedule is not in the database, add it. If it is, delete it's current courses
        # if schedule.in_DB == False:
         #    schedule.save()
-        
-        Course.deleteCoursesForDay(day_Of_Week)
-            
+
+        #Course.deleteCoursesForDay(day_Of_Week)
+            #name, time, days, building_id, room, section_id
         for json_course in courses:
             course = Course()
-            course.loadFromAll(json_course['name'], json_course['username'], json_course['time'], json_course['day'], json_course['building_id'], json_course['room'])
-            course.save()
+            course.loadFromAll(json_course['name'], json_course['time'], json_course['days'], json_course['building_id'], json_course['room'], json_course['section_id'])
+            course.save(username)
         return True
             
     @staticmethod

@@ -115,7 +115,7 @@ class Parser(object):
 	
 	def saveSchedule(self,requestAsJson):
 		try:
-			if(DB.saveSchedule(requestAsJson['username'],requestAsJson['day_of_week'],requestAsJson['courses'])):
+			if(DB.saveSchedule(requestAsJson['username'],requestAsJson['courses'])):
 				toReturn = "True"
 			else:
 				toReturn = "False"
@@ -126,7 +126,7 @@ class Parser(object):
 			f.close()	
 			toReturn = Parser.error(str(e))
 
-		return toReturn
+		return json.dumps(toReturn)
 
 	def getAllBuildings(self):
 		try:

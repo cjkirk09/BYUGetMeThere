@@ -38,16 +38,18 @@ getSavedSchedules()
 	}
 	return
     {
-      	courses: [ 
-          {
-            name:"nameOfCourse",
-            user_id: "user_id",
-            time:"UTC-time",
-            day:"MTWThF",
-            building_id:"acronym", 
-            room:"roomNum" 
-          }
-      	]
+      	[
+		{
+		 "room": "roomNumber", 
+		 "in_DB": true, 
+		 "section_id": 1, 
+		 "day": 101010, 
+		 "time": 12, 
+		 "building_id": "JSB", 
+		 "id": 7, 
+		 "name": "MyCourse!"
+		}, {...}
+	]
     }
 	
 // deprecated, getSavedSchedules() now does what this needed to
@@ -88,14 +90,15 @@ getAllBuildings()
 saveSchedule()
 	{
 	  username:"username",
-	  day_of_week: "day",
+	  schedule_name: "name",
 	  courses: [
 		  course:{
 		  	name:"nameOfCourse",
 		  	time:"hh:mm am/pm", 
-		  	day:"MTWThF",
+		  	days:"1111111",
 		  	building_id:"acronym", 
-		  	room:"roomNum" 
+		  	room:"roomNum",
+			section_id: "1" 
 		  }, 
 		  ... , 
 		  course:{ ... } 
